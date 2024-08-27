@@ -10,33 +10,33 @@ https://ko.react.dev/learn
 
 
 ## React 기초
-### 1. import 하기
-a. 만약 다른 곳에서 가져오고 싶다면 Vue처럼 import를 사용해서 가져오면 된다.
+### import 하기
 
-b. 단, 중괄호를 사용할 때가 있는데, export default가 아닌 단순 export function 등의 경우에 사용된다.
+1. 만약 다른 곳에서 가져오고 싶다면 Vue처럼 import를 사용해서 가져오면 된다.
 
-ex : export default Counter() => import Counter from '../utils/1.js'
+2. 단, 중괄호를 사용할 때가 있는데, export default가 아닌 단순 export function 등의 경우에 사용된다.
 
-ex2 : export function ChangeColor() => import { ChangeColor } from '../utils/2.js'
+        ex : export default Counter() => import Counter from '../utils/1.js'
 
-import { useState } from 'react';
+        ex2 : export function ChangeColor() => import { ChangeColor } from '../utils/2.js'
 
-import logo from './Logo.png';
+        import { useState } from 'react';
+        import logo from './Logo.png';
 
-### 2. React 사용 시 자동 html 태그 사용이 안될 때
-a. vscode 에디터에서 f1을 눌러 Open setting(JSON)을 연다.
-b. 아래에 emmet.includeLanguages가 있을텐데, 거기에 "javascript": "javascriptreact"를 집어넣는다.
+### React 사용 시 자동 html 태그 사용이 안될 때
+1. vscode 에디터에서 f1을 눌러 Open setting(JSON)을 연다.
+2. 아래에 emmet.includeLanguages가 있을텐데, 거기에 "javascript": "javascriptreact"를 집어넣는다.
 
     "emmet.includeLanguages": {
         "django-html": "html",
         "javascript": "javascriptreact" <- 이 부분!
         },
 
-### 3. React 컴포넌트는 항상 대문자로 시작해야 함
+### React 컴포넌트는 항상 대문자로 시작해야 함
 
-### 4. React 컴포넌트에 CSS 집어넣는 방법
-a. props를 사용한 후 최상위 컴포넌트에 해당 classsName을 넣기
+### React 컴포넌트에 CSS 집어넣는 방법
+1. props를 사용한 후 최상위 컴포넌트에 해당 classsName을 넣기
 
-b. 해당 컴포넌트에 바로 className을 넣기
+2. 해당 컴포넌트에 바로 className을 넣기
 
-c. 최상위 컴포넌트에 바로 className은 못 들어간다!
+3. 최상위 컴포넌트에 바로 className은 못 들어간다!
