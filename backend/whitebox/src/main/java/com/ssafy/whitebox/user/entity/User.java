@@ -3,11 +3,13 @@ package com.ssafy.whitebox.user.entity;
 import com.ssafy.whitebox.user.dto.UserParam;
 import com.ssafy.whitebox.user.util.UserType;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Accessors(fluent = true)
 @Entity
+@Getter
 @NoArgsConstructor
 public class User {
 
@@ -47,23 +49,4 @@ public class User {
         this.userType = newType;
     }
 
-    public Long getUserIndex() {
-        return userIndex;
-    }
-
-    public String getUserNickname() {
-        return userNickname;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public UserType getUserType() {
-        return userType;
-    }
 }
