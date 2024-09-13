@@ -33,6 +33,7 @@ public class JWTFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
         System.out.println("authorization now");
         // 순수 token 획득
         String token = authorization.split(" ")[1];

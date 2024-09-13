@@ -31,10 +31,6 @@ public class CustomUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with email: " + username);
         }
 
-        if(userData != null) {
-            return new CustomUserDetails(userData);
-        }
-
-        return null;
+        return new CustomUserDetails(userData);
     }
 }

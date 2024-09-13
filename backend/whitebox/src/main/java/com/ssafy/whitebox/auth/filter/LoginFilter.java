@@ -32,9 +32,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException{
-
+        // 우선 ObjectMapper로 설정
         ObjectMapper objectMapper = new ObjectMapper();
         LoginRequest loginRequest = null;  // RequestBody에서 데이터 읽기
+
         try {
             loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
         } catch (IOException e) {
