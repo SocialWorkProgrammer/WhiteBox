@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+
 @Accessors(fluent = true)
 @Entity
 @Getter
@@ -34,17 +36,28 @@ public class User {
     @Column(name = "user_type" , nullable = false)
     private UserType userType;
 
+    @Column(name = "user_date", nullable = false, updatable = false)
+    private LocalDateTime userDate;
+
 
     public User( String userEmail, String userPassword, String userNickname, UserType userType) {
-        this(null, userEmail, userPassword, userNickname, userType);
+        this(null, userEmail, userPassword, userNickname, userType, null);
     }
 
-    public User(Long userIndex, String userEmail, String userPassword, String userNickname, UserType userType) {
+    public User(Long userIndex, String userEmail, String userPassword, String userNickname, UserType userType, LocalDateTime userDate) {
         this.userIndex = userIndex;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
         this.userNickname = userNickname;
         this.userType = userType;
+        this.userDate = userDate;
+    }
+
+
+    // 날짜 추가
+    @PrePersist
+    protected void onCreate() {
+        this.userDate = LocalDateTime.now();
     }
 
     public void changeType(UserType newType){

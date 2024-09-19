@@ -48,4 +48,9 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
+    // 로그인 시 필요 정보 제공
+    public User getUserByEmail(String userEmail){
+        return userRepository.findByUserEmail(userEmail);
+    }
+
 }
