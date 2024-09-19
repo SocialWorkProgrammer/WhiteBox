@@ -37,7 +37,7 @@ public class JWTFilter extends OncePerRequestFilter {
         System.out.println("authorization now");
         // 순수 token 획득
         String token = authorization.split(" ")[1];
-        
+
         // 시간이 소멸 시
         if (jwtUtil.isExpired(token)) {
 
@@ -49,19 +49,28 @@ public class JWTFilter extends OncePerRequestFilter {
         String username = jwtUtil.getUsername(token);
         String role = jwtUtil.getRole(token);
 
-        User user = new User();
-        user.userEmail(username);
-        user.userPassword("temp");
-        user.userNickname("temp_user");
-        user.userType(UserType.valueOf(role));
+        if (role.equalsIgnoreCase("USER")) {
+            role = "MEMBER";
+        }
 
-        CustomUserDetails customUserDetails = new CustomUserDetails(user);
-        Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
-        // 세션에 사용자 등록하기
-        SecurityContextHolder.getContext().setAuthentication(authToken);
+        try {
+            UserType userType = UserType.valueOf(role.toUpperCase());
 
-        // 그다음 필터에게 request, response 넘겨주기
-        filterChain.doFilter(request, response);
+            User user = new User();
+            user.userEmail(username);
+            user.userPassword("temp");
+            user.userNickname("temp_user");
+            user.userType(userType);
 
+            CustomUserDetails customUserDetails = new CustomUserDetails(user);
+            Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+            filterChain.doFilter(request, response);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid role: " + role);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid role in token");
+        }
     }
 }

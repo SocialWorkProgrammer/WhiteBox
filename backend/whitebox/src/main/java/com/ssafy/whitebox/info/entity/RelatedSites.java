@@ -1,5 +1,6 @@
 package com.ssafy.whitebox.info.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,12 +20,15 @@ public class RelatedSites {
     private Long index;
 
     @Column(name="rs_category")
+    @JsonProperty("category")
     private String category;
 
     @Column(name= "rs_name")
+    @JsonProperty("name")
     private String name;
 
     @Column(name= "rs_url")
+    @JsonProperty("url")
     private String url;
 
     public RelatedSites(String category, String name, String url){
@@ -36,5 +40,15 @@ public class RelatedSites {
         this.category = category;
         this.name = name;
         this.url = url;
+    }
+
+    @Override
+    public String toString() {
+        return "RelatedSites{" +
+                "index=" + index +
+                ", category='" + category + '\'' +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                '}';
     }
 }

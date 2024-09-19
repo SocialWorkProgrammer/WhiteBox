@@ -44,7 +44,7 @@ public class LoginController {
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
             // JWT 토큰 생성
-            String token = jwtUtil.createJwt(authentication.getName(), "USER", 7200000L);
+            String token = jwtUtil.createJwt(authentication.getName(), "MEMBER", 7200000L);
             User user = userService.getUserByEmail(username);
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
