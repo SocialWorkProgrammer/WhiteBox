@@ -1,5 +1,6 @@
 package com.ssafy.whitebox.common.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,12 +13,15 @@ import java.util.UUID;
 @Service
 public class FileStorageService {
 
-    private static final String IMAGE_UPLOAD_DIR = "backend/whitebox/src/main/resources/static/images";
-    private static final String VIDEO_UPLOAD_DIR = "backend/whitebox/src/main/resources/static/videos"; // 동영상 저장 경로 추가
+    @Value("${file.upload-dir.images}")
+    private String imageUploadDir;
+
+    @Value("${file.upload-dir.videos}")
+    private String videoUploadDir;
 
     // 파일 저장 메서드
     public String saveFile(MultipartFile file, String type) throws IOException {
-        String uploadDir = type.equals("image") ? IMAGE_UPLOAD_DIR : VIDEO_UPLOAD_DIR;
+        String uploadDir = type.equals("image") ? imageUploadDir : videoUploadDir;
 
         // 파일명을 UUID로 변경하여 저장 (중복 방지)
         String originalFilename = file.getOriginalFilename();
