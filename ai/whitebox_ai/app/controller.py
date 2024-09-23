@@ -11,7 +11,6 @@ from pydantic import BaseSettings
 from sqlalchemy import text
 import os
 
-# env 설정을 위한 환경 생성
 load_dotenv()
 
 router = APIRouter()
@@ -27,8 +26,7 @@ def get_config():
 
 @AuthJWT.token_in_denylist_loader
 def check_if_token_in_denylist(decoded_token):
-    # 'type' 필드가 없더라도 문제가 되지 않게 기본 검증 진행
-    return False  # denylist를 사용하지 않으므로 항상 False 반환
+    return False  
 
 
 @router.post("/api/v1/lawyer")
@@ -37,13 +35,12 @@ async def compare_image(
 ):
     
     try:
-        Authorize.jwt_required()  # 토큰 검증
+        Authorize.jwt_required()  
     except KeyError as e:
-        # KeyError 발생 시 'type' 필드에 대한 예외 처리
         if 'type' in str(e):
-            pass  # 'type' 필드가 없어도 통과
+            pass  
         else:
-            raise e  # 다른 KeyError는 처리
+            raise e  
 
     user_email = Authorize.get_raw_jwt().get('username') 
     lawyer = db.query(Lawyer).filter(Lawyer.lawyer_name == name, Lawyer.lawyer_date == date).first()
@@ -57,7 +54,6 @@ async def compare_image(
     distance = result['distance']
 
     if distance <= 0.3: 
-        # 원시 쿼리 사용을 통해 ROLE 변경
         db.execute(text("UPDATE user SET user_type = 'LAWYER' WHERE user_email = :user_email"), {"user_email": user_email})
         db.commit()
 
