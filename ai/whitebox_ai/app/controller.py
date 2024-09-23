@@ -1,24 +1,66 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from app.services.models import Lawyer
-from app.services.service import image_to_bytes
+from app.services.service import url_to_img, byte_to_img
 from app.core.database import get_db
+from deepface import DeepFace
+from dotenv import load_dotenv
+from fastapi_jwt_auth import AuthJWT
+from pydantic import BaseSettings
+from sqlalchemy import text
+import os
+
+# env 설정을 위한 환경 생성
+load_dotenv()
 
 router = APIRouter()
 
+metrics = ["cosine", "euclidean","euclidean_12"]
 
-@router.post("/ap1/v1/lawyer")
+class Settings(BaseSettings):
+    authjwt_secret_key : str = os.getenv("SECRET_KEY")
+
+@AuthJWT.load_config
+def get_config():
+    return Settings()
+
+@AuthJWT.token_in_denylist_loader
+def check_if_token_in_denylist(decoded_token):
+    # 'type' 필드가 없더라도 문제가 되지 않게 기본 검증 진행
+    return False  # denylist를 사용하지 않으므로 항상 False 반환
+
+
+@router.post("/api/v1/lawyer")
 async def compare_image(
-    name : str, date :  str,  file: UploadFile = File(...), db: Session = Depends(get_db)
+    name : str, date : str, file: UploadFile = File(...), db: Session = Depends(get_db), Authorize: AuthJWT = Depends() 
 ):
+    
+    try:
+        Authorize.jwt_required()  # 토큰 검증
+    except KeyError as e:
+        # KeyError 발생 시 'type' 필드에 대한 예외 처리
+        if 'type' in str(e):
+            pass  # 'type' 필드가 없어도 통과
+        else:
+            raise e  # 다른 KeyError는 처리
+
+    user_email = Authorize.get_raw_jwt().get('username') 
     lawyer = db.query(Lawyer).filter(Lawyer.lawyer_name == name, Lawyer.lawyer_date == date).first()
 
     if not lawyer:
         return HTTPException(status_code=404, detail="변호사 인증 실패!")
     
-    answer = image_to_bytes(lawyer.image)
-    input = image_to_bytes(await file.read())
+    answer = url_to_img(lawyer.lawyer_image_url)
+    input = byte_to_img(await file.read())
+    result = DeepFace.verify(img1_path = answer, img2_path = input) 
+    distance = result['distance']
 
-    return {"similarity : similarity"}
-    
-    # DB 이미지 PIL 이미지로 변환
+    if distance <= 0.3: 
+        # 원시 쿼리 사용을 통해 ROLE 변경
+        db.execute(text("UPDATE user SET user_type = 'LAWYER' WHERE user_email = :user_email"), {"user_email": user_email})
+        db.commit()
+
+        return JSONResponse(content={"message": "변호사 인증 성공!", "user_type": "LAWYER"})
+    else:
+        return JSONResponse(content={"message": "변호사 인증 실패.", "distance": distance}) 
