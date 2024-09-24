@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.ssafy.whitebox.user.entity.User;
+import com.ssafy.whitebox.vote.entity.Vote;
 
 import java.time.LocalDateTime;
 
@@ -57,4 +58,7 @@ public class AIResult {
 
     @Column(name = "is_uploaded")
     private boolean isUploaded;
+
+    @OneToOne(mappedBy = "aiResult", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    private Vote vote;
 }

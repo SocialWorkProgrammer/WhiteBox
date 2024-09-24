@@ -116,9 +116,10 @@ public class CommunityService {
     }
 
     // 게시물 생성 (이미지 여부 판단 및 저장)
-    public Community createCommunity(Community community, List<MultipartFile> images, long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public Community createCommunity(Community community, List<MultipartFile> images, String userEmail) {
+        User user = userRepository.findByUserEmail(userEmail);
+        System.out.println("adsffdasfadsadsf" + user.userEmail());
+        System.out.println("qwerfweqf" + user.userNickname());
         boolean hasImages = (images != null && !images.isEmpty());
         community.setComIsImage(hasImages);
         community.setComCreatedAt(LocalDateTime.now());
@@ -173,11 +174,10 @@ public class CommunityService {
     public long getTotalCommunityCount() {
         return communityRepository.count();
     }
-    public void addComment(Long communityId, Long userId, String commentText) {
+    public void addComment(Long communityId, String userEmail, String commentText) {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(() -> new IllegalArgumentException("Community not found"));
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findByUserEmail(userEmail);
 
         CommunityComment comment = new CommunityComment();
         comment.setCommunity(community);

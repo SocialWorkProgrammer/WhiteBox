@@ -35,9 +35,8 @@ public class AIResultService {
     @Value("${fastapi.server.url}")
     private String fastApiUrl;
 
-    public AIResult createAIResult(Long userId, MultipartFile videoFile) throws IOException, InterruptedException {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-
+    public AIResult createAIResult(String userEmail, MultipartFile videoFile) throws IOException, InterruptedException {
+        User user = userRepository.findByUserEmail(userEmail);
         // 비디오 파일 저장
         String videoUrl = fileStorageService.saveFile(videoFile, "video");
 
@@ -88,11 +87,11 @@ public class AIResultService {
                 .block();
     }
 
-    public List<AIResult> getAllAIResults() {
-        return aiResultRepository.findAll();
-    }
-
-    public AIResult getAIResultById(Long id) {
-        return aiResultRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("AI Result not found"));
-    }
+//    public List<AIResult> getAllAIResults() {
+//        return aiResultRepository.findAll();
+//    }
+//
+//    public AIResult getAIResultById(Long id) {
+//        return aiResultRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("AI Result not found"));
+//    }
 }
