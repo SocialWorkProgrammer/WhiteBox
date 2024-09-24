@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ssafy.whitebox.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
-import com.ssafy.whitebox.community.dto.CommunityImageParam;
 
 import java.time.LocalDateTime;
 import java.util.List;

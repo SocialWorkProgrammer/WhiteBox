@@ -1,0 +1,60 @@
+package com.ssafy.whitebox.ai.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import com.ssafy.whitebox.user.entity.User;
+
+import java.time.LocalDateTime;
+
+@Data
+@Entity
+@Table(name = "AI")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class AIResult {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ai_index")
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_index", nullable = false)  // user_index를 외래 키로 설정
+    private User user;
+
+    @Column(name = "ai_created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "ai_related_information")
+    private String aiRelatedInformation;
+
+    @Column(name = "ai_related_law")
+    private String aiRelatedLaw;
+
+    @Column(name = "ai_user_fault")
+    private int aiUserFault;
+
+    @Column(name = "ai_other_fault")
+    private int aiOtherFault;
+
+    @Column(name = "ai_video_url", length = 255)
+    private String videoUrl;
+
+    @Column(name = "thumbnail1", length = 255)
+    private String thumbnail1;
+
+    @Column(name = "thumbnail2", length = 255)
+    private String thumbnail2;
+
+    @Column(name = "thumbnail3", length = 255)
+    private String thumbnail3;
+    @Column(name = "thumbnail4", length = 255)
+    private String thumbnail4;
+
+    @Column(name = "is_uploaded")
+    private boolean isUploaded;
+}

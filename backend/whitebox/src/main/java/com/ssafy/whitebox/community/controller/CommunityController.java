@@ -10,8 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.whitebox.community.dto.CommunityParam;
 import com.ssafy.whitebox.community.dto.CommunityUpdateParam;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import com.ssafy.whitebox.community.dto.PageResponse;
 
 import java.util.List;
