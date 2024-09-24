@@ -191,4 +191,9 @@ public class CommunityService {
     public void deleteComment(Long commentId) {
         communityCommentRepository.deleteById(commentId);
     }
+    public boolean isCommentAuthor(Long commentId, String userEmail) {
+        CommunityComment comment = communityCommentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
+        return comment.getUser().userEmail().equals(userEmail);
+    }
 }
