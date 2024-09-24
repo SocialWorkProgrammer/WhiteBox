@@ -19,7 +19,7 @@ public class AIResultController {
 
     @PostMapping("/upload-video")
     public ResponseEntity<AIResult> uploadVideo(@RequestParam("userId") Long userId,
-                                                @RequestPart("video") MultipartFile videoFile) throws IOException {
+                                                @RequestPart("video") MultipartFile videoFile) throws IOException, InterruptedException {
         AIResult aiResult = aiResultService.createAIResult(userId, videoFile);
         return ResponseEntity.ok(aiResult);
     }

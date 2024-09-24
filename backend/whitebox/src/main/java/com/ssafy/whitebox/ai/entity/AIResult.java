@@ -52,6 +52,8 @@ public class AIResult {
 
     @Column(name = "thumbnail3", length = 255)
     private String thumbnail3;
+    @Column(name = "thumbnail4", length = 255)
+    private String thumbnail4;
 
     @Column(name = "is_uploaded")
     private boolean isUploaded;
