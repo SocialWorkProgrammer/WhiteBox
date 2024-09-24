@@ -3,6 +3,7 @@ package com.ssafy.whitebox.user.service;
 import com.ssafy.whitebox.user.dto.CustomUserDetails;
 import com.ssafy.whitebox.user.entity.User;
 import com.ssafy.whitebox.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,13 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CustomUserDetailService implements UserDetailsService {
 
     private final UserRepository userRepository;
-
-    public CustomUserDetailService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     // 유저 조회 및 return
     @Override

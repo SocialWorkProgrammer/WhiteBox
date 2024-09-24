@@ -1,5 +1,6 @@
 package com.ssafy.whitebox.info.controller;
 
+import com.ssafy.whitebox.info.dto.LawParam;
 import com.ssafy.whitebox.info.entity.Law;
 import com.ssafy.whitebox.info.entity.RelatedSites;
 import com.ssafy.whitebox.info.entity.Terms;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -69,32 +69,7 @@ public class InformationController {
         if (laws.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        Map<String, Object> response = new HashMap<>();
-
-        laws.stream()
-                .filter(law -> law.seq() == 1)
-                .findFirst()
-                .ifPresent(law -> {
-                    response.put("startDate", law.startDate());
-                    response.put("announceDate", law.announceDate());
-                });
-
-        Map<Integer, List<String>> groupedByLawNumber = laws.stream()
-                .collect(Collectors.groupingBy(Law::lawNumber,
-                        Collectors.mapping(Law::lawDescription, Collectors.toList())));
-
-        for (Map.Entry<Integer, List<String>> entry : groupedByLawNumber.entrySet()) {
-            Integer lawNumber = entry.getKey();
-            List<String> descriptions = entry.getValue();
-
-            response.put(String.valueOf(lawNumber), descriptions);
-        }
-
+        Map<String, Object> response = lawService.processLaws(laws);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
-
-
-
-
