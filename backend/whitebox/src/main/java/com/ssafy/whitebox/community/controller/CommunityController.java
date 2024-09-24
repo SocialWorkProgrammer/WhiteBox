@@ -11,7 +11,8 @@ import com.ssafy.whitebox.community.dto.CommunityParam;
 import com.ssafy.whitebox.community.dto.CommunityUpdateParam;
 import org.springframework.data.domain.Page;
 import com.ssafy.whitebox.community.dto.PageResponse;
-
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 
 @RestController
@@ -47,20 +48,19 @@ public class CommunityController {
         return ResponseEntity.ok(communityDTO);
     }
 
-    // 이미지 첨부 가능한 게시물 생성 API
+
     @PostMapping
     public ResponseEntity<Community> createCommunity(
-            @RequestPart("title") String title,  // 제목을 개별적으로 받음
-            @RequestPart("description") String description,  // 설명을 개별적으로 받음
-            @RequestPart(value = "images", required = false) List<MultipartFile> images,  // 파일 데이터를 받음
-            @RequestParam("userId") Long userId
+            @RequestPart("title") String title,
+            @RequestPart("description") String description,
+            @RequestPart(value = "images", required = false) List<MultipartFile> images,
+            @AuthenticationPrincipal UserDetails userDetails  // 인증된 유저 정보 가져오기
     ) {
-        // Community 객체 생성
         Community community = new Community();
         community.setComTitle(title);
         community.setComDescription(description);
-
-        return ResponseEntity.ok(communityService.createCommunity(community, images, userId));
+        String userEmail = userDetails.getUsername();  // 또는 토큰에 저장된 userId를 가져오는 방식으로 변경 가능
+        return ResponseEntity.ok(communityService.createCommunity(community, images, userEmail));
     }
 
     @PatchMapping("/{communityId}")
@@ -79,10 +79,11 @@ public class CommunityController {
     // 댓글 작성 API
     @PostMapping("/{communityId}")
     public ResponseEntity<Void> addComment(@PathVariable Long communityId,
-                                           @RequestBody CommentCreateParam commentCreateParam
+                                           @RequestPart("comment") String comment,
+                                           @AuthenticationPrincipal UserDetails userDetails  // 인증된 유저 정보 가져오기
                                            ) {
 
-        communityService.addComment(communityId, commentCreateParam.getUserId(), commentCreateParam.getComment());  // comment로 수정
+        communityService.addComment(communityId, userDetails.getUsername(), comment);  // comment로 수정
         return ResponseEntity.ok().build();
     }
 
