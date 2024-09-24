@@ -16,3 +16,5 @@ def byte_to_img(img_bytes):
     np_array = np.frombuffer(img_bytes, np.uint8)
     img = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
     return img
+
+

@@ -59,4 +59,4 @@ async def compare_image(
 
         return JSONResponse(content={"message": "변호사 인증 성공!", "user_type": "LAWYER"})
     else:
-        return JSONResponse(content={"message": "변호사 인증 실패.", "distance": distance}) 
+        return JSONResponse(content={"message": "변호사 인증 실패", "user_type":"MEMBER"}) 
