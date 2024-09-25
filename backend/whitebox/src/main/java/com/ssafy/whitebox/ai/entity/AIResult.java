@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import com.ssafy.whitebox.user.entity.User;
 import com.ssafy.whitebox.vote.entity.Vote;
 
@@ -16,6 +18,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 public class AIResult {
 
     @Id

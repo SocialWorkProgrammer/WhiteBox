@@ -3,8 +3,7 @@ package com.ssafy.whitebox.vote.entity;
 import com.ssafy.whitebox.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
-import com.ssafy.whitebox.ai.entity.AIResult;
-import com.ssafy.whitebox.vote.entity.Vote;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +20,7 @@ public class VoteImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vote_id")
+    @JsonBackReference
     private Vote vote;
 
     @ManyToOne(fetch = FetchType.LAZY)
