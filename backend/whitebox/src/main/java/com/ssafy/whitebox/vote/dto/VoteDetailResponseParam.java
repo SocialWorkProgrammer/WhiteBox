@@ -37,13 +37,13 @@ public class VoteDetailResponseParam {
 
     }
     // 생성자
-    public VoteDetailResponseParam(Vote vote, AIResult aiResult, List<VoteImageParam> images, List<VoteCommentParam> comments) {
+    public VoteDetailResponseParam(Vote vote, AIResult aiResult, List<VoteImageParam> images, List<VoteCommentParam> comments, int approvalPercent, int oppositePercent, int neutralPercent) {
         this.voteId = vote.getVoteId();
         this.title = vote.getVoTitle();
         this.description = vote.getVoDescription();
-        this.approvalPercent = vote.getVoApprovalCnt();
-        this.oppositePercent = vote.getVoOppositeCnt();
-        this.neutralPercent = vote.getVoNeutralCnt();
+        this.approvalPercent = approvalPercent;
+        this.oppositePercent = oppositePercent;
+        this.neutralPercent = neutralPercent;
         this.createdAt = vote.getVoCreatedAt();
         this.hit = vote.getVoHit();
         this.isImage = vote.isVoIsImage();
