@@ -62,6 +62,7 @@ public class CommunityService {
         param.setUserIndex(community.getUser().userIndex());
         param.setUserNickname(community.getUser().userNickname());
         param.setUser(community.getUser());
+        param.setCommentCount(community.getComments().size());
         return param;
     }
     private CommunityParam convertToParamWithComments(Community community) {

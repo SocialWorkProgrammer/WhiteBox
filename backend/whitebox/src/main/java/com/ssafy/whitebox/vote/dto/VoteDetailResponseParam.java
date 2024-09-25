@@ -33,6 +33,8 @@ public class VoteDetailResponseParam {
 
     // 댓글 리스트
     private List<VoteCommentParam> comments;
+    private int commentsCount;
+    private int votesCount;
     public VoteDetailResponseParam(){
 
     }
@@ -58,5 +60,7 @@ public class VoteDetailResponseParam {
         // 이미지 및 댓글 리스트
         this.images = images;
         this.comments = comments;
+        this.commentsCount = comments.size();
+        this.votesCount = vote.getVoApprovalCnt() + vote.getVoNeutralCnt() + vote.getVoOppositeCnt();
     }
 }

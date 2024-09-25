@@ -1,12 +1,9 @@
 package com.ssafy.whitebox.vote.controller;
 
 
+import com.ssafy.whitebox.vote.dto.*;
 import org.springframework.web.multipart.MultipartFile;
-import com.ssafy.whitebox.vote.dto.VoteCreateResponseParam;
 import com.ssafy.whitebox.vote.service.VoteService;
-import com.ssafy.whitebox.vote.dto.VoteResponseParam;
-import com.ssafy.whitebox.vote.dto.VoteCommentCreateParam;
-import com.ssafy.whitebox.vote.dto.VoteDetailResponseParam;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,7 +69,13 @@ public class VoteController {
         voteService.deleteComment(commentId, userEmail);
         return ResponseEntity.ok("Comment deleted successfully");
     }
-
+    @GetMapping("vote/page/{pageIndex}")
+    public ResponseEntity<PageResponse<VoteListResponseParam>> getVoteListWithPagination(
+            @PathVariable int pageIndex) {
+        int pageSize = 10;
+        PageResponse<VoteListResponseParam> response = voteService.getVotesWithPagination(pageIndex, pageSize);
+        return ResponseEntity.ok(response);
+    }
 
 }
 
