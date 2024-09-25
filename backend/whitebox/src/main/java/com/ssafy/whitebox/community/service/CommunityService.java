@@ -114,8 +114,6 @@ public class CommunityService {
     // 게시물 생성 (이미지 여부 판단 및 저장)
     public Community createCommunity(Community community, List<MultipartFile> images, String userEmail) {
         User user = userRepository.findByUserEmail(userEmail);
-        System.out.println("adsffdasfadsadsf" + user.userEmail());
-        System.out.println("qwerfweqf" + user.userNickname());
         boolean hasImages = (images != null && !images.isEmpty());
         community.setComIsImage(hasImages);
         community.setComCreatedAt(LocalDateTime.now());

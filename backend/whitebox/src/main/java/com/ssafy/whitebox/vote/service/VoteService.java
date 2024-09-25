@@ -45,10 +45,13 @@ public class VoteService {
     @Transactional
     public VoteCreateResponseParam createVote(Long videoId, String title, String description, List<MultipartFile> images) {
         // 1. AIResult에서 videoId에 해당하는 항목 조회
-        System.out.println(videoId);
+
         AIResult aiResult = aiResultRepository.findById(videoId)
                 .orElseThrow(() -> new RuntimeException("Video not found"));
-
+        // 1. 이미 존재하는 Vote인지 확인
+        if (voteRepository.existsByAiResult(aiResult)) {
+            throw new RuntimeException("Vote already exists for this AIResult.");
+        }
         // 2. AIResult의 isUploaded를 true로 변경
         aiResult.setUploaded(true);
         aiResultRepository.save(aiResult);
@@ -208,18 +211,26 @@ public class VoteService {
         // 투표 게시글 조회
         Vote vote = voteRepository.findById(voteId)
                 .orElseThrow(() -> new RuntimeException("Vote not found"));
-
+        AIResult aiResult = vote.getAiResult();
         // 조회수 증가
         vote.setVoHit(vote.getVoHit() + 1);
         voteRepository.save(vote);
 
         // 찬성, 반대, 중립 수의 총합 계산
         int totalVotes = vote.getVoApprovalCnt() + vote.getVoOppositeCnt() + vote.getVoNeutralCnt();
-
-        // 총 투표수가 0일 때를 대비하여 예외 처리
-//        if (totalVotes == 0) {
-//            return new VoteDetailResponseParam(vote.getVoteId(), vote.getVoTitle(), vote.getVoDescription(), 0, 0, 0, List.of(), List.of());
-//        }
+        // 이미지와 댓글 정보 조회
+        List<VoteImage> images = voteImageRepository.findByVote(vote);
+        List<VoteImageParam> imageParams = images.stream()
+                .map(image -> new VoteImageParam(image.getVoImageUrl(), image.getVoImageCreatedAt()))
+                .collect(Collectors.toList());
+        List<VoteComment> comments = voteCommentRepository.findByVote(vote);
+        List<VoteCommentParam> commentParams = comments.stream()
+                .map(comment -> new VoteCommentParam(comment.getUser().userNickname(), comment.getComment(), comment.getPostedAt()))
+                .collect(Collectors.toList());
+//         총 투표수가 0일 때를 대비하여 예외 처리
+        if (totalVotes == 0) {
+            return new VoteDetailResponseParam(vote, aiResult, imageParams, commentParams, 0, 0, 0);
+        }
 
         // 백분율 계산
         int approvalPercentage = (int) Math.round((vote.getVoApprovalCnt() / (double) totalVotes) * 100);
@@ -240,26 +251,11 @@ public class VoteService {
             }
         }
 
-        // 이미지와 댓글 정보 조회
-        List<VoteImage> images = voteImageRepository.findByVote(vote);
-        List<VoteImageParam> imageParams = images.stream()
-                .map(image -> new VoteImageParam(image.getVoImageUrl(), image.getVoImageCreatedAt()))
-                .collect(Collectors.toList());
-        List<VoteComment> comments = voteCommentRepository.findByVote(vote);
-        List<VoteCommentParam> commentParams = comments.stream()
-                .map(comment -> new VoteCommentParam(comment.getUser().userNickname(), comment.getComment(), comment.getPostedAt()))
-                .collect(Collectors.toList());
+
 
         // 응답 객체 생성
-        VoteDetailResponseParam response = new VoteDetailResponseParam();
-        response.setVoteId(vote.getVoteId());
-        response.setTitle(vote.getVoTitle());
-        response.setDescription(vote.getVoDescription());
-        response.setApprovalPercent(approvalPercentage);
-        response.setOppositePercent(oppositePercentage);
-        response.setNeutralPercent(neutralPercentage);
-        response.setImages(imageParams);
-        response.setComments(commentParams);
+        VoteDetailResponseParam response = new VoteDetailResponseParam(vote, aiResult, imageParams, commentParams, approvalPercentage, oppositePercentage, neutralPercentage);
+
 
         return response;
     }
