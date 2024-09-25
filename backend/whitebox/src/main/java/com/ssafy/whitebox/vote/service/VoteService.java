@@ -3,22 +3,20 @@ package com.ssafy.whitebox.vote.service;
 import com.ssafy.whitebox.ai.entity.AIResult;
 import com.ssafy.whitebox.ai.repository.AIResultRepository;
 import com.ssafy.whitebox.common.service.FileStorageService;
-import com.ssafy.whitebox.vote.dto.VoteCreateResponseParam;
+import com.ssafy.whitebox.vote.dto.*;
 import com.ssafy.whitebox.vote.entity.Vote;
 import com.ssafy.whitebox.vote.entity.VoteImage;
 import com.ssafy.whitebox.vote.repository.VoteImageRepository;
 import com.ssafy.whitebox.vote.repository.VoteRepository;
-import com.ssafy.whitebox.vote.dto.VoteResponseParam;
 import com.ssafy.whitebox.vote.repository.UserVoteRepository;
 import com.ssafy.whitebox.vote.entity.UserVote;
 import com.ssafy.whitebox.user.entity.User;
 import com.ssafy.whitebox.user.repository.UserRepository;
 import com.ssafy.whitebox.vote.entity.VoteComment;
 import com.ssafy.whitebox.vote.repository.VoteCommentRepository;
-import com.ssafy.whitebox.vote.dto.VoteDetailResponseParam;
-import com.ssafy.whitebox.vote.dto.VoteImageParam;
-import com.ssafy.whitebox.vote.dto.VoteCommentParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -206,7 +204,7 @@ public class VoteService {
         voteCommentRepository.deleteById(commentId);
     }
     // 투표 게시글 상세 정보 조회
-    @Transactional(readOnly = true)
+    @Transactional
     public VoteDetailResponseParam getVoteDetail(Long voteId) {
         // 투표 게시글 조회
         Vote vote = voteRepository.findById(voteId)
@@ -258,5 +256,29 @@ public class VoteService {
 
 
         return response;
+    }
+
+    public PageResponse<VoteListResponseParam> getVotesWithPagination(int pageIndex, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageIndex - 1, pageSize);
+        Page<Vote> votePage = voteRepository.findAll(pageRequest);
+
+        // Vote 엔티티를 VoteListResponseParam으로 변환하면서 댓글 수, 총 투표 수, 썸네일 추가
+        List<VoteListResponseParam> voteList = votePage.map(vote -> {
+            VoteListResponseParam voteParam = new VoteListResponseParam();
+            voteParam.setVoteId(vote.getVoteId());
+            voteParam.setVoTitle(vote.getVoTitle());
+            voteParam.setNickname(vote.getUser().userNickname());
+            voteParam.setThumbnail1(vote.getAiResult().getThumbnail1());
+            voteParam.setThumbnail2(vote.getAiResult().getThumbnail2());
+            voteParam.setThumbnail3(vote.getAiResult().getThumbnail3());
+            voteParam.setThumbnail4(vote.getAiResult().getThumbnail4());
+            voteParam.setCommentCount(voteCommentRepository.countByVote(vote)); // 댓글 수 추가
+            voteParam.setTotalVotes(userVoteRepository.countByVote(vote)); // 총 투표 수 추가
+            return voteParam;
+        }).getContent();
+
+        long totalVotes = voteRepository.count();
+
+        return new PageResponse<>(totalVotes, voteList);
     }
 }

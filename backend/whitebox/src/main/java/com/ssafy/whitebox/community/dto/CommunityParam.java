@@ -21,6 +21,7 @@ public class CommunityParam {
     private String userNickname;
     private User user;
     private List<CommunityCommentParam> comments;
+    private int commentCount;
 }
 
 
