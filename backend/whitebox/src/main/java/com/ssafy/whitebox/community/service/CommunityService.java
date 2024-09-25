@@ -33,10 +33,6 @@ public class CommunityService {
     private final UserRepository userRepository;
     private final CommunityCommentRepository communityCommentRepository;
 
-    // 전체 조회
-    public List<Community> findAll() {
-        return communityRepository.findAll();
-    }
 
     // ID로 조회
     public CommunityParam findById(long id) {
@@ -159,10 +155,6 @@ public class CommunityService {
     }
 
     // 이미지 저장 로직 (예시)
-    private String saveImage(MultipartFile image) {
-        // 이미지 저장 로직 구현
-        return "/path/to/image"; // 이미지 저장 경로 반환
-    }
     public Page<CommunityParam> getCommunitiesWithPagination(int pageIndex, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageIndex - 1, pageSize);
         Page<Community> communityPage = communityRepository.findAll(pageRequest);

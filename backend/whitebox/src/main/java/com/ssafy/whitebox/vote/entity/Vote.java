@@ -6,7 +6,7 @@ import com.ssafy.whitebox.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import com.ssafy.whitebox.ai.entity.AIResult;
-
+import com.ssafy.whitebox.vote.entity.VoteComment;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
@@ -39,6 +39,11 @@ public class Vote {
     private boolean voIsImage;
 
     @OneToMany(mappedBy = "vote", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<VoteImage> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "vote", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<VoteComment> comments = new ArrayList<>();
 
 }

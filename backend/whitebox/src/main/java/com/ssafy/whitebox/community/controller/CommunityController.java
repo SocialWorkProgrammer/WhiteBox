@@ -1,6 +1,7 @@
 package com.ssafy.whitebox.community.controller;
 
 
+import com.ssafy.whitebox.community.dto.CommunityCommentCreateParam;
 import com.ssafy.whitebox.community.entity.Community;
 import com.ssafy.whitebox.community.service.CommunityService;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +23,6 @@ import java.util.List;
 public class CommunityController {
 
     private final CommunityService communityService;
-
-    @GetMapping
-    public ResponseEntity<List<Community>> getAllCommunities() {
-        return ResponseEntity.ok(communityService.findAll());
-    }
 
     @GetMapping("/page/{pageIndex}")
     public ResponseEntity<PageResponse<CommunityParam>> getCommunityListWithPagination(
@@ -97,10 +93,10 @@ public class CommunityController {
     @PostMapping("/{communityId}")
     public ResponseEntity<Void> addComment(
             @PathVariable Long communityId,
-            @RequestPart("comment") String comment,
+            @RequestBody CommunityCommentCreateParam commentCreateParam,
             @AuthenticationPrincipal UserDetails userDetails  // 인증된 유저 정보 가져오기
     ) {
-        communityService.addComment(communityId, userDetails.getUsername(), comment);
+        communityService.addComment(communityId, userDetails.getUsername(), commentCreateParam.getComment());
         return ResponseEntity.ok().build();
     }
 
