@@ -33,10 +33,6 @@ public class CommunityService {
     private final UserRepository userRepository;
     private final CommunityCommentRepository communityCommentRepository;
 
-    // 전체 조회
-    public List<Community> findAll() {
-        return communityRepository.findAll();
-    }
 
     // ID로 조회
     public CommunityParam findById(long id) {
@@ -66,6 +62,7 @@ public class CommunityService {
         param.setUserIndex(community.getUser().userIndex());
         param.setUserNickname(community.getUser().userNickname());
         param.setUser(community.getUser());
+        param.setCommentCount(community.getComments().size());
         return param;
     }
     private CommunityParam convertToParamWithComments(Community community) {
@@ -116,9 +113,8 @@ public class CommunityService {
     }
 
     // 게시물 생성 (이미지 여부 판단 및 저장)
-    public Community createCommunity(Community community, List<MultipartFile> images, long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public Community createCommunity(Community community, List<MultipartFile> images, String userEmail) {
+        User user = userRepository.findByUserEmail(userEmail);
         boolean hasImages = (images != null && !images.isEmpty());
         community.setComIsImage(hasImages);
         community.setComCreatedAt(LocalDateTime.now());
@@ -157,11 +153,7 @@ public class CommunityService {
         communityRepository.deleteById(id);
     }
 
-    // 이미지 저장 로직 (예시)
-    private String saveImage(MultipartFile image) {
-        // 이미지 저장 로직 구현
-        return "/path/to/image"; // 이미지 저장 경로 반환
-    }
+
     public Page<CommunityParam> getCommunitiesWithPagination(int pageIndex, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageIndex - 1, pageSize);
         Page<Community> communityPage = communityRepository.findAll(pageRequest);
@@ -173,11 +165,10 @@ public class CommunityService {
     public long getTotalCommunityCount() {
         return communityRepository.count();
     }
-    public void addComment(Long communityId, Long userId, String commentText) {
+    public void addComment(Long communityId, String userEmail, String commentText) {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(() -> new IllegalArgumentException("Community not found"));
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findByUserEmail(userEmail);
 
         CommunityComment comment = new CommunityComment();
         comment.setCommunity(community);
@@ -190,5 +181,10 @@ public class CommunityService {
 
     public void deleteComment(Long commentId) {
         communityCommentRepository.deleteById(commentId);
+    }
+    public boolean isCommentAuthor(Long commentId, String userEmail) {
+        CommunityComment comment = communityCommentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
+        return comment.getUser().userEmail().equals(userEmail);
     }
 }
