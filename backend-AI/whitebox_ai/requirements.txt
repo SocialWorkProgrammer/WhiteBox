@@ -15,3 +15,4 @@ opencensus
 opencensus-ext-azure
 opencensus-ext-logging
 # Your modules here
+langchain_community
