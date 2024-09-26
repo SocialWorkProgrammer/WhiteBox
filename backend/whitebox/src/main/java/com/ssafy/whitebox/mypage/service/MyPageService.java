@@ -58,6 +58,10 @@ public class MyPageService {
     }
     public AIDetailResultResponseParam getAIDetail(Long videoIndex){
         AIResult aiResult = aiResultRepository.findById(videoIndex).orElseThrow();
+        Long voteIndex = (long) -1;
+        if (aiResult.isUploaded()){
+            voteIndex = aiResult.getVote().getVoteId();
+        }
         AIDetailResultResponseParam response = AIDetailResultResponseParam.builder()
                 .aiRelatedInformation(aiResult.getAiRelatedInformation())
                 .aiRelatedLaw(aiResult.getAiRelatedLaw())
@@ -66,6 +70,7 @@ public class MyPageService {
                 .aiCreatedAt(aiResult.getCreatedAt())
                 .aiVideoUrl(aiResult.getVideoUrl())
                 .isUploaded(aiResult.isUploaded())
+                .voteIndex(voteIndex)
                 .build();
         return response;
     }
