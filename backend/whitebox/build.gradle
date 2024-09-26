@@ -5,6 +5,10 @@ plugins {
 }
 
 
+jar{
+	enabled=false
+}
+
 bootJar {
 	archiveFileName = 'app.jar'  // Optional: jar 파일 이름 설정
 	mainClass = 'com.ssafy.whitebox.WhiteboxApplication'
