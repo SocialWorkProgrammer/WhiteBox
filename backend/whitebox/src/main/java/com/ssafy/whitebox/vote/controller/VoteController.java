@@ -33,7 +33,6 @@ public class VoteController {
             @RequestPart("title") String title,
             @RequestPart("description") String description,
             @RequestPart(value = "images", required = false) List<MultipartFile> images) {
-        System.out.println("qfwlknmwqnfjkwekewjwke" + images);
         VoteCreateResponseParam response = voteService.createVote(videoId, title, description, images);
         return ResponseEntity.ok(response);
     }
