@@ -153,7 +153,7 @@ public class CommunityService {
         communityRepository.deleteById(id);
     }
 
-    // 이미지 저장 로직 (예시)
+
     public Page<CommunityParam> getCommunitiesWithPagination(int pageIndex, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageIndex - 1, pageSize);
         Page<Community> communityPage = communityRepository.findAll(pageRequest);
