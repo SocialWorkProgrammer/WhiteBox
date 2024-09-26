@@ -14,4 +14,5 @@ public class AIDetailResultResponseParam {
     private LocalDateTime aiCreatedAt;
     private String aiVideoUrl;
     private boolean isUploaded;
+    private Long voteIndex;
 }
