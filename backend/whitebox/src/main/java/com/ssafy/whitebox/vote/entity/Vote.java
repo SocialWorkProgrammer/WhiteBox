@@ -32,6 +32,7 @@ public class Vote {
     private String voTitle;
     private String voDescription;
     private LocalDateTime voCreatedAt;
+    private LocalDateTime voExpirationDate;
     private int voHit;
     private int voApprovalCnt;
     private int voOppositeCnt;

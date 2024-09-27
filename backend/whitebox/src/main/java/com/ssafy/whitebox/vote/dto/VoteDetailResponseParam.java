@@ -18,6 +18,7 @@ public class VoteDetailResponseParam {
     private int oppositePercent;
     private int neutralPercent;
     private LocalDateTime createdAt;
+    private LocalDateTime expirationDate;
     private int hit;
     private boolean isImage;
 
@@ -47,6 +48,7 @@ public class VoteDetailResponseParam {
         this.oppositePercent = oppositePercent;
         this.neutralPercent = neutralPercent;
         this.createdAt = vote.getVoCreatedAt();
+        this.expirationDate = vote.getVoExpirationDate();
         this.hit = vote.getVoHit();
         this.isImage = vote.isVoIsImage();
 

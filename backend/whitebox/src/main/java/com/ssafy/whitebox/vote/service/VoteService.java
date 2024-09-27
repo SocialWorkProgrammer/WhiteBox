@@ -41,7 +41,7 @@ public class VoteService {
 
 
     @Transactional
-    public VoteCreateResponseParam createVote(Long videoId, String title, String description, List<MultipartFile> images) {
+    public VoteCreateResponseParam createVote(Long videoId, String title, String description, LocalDateTime expirationDate, List<MultipartFile> images) {
         // 1. AIResult에서 videoId에 해당하는 항목 조회
 
         AIResult aiResult = aiResultRepository.findById(videoId)
@@ -61,6 +61,7 @@ public class VoteService {
         vote.setVoTitle(title);
         vote.setVoDescription(description);
         vote.setVoCreatedAt(LocalDateTime.now());
+        vote.setVoExpirationDate(expirationDate);
         vote.setVoHit(0);
         vote.setVoApprovalCnt(0);
         vote.setVoOppositeCnt(0);
@@ -272,6 +273,7 @@ public class VoteService {
             voteParam.setThumbnail2(vote.getAiResult().getThumbnail2());
             voteParam.setThumbnail3(vote.getAiResult().getThumbnail3());
             voteParam.setThumbnail4(vote.getAiResult().getThumbnail4());
+            voteParam.setExpirationDate(vote.getVoExpirationDate());
             voteParam.setCommentCount(voteCommentRepository.countByVote(vote)); // 댓글 수 추가
             voteParam.setTotalVotes(userVoteRepository.countByVote(vote)); // 총 투표 수 추가
             return voteParam;

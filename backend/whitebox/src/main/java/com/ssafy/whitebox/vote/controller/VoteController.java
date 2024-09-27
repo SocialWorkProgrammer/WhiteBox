@@ -2,11 +2,14 @@ package com.ssafy.whitebox.vote.controller;
 
 
 import com.ssafy.whitebox.vote.dto.*;
+import org.springframework.cglib.core.Local;
 import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.whitebox.vote.service.VoteService;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,8 +35,10 @@ public class VoteController {
             @PathVariable Long videoId,
             @RequestPart("title") String title,
             @RequestPart("description") String description,
+            @RequestPart("expirationDate") String expirationDate,
             @RequestPart(value = "images", required = false) List<MultipartFile> images) {
-        VoteCreateResponseParam response = voteService.createVote(videoId, title, description, images);
+        LocalDateTime parsedExpirationDate = LocalDateTime.parse(expirationDate);
+        VoteCreateResponseParam response = voteService.createVote(videoId, title, description, parsedExpirationDate, images);
         return ResponseEntity.ok(response);
     }
 
