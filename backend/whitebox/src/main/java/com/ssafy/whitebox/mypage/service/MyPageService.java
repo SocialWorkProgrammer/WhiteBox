@@ -158,6 +158,7 @@ public class MyPageService {
                 .neutralPercent(neutralPercentage)
                 .commentCount(commentCount)
                 .voteCount(voteCount)
+                .title(vote.getVoTitle())
                 .build();
     }
 }
