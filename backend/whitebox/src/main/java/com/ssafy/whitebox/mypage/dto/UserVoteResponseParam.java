@@ -13,4 +13,5 @@ public class UserVoteResponseParam {
     private int neutralPercent;
     private int voteCount;
     private int commentCount;
+    private String title;
 }
