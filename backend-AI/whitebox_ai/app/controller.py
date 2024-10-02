@@ -1,14 +1,18 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from app.services.models import Lawyer
+from app.services.models import Lawyer, QueryRequest
 from app.services.service import url_to_img, byte_to_img
 from app.core.database import get_db
+from app.services.langchain import prompt, rag
+from app.services.langchain.prompt import run_chain
 from deepface import DeepFace
 from dotenv import load_dotenv
 from fastapi_jwt_auth import AuthJWT
 from pydantic import BaseSettings
 from sqlalchemy import text
+from langchain.vectorstores import Chroma
+from langchain.embeddings.openai import OpenAIEmbeddings
 import os
 import logging
 
@@ -99,3 +103,42 @@ async def analyze_video(file: UploadFile = File(...)):
     except Exception as e:
         logger.exception(f"Error processing video file")
         raise HTTPException(status_code=400, detail=f"Error processing file: {str(e)}")
+
+@router.post("/api/v1/search-query")
+async def process_query(request: QueryRequest, db: Session = Depends(get_db)):
+
+    query_text = request.query_text
+    accident_location = request.accident_location
+    a_direction = request.a_direction
+    b_direction = request.b_direction
+    a_percentage = request.a_percentage
+    b_percentage = request.b_percentage
+    accident_location_description = request.accident_location_description
+
+    embedding_function = OpenAIEmbeddings(openai_api_key= os.getenv("SECRET_KEY"))  
+    vector_store = Chroma(persist_directory="chroma_data", embedding_function=embedding_function)
+
+    try:
+        similar_queries = vector_store.similarity_search(query_text, k=5)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="유사한 쿼리를 검색하는 중 오류가 발생했습니다.")
+
+    results = []
+
+    for similar_query in similar_queries:
+        try:
+            # `run_chain()`을 사용하여 사고 정보 분석 및 결과 얻기
+            result = run_chain(
+                accident_location=accident_location,
+                a_direction=a_direction,
+                b_direction=b_direction,
+                a_percentage=a_percentage,
+                b_percentage=b_percentage,
+                accident_location_description=accident_location_description
+            )
+            results.append(result)
+
+        except Exception as e:
+            raise HTTPException(status_code=500, detail="프롬프트 처리 중 오류가 발생했습니다.")
+
+        return JSONResponse(content={"similar_terms_results": [result.dict() for result in results]})
