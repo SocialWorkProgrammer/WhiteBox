@@ -1,35 +1,36 @@
 import pickle
 import os
 from dotenv import load_dotenv
-from langchain.vectorstores import Chroma
-from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
+from langchain_chroma import Chroma
 
 load_dotenv()
 
-with open('precedent_embedding_dict.pickle', 'rb') as f:
-    precedent_embedding_dict = pickle.load(f)
-
-    # 2. OpenAI 임베딩 함수 설정
-embedding_function = OpenAIEmbeddings(openai_api_key= os.getenv("SECRET_KEY"))  
-
+embedding_function = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
 
 vector_store = Chroma(persist_directory="chroma_data", embedding_function=embedding_function)
 
-for key, embedding in precedent_embedding_dict.items():
-    vector_store.add_texts(
-        texts=[key],  
-        embeddings=[embedding]
-    )
+def initialize_vector_store():
+    if not os.path.exists(os.path.join("chroma_data", "index")):
+        with open(r'app\services\langchain\embedding.pickle', 'rb') as f:
+            precedent_embedding_dict = pickle.load(f)
 
-vector_store.persist()
+        texts = list(precedent_embedding_dict.keys())
+        embeddings = list(precedent_embedding_dict.values())
+
+        try:
+            vector_store.add_texts(texts=texts, embeddings=embeddings)
+            vector_store.persist()
+            print("벡터 스토어에 데이터가 성공적으로 추가되었습니다.")
+        except Exception as e:
+            print(f"벡터 스토어에 텍스트를 추가하는 중 오류가 발생했습니다: {e}")
+    else:
+        print("벡터 스토어가 이미 초기화되어 있습니다.")
 
 def query_similar_terms(query_text):
-    results = vector_store.similarity_search(query_text, k=5)
-    
-    return [result.page_content for result in results]  
-
-
-query_text = "판례와 관련된 법적 용어"
-similar_terms = query_similar_terms(query_text)
-print("유사한 5개의 용어:", similar_terms)
-
+    try:
+        results = vector_store.similarity_search(query_text, k=5)
+        return [result.page_content for result in results]
+    except Exception as e:
+        print(f"유사한 용어를 쿼리하는 중 오류가 발생했습니다: {e}")
+        return []

@@ -42,10 +42,11 @@ template = """
 4. 상대차량의 과실 비율: {a_percentage}%
 5. 사용자의 과실 비율: {b_percentage}%
 6. 사고 장소 설명: {accident_location_description}
+7. 참고 자료 정보 : {precedent_content}
 
 ## 단계별 사고 과정:
 1. 먼저, 사고 장소 및 차량의 진행 방향에 대한 설명을 바탕으로 사고 발생 상황을 분석하세요.
-2. 다음으로, 상대차량과 사용자의 과실 비율을 바탕으로 각각의 책임을 평가하세요. 추가적으로 이 과실 비율에 대한 논리적 근거를 제공하세요.
+2. 다음으로, 상대차량과 사용자의 과실 비율을 바탕으로 각각의 책임을 평가하세요. 추가적으로 이 과실 비율에 대한 논리적 근거를 제공하세요. 근거를 찾을때 참고 자료 정보를 참고하세요.
 3. 마지막으로, 유사한 사고에 대한 법적 기준이나 관행을 바탕으로 최종 결론을 도출하세요.
 
 사고 상황을 평가하는 과정에서 각 단계를 설명하고, 논리적으로 사고를 진행해 주세요.
@@ -62,7 +63,7 @@ template = """
 # PromptTemplate 생성
 prompt = PromptTemplate.from_template(template)
 
-def run_chain(accident_location, a_direction, b_direction, a_percentage, b_percentage, accident_location_description):
+def run_chain(accident_location, a_direction, b_direction, a_percentage, b_percentage, accident_location_description, precedent_content):
     
     # 프롬프트에 사고 정보를 포맷팅
     formatted_prompt = prompt.format(
@@ -71,7 +72,8 @@ def run_chain(accident_location, a_direction, b_direction, a_percentage, b_perce
         b_direction=b_direction,
         a_percentage=a_percentage,
         b_percentage=b_percentage,
-        accident_location_description=accident_location_description
+        accident_location_description=accident_location_description,
+        precedent_content = precedent_content
     )
 
     # LLM 실행 후 결과 파싱

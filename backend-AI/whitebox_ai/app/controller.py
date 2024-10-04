@@ -1,3 +1,7 @@
+import pickle
+import re
+import os
+from dotenv import load_dotenv
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
@@ -7,13 +11,10 @@ from app.core.database import get_db
 from app.services.langchain import prompt, rag
 from app.services.langchain.prompt import run_chain
 from deepface import DeepFace
-from dotenv import load_dotenv
-from fastapi_jwt_auth import AuthJWT
-from pydantic import BaseSettings
+from pydantic import BaseModel
 from sqlalchemy import text
-from langchain.vectorstores import Chroma
-from langchain.embeddings.openai import OpenAIEmbeddings
-import os
+from langchain_chroma import Chroma
+from langchain_openai import OpenAIEmbeddings
 import logging
 
 load_dotenv()
@@ -29,18 +30,10 @@ FAILURE_MESSAGE = "변호사 인증 실패"
 USER_TYPE_LAWYER = "LAWYER"
 USER_TYPE_MEMBER = "MEMBER"
 
-class Settings(BaseSettings):
-    authjwt_secret_key: str = os.getenv("SECRET_KEY")
+class User(BaseModel):
+    username: str
+    email: str
 
-@AuthJWT.load_config
-def get_config():
-    return Settings()
-
-@AuthJWT.token_in_denylist_loader
-def check_if_token_in_denylist(decoded_token):
-    return False  
-
-# DB Update Query
 def update_user_type_to_lawyer(db: Session, user_email: str):
     db.execute(
         text("UPDATE user SET user_type = :user_type WHERE user_email = :user_email"),
@@ -57,17 +50,10 @@ def verify_lawyer_image(lawyer_image_url: str, uploaded_image_bytes: bytes):
 async def compare_image(
     name: str, 
     date: str, 
+    user_email: str,
     file: UploadFile = File(...), 
-    db: Session = Depends(get_db), 
-    Authorize: AuthJWT = Depends()
+    db: Session = Depends(get_db)
 ):
-    try:
-        Authorize.jwt_required()  
-    except KeyError as e:
-        if 'type' not in str(e):
-            raise e  
-
-    user_email = Authorize.get_raw_jwt().get('username') 
     lawyer = db.query(Lawyer).filter(Lawyer.lawyer_name == name, Lawyer.lawyer_date == date).first()
 
     if not lawyer:
@@ -83,7 +69,7 @@ async def compare_image(
     
     return JSONResponse(content={"message": FAILURE_MESSAGE, "user_type": USER_TYPE_MEMBER})
 
-@router.post("/analyze-video/")
+@router.post("/api/v1/analyze-video/")
 async def analyze_video(file: UploadFile = File(...)):
     logger.info(f"Received request to analyze video with file: {file.filename}")
 
@@ -104,41 +90,83 @@ async def analyze_video(file: UploadFile = File(...)):
         logger.exception(f"Error processing video file")
         raise HTTPException(status_code=400, detail=f"Error processing file: {str(e)}")
 
+
 @router.post("/api/v1/search-query")
 async def process_query(request: QueryRequest, db: Session = Depends(get_db)):
 
-    query_text = request.query_text
+    query_text = request.query_text 
     accident_location = request.accident_location
+    accident_location_description = request.accident_location_description
     a_direction = request.a_direction
     b_direction = request.b_direction
     a_percentage = request.a_percentage
     b_percentage = request.b_percentage
-    accident_location_description = request.accident_location_description
 
-    embedding_function = OpenAIEmbeddings(openai_api_key= os.getenv("SECRET_KEY"))  
+    embedding_function = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))  
     vector_store = Chroma(persist_directory="chroma_data", embedding_function=embedding_function)
 
     try:
-        similar_queries = vector_store.similarity_search(query_text, k=5)
+        similar_query = vector_store.similarity_search(query_text, k=1)
+        if not similar_query:
+            raise HTTPException(status_code=404, detail="유사한 쿼리를 찾을 수 없습니다.")
+        
+        retrieved_content = similar_query[0].page_content
+        match = re.search(r'\\(\d+)', retrieved_content)
+        if not match:
+            raise HTTPException(status_code=500, detail="검색된 쿼리에서 번호를 추출할 수 없습니다.")
+        
+        case_number = match.group(1)
     except Exception as e:
         raise HTTPException(status_code=500, detail="유사한 쿼리를 검색하는 중 오류가 발생했습니다.")
 
-    results = []
+    # 번호에 해당하는 파일 내용을 읽기 위한 폴더 목록
+    folder_paths = [
+        "참조판례", "판례내용"
+    ]
+    
+    base_path = "판례" 
 
-    for similar_query in similar_queries:
-        try:
-            # `run_chain()`을 사용하여 사고 정보 분석 및 결과 얻기
+    case_details = {}
+    reference_case_content = None
+    precedent_content = None
+    try:
+        for folder in folder_paths:
+            file_path = os.path.join(base_path, folder, f"{case_number}.txt")
+            if os.path.exists(file_path):
+                with open(file_path, 'r', encoding='euc-kr') as file:
+                    if folder == "참조판례":
+                        reference_case_content = file.read()  
+                    elif folder == "판례내용":
+                        precedent_content = file.read() 
+            else:
+                if folder == "참조판례":
+                    reference_case_content = f"{folder}에서 {case_number}에 해당하는 파일을 찾을 수 없습니다."
+                elif folder == "판례내용":
+                    precedent_content = f"{folder}에서 {case_number}에 해당하는 파일을 찾을 수 없습니다."
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"케이스 내용을 읽는 중 오류가 발생했습니다: {str(e)}")
+
+
+    results = []
+    try:
+        if precedent_content:
             result = run_chain(
                 accident_location=accident_location,
+                accident_location_description=accident_location_description,
                 a_direction=a_direction,
                 b_direction=b_direction,
                 a_percentage=a_percentage,
                 b_percentage=b_percentage,
-                accident_location_description=accident_location_description
+                precedent_content=precedent_content  
             )
             results.append(result)
+        else:
+            raise HTTPException(status_code=500, detail="판례내용이 없습니다. 프롬프트를 실행할 수 없습니다.")
 
-        except Exception as e:
-            raise HTTPException(status_code=500, detail="프롬프트 처리 중 오류가 발생했습니다.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="프롬프트 처리 중 오류가 발생했습니다.")
 
-        return JSONResponse(content={"similar_terms_results": [result.dict() for result in results]})
+    return JSONResponse(content={
+        "reference_case": reference_case_content,
+        "results": results
+    })

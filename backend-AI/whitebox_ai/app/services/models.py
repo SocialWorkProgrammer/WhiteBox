@@ -18,11 +18,12 @@ class Result(BaseModel):
     explanation: str = Field()
     Result: str = Field()
 
+
 class QueryRequest(BaseModel):
     query_text: str
     accident_location: str
+    accident_location_description: str
     a_direction: str
     b_direction: str
-    a_percentage: str
-    b_percentage: str
-    accident_location_description: str
+    a_percentage: int
+    b_percentage: int
