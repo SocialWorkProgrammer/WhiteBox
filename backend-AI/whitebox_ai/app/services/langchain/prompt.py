@@ -6,6 +6,7 @@ from langchain_openai import ChatOpenAI
 from langchain_community.cache import SQLiteCache
 from langchain_core.globals import set_llm_cache
 from dotenv import load_dotenv
+from app.services.models import Result
 import sys
 import os
 
@@ -20,12 +21,6 @@ set_llm_cache(SQLiteCache(database_path="cache/llm_cache.db"))
 # 환경 설정
 load_dotenv()
 
-# 결과물 출력
-class Result(BaseModel):
-    # 사고 상황, 과실 해설, 최종 결론
-    description: str = Field()
-    explanation: str = Field()
-    Result: str = Field()
 
 # JsonOutputParser를 이용해 결과를 파싱
 parser = JsonOutputParser(pydantic_object=Result)
@@ -87,14 +82,3 @@ def run_chain(accident_location, a_direction, b_direction, a_percentage, b_perce
     
     return result
 
-
-result = run_chain(
-    accident_location="서울시 강남구", 
-    a_direction="북쪽", 
-    b_direction="남쪽", 
-    a_percentage="40", 
-    b_percentage="60", 
-    accident_location_description="사거리에서 발생한 사고"
-)
-
-print(result)
