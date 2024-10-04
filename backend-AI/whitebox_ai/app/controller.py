@@ -1,4 +1,4 @@
-import pickle
+import httpx
 import re
 import os
 from dotenv import load_dotenv
@@ -91,6 +91,9 @@ async def analyze_video(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail=f"Error processing file: {str(e)}")
 
 
+
+# LLM 
+ 
 @router.post("/api/v1/search-query")
 async def process_query(request: QueryRequest, db: Session = Depends(get_db)):
 
@@ -166,7 +169,19 @@ async def process_query(request: QueryRequest, db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail="프롬프트 처리 중 오류가 발생했습니다.")
 
-    return JSONResponse(content={
-        "reference_case": reference_case_content,
-        "results": results
-    })
+    response_data = {
+            "reference_case": reference_case_content,
+            "results": results
+        }
+
+    try:
+        async with httpx.AsyncClient() as client:
+            spring_response = await client.post(
+                "http://localhost/api/v1/upload-video",  
+                json=response_data
+            )
+            spring_response.raise_for_status()
+    except httpx.HTTPStatusError as e:
+        raise HTTPException(status_code=500, detail=f"Spring 서버로 전송 중 오류가 발생했습니다: {str(e)}")
+
+    return JSONResponse(content=response_data)

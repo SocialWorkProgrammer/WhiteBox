@@ -4,29 +4,33 @@ from dotenv import load_dotenv
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 
+# 환경 변수 로드
 load_dotenv()
 
+# OpenAI 임베딩 함수 초기화
 embedding_function = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
 
+# Chroma 벡터 스토어 초기화
 vector_store = Chroma(persist_directory="chroma_data", embedding_function=embedding_function)
 
-def initialize_vector_store():
-    if not os.path.exists(os.path.join("chroma_data", "index")):
-        with open(r'app\services\langchain\embedding.pickle', 'rb') as f:
-            precedent_embedding_dict = pickle.load(f)
+# 벡터 스토어 초기화 부분 (한 번만 실행)
+if not os.path.exists(os.path.join("chroma_data", "index")):
+    with open(r'app\services\langchain\embedding.pickle', 'rb') as f:
+        precedent_embedding_dict = pickle.load(f)
 
-        texts = list(precedent_embedding_dict.keys())
-        embeddings = list(precedent_embedding_dict.values())
+    texts = list(precedent_embedding_dict.keys())
+    embeddings = list(precedent_embedding_dict.values())
 
-        try:
-            vector_store.add_texts(texts=texts, embeddings=embeddings)
-            vector_store.persist()
-            print("벡터 스토어에 데이터가 성공적으로 추가되었습니다.")
-        except Exception as e:
-            print(f"벡터 스토어에 텍스트를 추가하는 중 오류가 발생했습니다: {e}")
-    else:
-        print("벡터 스토어가 이미 초기화되어 있습니다.")
+    try:
+        vector_store.add_texts(texts=texts, embeddings=embeddings)
+        vector_store.persist()
+        print("벡터 스토어에 데이터가 성공적으로 추가되었습니다.")
+    except Exception as e:
+        print(f"벡터 스토어에 텍스트를 추가하는 중 오류가 발생했습니다: {e}")
+else:
+    print("벡터 스토어가 이미 초기화되어 있습니다.")
 
+# 유사한 용어 쿼리 함수 정의
 def query_similar_terms(query_text):
     try:
         results = vector_store.similarity_search(query_text, k=5)
