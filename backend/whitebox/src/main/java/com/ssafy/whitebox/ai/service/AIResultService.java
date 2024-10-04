@@ -87,11 +87,5 @@ public class AIResultService {
                 .block();
     }
 
-//    public List<AIResult> getAllAIResults() {
-//        return aiResultRepository.findAll();
-//    }
-//
-//    public AIResult getAIResultById(Long id) {
-//        return aiResultRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("AI Result not found"));
-//    }
+
 }
