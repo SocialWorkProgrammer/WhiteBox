@@ -28,7 +28,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    git branch: 'main', credentialsId: CREDENTIALS_ID, url: GIT_REPO_URL
+                    git branch: 'master', credentialsId: CREDENTIALS_ID, url: GIT_REPO_URL
                 }
             }
         }
@@ -56,7 +56,7 @@ pipeline {
                     dir(BACKEND_DIR) {
                         sh 'chmod +x gradlew'
                         sh './gradlew build'
-                        sh 'docker build -t geunwook/backend .'
+                        sh 'docker build -t geunwook/backend:latest .'
                     }
                 }
             }
