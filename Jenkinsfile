@@ -8,7 +8,7 @@ pipeline {
         BACKEND_DIR = 'backend/whitebox'
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
         GIT_REPO_URL = 'https://lab.ssafy.com/s11-ai-image-sub1/S11P21A104.git'
-        CREDENTIALS_ID = 'jenkins'
+        CREDENTIALS_ID = 'whitebox'
     }
 
     stages {
