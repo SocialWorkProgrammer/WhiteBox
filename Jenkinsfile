@@ -50,12 +50,21 @@ pipeline {
                 script {
                     // 프론트엔드 Docker 이미지 빌드
                     dir(FRONTEND_DIR) {
-                        sh 'docker build -t geunwook/frontend1:latest .'
+                        // Dockerfile.prod 사용하도록 명시
+                        sh 'docker build -t geunwook/frontend1:latest -f Dockerfile.prod .'
                     }
+
                     // 백엔드 Docker 이미지 빌드
                     dir(BACKEND_DIR) {
-                        sh 'chmod +x gradlew'
-                        sh './gradlew build'
+                        // Gradle Wrapper 관련 파일 확인 후 빌드 진행
+                        sh '''
+                        if [ ! -f gradlew ]; then
+                            echo "gradlew file not found. Generating Gradle Wrapper."
+                            gradle wrapper
+                        fi
+                        chmod +x gradlew
+                        ./gradlew clean build
+                        '''
                         sh 'docker build -t geunwook/backend:latest .'
                     }
                 }
@@ -76,7 +85,7 @@ pipeline {
                         ssh -o StrictHostKeyChecking=no ubuntu@${REMOTE_SERVER} << EOF
                             cd /home/ubuntu
                             docker-compose -f ${DOCKER_COMPOSE_FILE} down
-                            docker-compose -f ${DOCKER_COMPOSE_FILE} up -d
+                            docker-compose -f ${DOCKER_COMPOSE_FILE} up -d --build
 EOF
                         '''
                     }
