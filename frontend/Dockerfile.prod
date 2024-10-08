@@ -1,19 +1,44 @@
+# # 1. Node.js 이미지 사용
+# FROM node:16-slim
+
+# # 2. 작업 디렉토리 설정
+# WORKDIR /app
+
+# # 3. 패키지 파일 복사
+# COPY package.json package-lock.json ./
+
+# # 4. 패키지 설치
+# RUN npm install
+
+# # 5. 프로젝트 파일 복사
+# COPY . .
+
+# # 6. 빌드 실행
+# RUN npm run build
+
+# # 8. 포트 노출
+# EXPOSE 3000
+
+# CMD ["npm", "start"]
+
+FROM node:20.15.0-alpine as builder
+
+WORKDIR /app
+COPY package.json .
+RUN npm install --force
+COPY . .
+RUN npm run build
+
+# 실행 스테이지 - 변경
+FROM node:20.15.0-alpine
+
+WORKDIR /app
+COPY --from=builder /app/build ./build
 COPY --from=builder /app/package.json .
 RUN npm install --production --force
 
 # 정적 파일을 서빙할 간단한 서버 설치
 RUN npm install -g serve
 
-# 서버 설정 파일 추가
-COPY serve.json .
-
 EXPOSE 3000
-CMD ["serve", "-s", "build", "-l", "3000", "--config", "serve.json"]
-
-# serve.json
-{
-  "rewrites": [
-    { "source": "/images/*", "destination": "/images/:splat" },
-    { "source": "/**", "destination": "/index.html" }
-  ]
-}
+CMD ["serve", "-s", "build", "-l", "3000"]
