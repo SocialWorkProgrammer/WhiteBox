@@ -42,9 +42,9 @@ services:
     depends_on:
       - mysql
     volumes:
-      - /home/ubuntu/upload/images:/frontend/public/images  
-      - /home/ubuntu/upload/videos:/frontend/public/videos  
-      - /home/ubuntu/upload/thumbnails:/frontend/public/thumbnails  
+      - /etc/upload/images:/etc/upload/images
+      - /etc/upload/videos:/etc/upload/videos
+      - /etc/upload/thumbnails:/etc/upload/thumbnails  
 
   frontend:
     container_name: frontend
@@ -57,9 +57,9 @@ services:
       - frontend
       - ssl
     volumes:
-      - /home/ubuntu/upload/images:/app/public/images 
-      - /home/ubuntu/upload/videos:/app/public/videos  
-      - /home/ubuntu/upload/thumbnails:/app/public/thumbnails  
+      - /etc/upload/images:/etc/upload/images
+      - /etc/upload/videos:/etc/upload/videos
+      - /etc/upload/thumbnails:/etc/upload/thumbnails  
 
   mysql:
     container_name: mysql
