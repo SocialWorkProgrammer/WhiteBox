@@ -51,10 +51,12 @@ public class AIResultService {
         AIResult aiResult = AIResult.builder()
                 .user(user)
                 .createdAt(LocalDateTime.now())
-                .aiRelatedInformation(analysisResult.getAiRelatedInformation())
                 .aiRelatedLaw(analysisResult.getAiRelatedLaw())
                 .aiUserFault(analysisResult.getAiUserFault())
                 .aiOtherFault(analysisResult.getAiOtherFault())
+                .aiDescription(analysisResult.getAiDescription())
+                .aiExplanation(analysisResult.getAiExplanation())
+                .aiResult(analysisResult.getAiResult())
                 .videoUrl(videoUrl)
                 .thumbnail1(thumbnailPaths[0]) // 실제 저장된 썸네일 경로
                 .thumbnail2(thumbnailPaths[1])

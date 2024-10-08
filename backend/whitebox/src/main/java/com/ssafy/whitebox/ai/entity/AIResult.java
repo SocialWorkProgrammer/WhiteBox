@@ -34,11 +34,18 @@ public class AIResult {
     @Column(name = "ai_created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "ai_related_information")
-    private String aiRelatedInformation;
 
     @Column(name = "ai_related_law")
     private String aiRelatedLaw;
+
+    @Column(name = "ai_explanation")
+    private String aiExplanation;
+
+    @Column(name = "ai_description")
+    private String aiDescription;
+
+    @Column(name = "ai_Result")
+    private String aiResult;
 
     @Column(name = "ai_user_fault")
     private int aiUserFault;

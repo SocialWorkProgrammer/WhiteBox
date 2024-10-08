@@ -69,6 +69,8 @@ async def compare_image(
     
     return JSONResponse(content={"message": FAILURE_MESSAGE, "user_type": USER_TYPE_MEMBER})
 
+
+
 @router.post("/api/v1/analyze-video/")
 async def analyze_video(file: UploadFile = File(...)):
     logger.info(f"Received request to analyze video with file: {file.filename}")
@@ -76,10 +78,12 @@ async def analyze_video(file: UploadFile = File(...)):
     try:
         file_content = await file.read()
         logger.info(f"File size: {len(file_content)} bytes")
-
+        # 이 더미데이터를 채워서 return 해주면 됩니다!~@!@~!@~!@@@!~!~!~!~!~!~
         result = {
-            "aiRelatedInformation": "Sample AI Information",
-            "aiRelatedLaw": "Sample AI Law",
+            "aiDescription": "사고 발생 상황 분석",
+            "aiExplanation": "과실 비율과 그 근거",
+            "aiResult": "법적 기준 및 결론",
+            "aiRelatedLaw": "관련 법(있을수도있고없을수도있음)",
             "aiUserFault": 80,
             "aiOtherFault": 20
         }
