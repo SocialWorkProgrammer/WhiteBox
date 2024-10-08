@@ -12,7 +12,7 @@ import CommentPostForm from './CommunityVoteCommentPost'
 import VoteCommentDeleteButton from '../buttons/VoteCommentDeleteButton'
 import { Helmet } from 'react-helmet';
 import lawyerBadge from '../../public/img/lawyerBadge.png'
-
+import CommunityVoteAiResult from './CommunityVoteAiResult'
 
 function CommunityGeneralDetail() {
   const storedUser = localStorage.getItem ? JSON.parse(localStorage.getItem('user')) : null;
@@ -68,11 +68,11 @@ function CommunityGeneralDetail() {
             neutralPercent: response.neutralPercent,
             oppositePercent: response.oppositePercent,
             title: response.title,
-            video: response.video, //data에서는 videoUrl로 나오므로 주의!
+            video: response.videoUrl, //data에서는 videoUrl로 나오므로 주의!
             voteId: response.voteId,
             votesCount: response.votesCount,
-            })  
-          // 여기서 setData(가공된 responseData)를 통해서 데이터설정을 해주세용
+            }) 
+            console.log('사진들 = ',data.images);
         } catch (err) {
           console.log(err);
           throw err
@@ -92,12 +92,10 @@ function CommunityGeneralDetail() {
 
   // 댓글 작성 시 새로고침 기능
   const handleCommentUpdate = (newComments, lastComment) => {
-    console.log('받은 new 투표댓글들=', newComments);
     setData((prevData) => ({
       ...prevData,
       comments: newComments,
     }));
-    console.log('alsdfjl;asdjfk', data.comments);
     setCurrentPage(Math.ceil(lastComment/10));
   };
 
@@ -118,7 +116,7 @@ function CommunityGeneralDetail() {
                 <div className="col-span-8 ml-2">{data.nickname}</div>
                 <div className="col-span-4 flex flex-row">
                   <span className="">투표 수</span>
-                  <span className="text-[#231FE8]">{data.hit}</span>
+                  <span className="text-[#231FE8]">{data.votesCount}</span>
                   <span className="mx-2">|</span>
                   <span className="">작성일 {data.createdAt}</span>
                 </div>
@@ -128,26 +126,31 @@ function CommunityGeneralDetail() {
               {/* 비디오 */}
               <div className="flex flex-row place-content-between">
                 <video controls width="500" 
-                  src={data.video}></video>
-                <div>
+                  src={`/videos/${data.video}`}></video>
               {/* 현장사진 */}
+                {data.image === true ? <div>
                 <p>현장사진</p>
                 <div className="grid grid-cols-2 gap-4 max-w-[700px] max-h-[400px] m-2">
                 {data.images.map((image, idx) => (
                   <img
                   key={idx}
-                  // src={image.image}
-                  src={`${blankImage}`}
+                  src={`/images/${image.imageUrl}`}
                   alt='#'
                   // 스마트폰 사진비율 16:9에 맞춤
                   className= "w-[304px] h-[171px]"
                   />
                 )) }
               </div>
-                </div>
+                </div> : <div></div>}
               </div>
               <p className="min-h-[30px] font-normal mt-10">{data.description}</p>
             </div>
+            <div className="sticky top-0 bg-white">
+            <CommunityVoteAiResult 
+              aiUserFault={data.aiUserFault}
+              aiOtherFault={data.aiOtherFault}
+              aiRelatedInformation={data.aiRelatedInformation}
+              aiRelatedLaw={data.aiRelatedLaw} />
             {/* 투표 */}
             <VoteGraph
               voteId = {voteId}
@@ -156,6 +159,7 @@ function CommunityGeneralDetail() {
               oppositePercent = {data.oppositePercent}
               className=""
               />
+              </div>
               <div>총 투표 수 : {data.votesCount}</div>
             {/* 댓글 영역 */}
             <div className="w-auto h-[73px] border-y-2 my-4 flex align-middle">

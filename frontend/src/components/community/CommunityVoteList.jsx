@@ -43,7 +43,9 @@ function CommunityGeneralList() {
     setCurrentPage(page);
   }
 
-  console.log('ci =', currentItems)
+  // 마우스 호버 시 썸네일 동작
+  const [isHovered, setIsHovered] = useState(null);
+
   return (
     // 전체 컴포넌트
     <div>
@@ -61,10 +63,21 @@ function CommunityGeneralList() {
           <div className="mt-10 flex flex-row flex-wrap gap-5 place-content-center">
           {currentItems.length > 0 ? (
             currentItems.map((item, idx) => (
-            <a href={`/community/vote/${item.voteId}`} className="flex flex-row gap-[15px] max-w-[397px] h-[154px] text-xl my-2 rounded-[25px] hover:border-2 border-[#458EF7]" key={item.voteId}>
-              {item ? <ImageSlider
-                thumbnail1={item.thumbnail1}
-                className="w-[150px] h-[150px] block" /> : <div className="w-[150px] h-[150px] bg-[#D9D9D9] rounded-[25px]"></div> }
+            <a
+              href={`/community/vote/${item.voteId}`} 
+              className="flex flex-row gap-[15px] max-w-[397px] h-[154px] text-xl my-2 hover:border-2 border-[#458EF7]" 
+              key={item.voteId}
+              onMouseEnter={()=>setIsHovered(idx)}
+              onMouseLeave={()=>setIsHovered(false)}>
+              {isHovered === idx ? 
+                <ImageSlider
+                  thumbnail1={item.thumbnail1}
+                  thumbnail2={item.thumbnail2}
+                  thumbnail3={item.thumbnail3}
+                  thumbnail4={item.thumbnail4}
+                  className="w-[150px] h-[150px] block"
+                />
+                 : <img src={`/thumbnails/${item.thumbnail1}`} className="w-[150px] h-[150px] block"/> }
               <div className="flex flex-col gap-3">
                 <div className="w-[200px] font-bold text-ellipsis overflow-hidden whitespace-nowrap">{item.voTitle}</div>
                 <div className="flex flex-row">
