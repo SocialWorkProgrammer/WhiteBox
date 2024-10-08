@@ -13,7 +13,7 @@ public class CommunityImageParam{
 
     public CommunityImageParam(Long id, String imageUrl, LocalDateTime createdAt){
         this.id = id;
-        this.imageUrl = imageUrl;
+        this.imageUrl = "/images/" + imageUrl;
         this.createdAt = createdAt;
     }
 
