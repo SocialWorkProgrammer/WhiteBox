@@ -5,6 +5,7 @@ import com.ssafy.whitebox.community.dto.CommunityCommentCreateParam;
 import com.ssafy.whitebox.community.entity.Community;
 import com.ssafy.whitebox.community.service.CommunityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,7 +42,7 @@ public class CommunityController {
     }
 
     @PostMapping
-    public ResponseEntity<Community> createCommunity(
+    public ResponseEntity<String> createCommunity(
             @RequestPart("title") String title,
             @RequestPart("description") String description,
             @RequestPart(value = "images", required = false) List<MultipartFile> images,
@@ -50,8 +51,9 @@ public class CommunityController {
         Community community = new Community();
         community.setComTitle(title);
         community.setComDescription(description);
-        String userEmail = userDetails.getUsername();  // 인증된 유저 이메일 사용
-        return ResponseEntity.ok(communityService.createCommunity(community, images, userEmail));
+        String userEmail = userDetails.getUsername();
+        communityService.createCommunity(community, images, userEmail);// 인증된 유저 이메일 사용
+        return ResponseEntity.status(HttpStatus.CREATED).body("커뮤니티 생성 완료");
     }
 
     @PatchMapping("/{communityId}")
@@ -63,10 +65,6 @@ public class CommunityController {
         String userEmail = userDetails.getUsername();  // 현재 로그인된 유저의 이메일
         CommunityParam existingCommunity = communityService.findById(communityId);
 
-        // 작성자와 로그인된 유저가 일치하는지 확인
-        if (!existingCommunity.getUser().userEmail().equals(userEmail)) {
-            return ResponseEntity.status(403).build();  // 권한 없음 (403 Forbidden)
-        }
 
         existingCommunity.setComTitle(communityUpdateParam.getComTitle());
         existingCommunity.setComDescription(communityUpdateParam.getComDescription());
@@ -81,10 +79,6 @@ public class CommunityController {
         String userEmail = userDetails.getUsername();  // 현재 로그인된 유저의 이메일
         CommunityParam existingCommunity = communityService.findById(communityId);
 
-        // 작성자와 로그인된 유저가 일치하는지 확인
-        if (!existingCommunity.getUser().userEmail().equals(userEmail)) {
-            return ResponseEntity.status(403).build();  // 권한 없음 (403 Forbidden)
-        }
 
         communityService.deleteById(communityId);
         return ResponseEntity.noContent().build();

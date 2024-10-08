@@ -61,7 +61,6 @@ public class CommunityService {
         param.setImages(imageParams);
         param.setUserIndex(community.getUser().userIndex());
         param.setUserNickname(community.getUser().userNickname());
-        param.setUser(community.getUser());
         param.setCommentCount(community.getComments().size());
         return param;
     }
@@ -79,7 +78,6 @@ public class CommunityService {
                 })
                 .collect(Collectors.toList());
 
-        param.setComments(commentParams);  // 댓글 추가
         return param;
     }
     public Community convertToEntity(CommunityParam param) {
