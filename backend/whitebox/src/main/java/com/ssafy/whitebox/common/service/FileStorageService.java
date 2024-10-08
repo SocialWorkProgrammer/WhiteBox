@@ -62,7 +62,7 @@ public class FileStorageService {
 
         // 파일 저장
         Files.write(savePath, fileBytes);
-
+        System.out.println("File saved at: " + savePath.toString());
         return savedFileName; // 저장된 파일명 반환
     }
 
