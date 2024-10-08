@@ -10,11 +10,12 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    command: "/bin/sh -c 'nginx -g \"daemon off;\"'"
+    command: '/bin/sh -c "nginx -g ''daemon off;''"'
     networks:
       - ssl
       - backend
       - frontend
+
   certbot:
     container_name: ubuntu-certbot-1
     image: certbot/certbot
@@ -24,9 +25,10 @@ services:
       - ./data/certbot/www:/var/www/certbot
     depends_on:
       - nginx
-    entrypoint: "/bin/sh -c 'while :; do sleep 6h && certbot renew; done'"
+    entrypoint: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; certbot renew; done'"
     networks:
       - ssl
+
   backend:
     container_name: backend
     image: geunwook/backend:latest
@@ -40,9 +42,10 @@ services:
     depends_on:
       - mysql
     volumes:
-      - images-data:/app/public/images
-      - videos-data:/app/public/videos
-      - thumbnails-data:/app/public/thumbnails
+      - /home/ubuntu/upload/images:/frontend/public/images  
+      - /home/ubuntu/upload/videos:/frontend/public/videos  
+      - /home/ubuntu/upload/thumbnails:/frontend/public/thumbnails  
+
   backend-ai:
     container_name: backend-ai
     image: geunwook/backend-ai1:latest
@@ -58,9 +61,8 @@ services:
       - backend
       - ssl
     volumes:
-      - images-data:/app/public/images
-      - videos-data:/app/public/videos
-      - thumbnails-data:/app/public/thumbnails
+      - db-data:/var/lib/mysql
+
   frontend:
     container_name: frontend
     image: geunwook/frontend1:latest
@@ -72,9 +74,10 @@ services:
       - frontend
       - ssl
     volumes:
-      - images-data:/app/public/images
-      - videos-data:/app/public/videos
-      - thumbnails-data:/app/public/thumbnails
+      - /home/ubuntu/upload/images:/app/public/images 
+      - /home/ubuntu/upload/videos:/app/public/videos  
+      - /home/ubuntu/upload/thumbnails:/app/public/thumbnails  
+
   mysql:
     container_name: mysql
     image: mysql:8
@@ -95,7 +98,5 @@ networks:
   frontend:
 
 volumes:
+  db-data:
   mysql-data:
-  images-data:
-  videos-data:
-  thumbnails-data:
