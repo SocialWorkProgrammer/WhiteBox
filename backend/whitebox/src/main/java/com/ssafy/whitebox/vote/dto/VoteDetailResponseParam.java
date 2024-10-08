@@ -23,7 +23,9 @@ public class VoteDetailResponseParam {
     private boolean isImage;
 
     // AIResult 정보
-    private String aiRelatedInformation;
+    private String aiDescription;
+    private String aiExplanation;
+    private String aiResult;
     private String aiRelatedLaw;
     private int aiUserFault;
     private int aiOtherFault;
@@ -53,7 +55,9 @@ public class VoteDetailResponseParam {
         this.isImage = vote.isVoIsImage();
 
         // AIResult 정보
-        this.aiRelatedInformation = aiResult.getAiRelatedInformation();
+        this.aiDescription = aiResult.getAiDescription();
+        this.aiExplanation = aiResult.getAiExplanation();
+        this.aiResult = aiResult.getAiResult();
         this.aiRelatedLaw = aiResult.getAiRelatedLaw();
         this.aiUserFault = aiResult.getAiUserFault();
         this.aiOtherFault = aiResult.getAiOtherFault();

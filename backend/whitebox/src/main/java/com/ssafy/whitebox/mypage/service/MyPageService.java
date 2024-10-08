@@ -60,7 +60,9 @@ public class MyPageService {
             voteIndex = aiResult.getVote().getVoteId();
         }
         AIDetailResultResponseParam response = AIDetailResultResponseParam.builder()
-                .aiRelatedInformation(aiResult.getAiRelatedInformation())
+                .aiDescription(aiResult.getAiDescription())
+                .aiExplanation(aiResult.getAiExplanation())
+                .aiResult(aiResult.getAiResult())
                 .aiRelatedLaw(aiResult.getAiRelatedLaw())
                 .aiUserFault(aiResult.getAiUserFault())
                 .aiOtherFault(aiResult.getAiOtherFault())

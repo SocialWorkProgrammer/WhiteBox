@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 public class AIDetailResultResponseParam {
-    private String aiRelatedInformation;
+    private String aiDescription;
+    private String aiExplanation;
+    private String aiResult;
     private String aiRelatedLaw;
     private int aiUserFault;
     private int aiOtherFault;
