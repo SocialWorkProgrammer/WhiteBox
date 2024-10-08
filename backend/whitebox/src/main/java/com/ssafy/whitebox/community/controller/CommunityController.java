@@ -16,7 +16,9 @@ import com.ssafy.whitebox.community.dto.PageResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/community")
@@ -42,7 +44,7 @@ public class CommunityController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createCommunity(
+    public ResponseEntity<Map<String, Object>> createCommunity(
             @RequestPart("title") String title,
             @RequestPart("description") String description,
             @RequestPart(value = "images", required = false) List<MultipartFile> images,
@@ -51,9 +53,15 @@ public class CommunityController {
         Community community = new Community();
         community.setComTitle(title);
         community.setComDescription(description);
-        String userEmail = userDetails.getUsername();
-        communityService.createCommunity(community, images, userEmail);// 인증된 유저 이메일 사용
-        return ResponseEntity.status(HttpStatus.CREATED).body("커뮤니티 생성 완료");
+        String userEmail = userDetails.getUsername();  // 인증된 유저 이메일 사용
+        Community createdCommunity = communityService.createCommunity(community, images, userEmail); // 커뮤니티 생성
+
+        // 반환할 Map 객체에 comIndex 값 추가
+        Map<String, Object> response = new HashMap<>();
+        response.put("comIndex", createdCommunity.getComIndex());
+
+        // 응답으로 JSON 반환
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PatchMapping("/{communityId}")
