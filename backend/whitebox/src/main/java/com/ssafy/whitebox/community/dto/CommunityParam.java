@@ -19,6 +19,7 @@ public class CommunityParam {
     private List<CommunityImageParam> images;
     private Long userIndex;
     private String userNickname;
+    private List<CommunityCommentParam> comments;
     private int commentCount;
 }
 

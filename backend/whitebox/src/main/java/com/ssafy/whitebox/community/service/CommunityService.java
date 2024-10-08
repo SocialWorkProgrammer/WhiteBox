@@ -72,12 +72,13 @@ public class CommunityService {
                     CommunityCommentParam commentParam = new CommunityCommentParam();
                     commentParam.setId(comment.getId());
                     commentParam.setComment(comment.getComment());
+                    commentParam.setUserType(comment.getUser().userType().getValue());
                     commentParam.setUserNickname(comment.getUser().userNickname());
                     commentParam.setPostedAt(comment.getPostedAt());
                     return commentParam;
                 })
                 .collect(Collectors.toList());
-
+        param.setComments(commentParams);  // 댓글 추가
         return param;
     }
     public Community convertToEntity(CommunityParam param) {

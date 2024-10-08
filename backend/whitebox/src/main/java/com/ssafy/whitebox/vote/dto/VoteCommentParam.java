@@ -11,10 +11,12 @@ public class VoteCommentParam {
     private String userNickname;
     private String comment;
     private LocalDateTime postedAt;
+    private String userType;
 
-    public VoteCommentParam(String userNickname, String comment, LocalDateTime postedAt) {
+    public VoteCommentParam(String userNickname, String comment, LocalDateTime postedAt, String userType) {
         this.userNickname = userNickname;
         this.comment = comment;
         this.postedAt = postedAt;
+        this.userType = userType;
     }
 }
