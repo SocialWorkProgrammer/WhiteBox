@@ -46,23 +46,6 @@ services:
       - /home/ubuntu/upload/videos:/frontend/public/videos  
       - /home/ubuntu/upload/thumbnails:/frontend/public/thumbnails  
 
-  backend-ai:
-    container_name: backend-ai
-    image: geunwook/backend-ai1:latest
-    environment:
-      SQLALCHEMY_DATABASE_URL: "mysql+pymysql://root:ssafy@mysql/whitebox"
-    env_file:
-      - .env
-    depends_on:
-      - mysql
-    ports:
-      - "8000:8000"
-    networks:
-      - backend
-      - ssl
-    volumes:
-      - db-data:/var/lib/mysql
-
   frontend:
     container_name: frontend
     image: geunwook/frontend1:latest
