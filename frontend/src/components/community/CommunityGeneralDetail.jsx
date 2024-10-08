@@ -124,7 +124,8 @@ function CommunityGeneralDetail() {
                 <div className="max-w-[300px] flex flex-col place-content-center m-4">
                   {data.images.map((image, idx) => (
                     <div key={idx}>
-                      <img src={`${image.imageUrl}`} alt="이미지 로딩 불가" />
+                     <img src={`/images/${image.imageUrl}`} alt="이미지 로딩 불가" />
+
                     </div>
                   ))}
                 </div>
