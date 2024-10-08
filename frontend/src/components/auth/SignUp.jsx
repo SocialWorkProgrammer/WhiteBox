@@ -54,7 +54,8 @@ function SignUp() {
                 return;
             } 
 
-            signUp(user);
+            await signUp(user);
+            await login(user);
             // 메인 페이지로 이동
             navigate(`/auth/profile/${user.nickname}`);
         } catch (error) {
