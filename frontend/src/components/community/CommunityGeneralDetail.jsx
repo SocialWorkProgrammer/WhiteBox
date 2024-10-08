@@ -142,7 +142,7 @@ function CommunityGeneralDetail() {
                   {data.images.map((image, idx) => (
                     <div key={idx}>
                       <img
-                        src={`https://j11a104.p.ssafy.io/etc/upload/images/${image.imageUrl}`}
+                        src={`/etc/upload/images/${image.imageUrl}`}
                         alt="이미지 로딩 불가"
                       />
                     </div>
