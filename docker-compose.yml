@@ -10,12 +10,11 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    command: '/bin/sh -c ''nginx -g "daemon off;"'''
+    command: "/bin/sh -c 'nginx -g \"daemon off;\"'"
     networks:
       - ssl
       - backend
       - frontend
-
   certbot:
     container_name: ubuntu-certbot-1
     image: certbot/certbot
@@ -25,10 +24,9 @@ services:
       - ./data/certbot/www:/var/www/certbot
     depends_on:
       - nginx
-    entrypoint: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; certbot renew; done'"
+    entrypoint: "/bin/sh -c 'while :; do sleep 6h && certbot renew; done'"
     networks:
       - ssl
-
   backend:
     container_name: backend
     image: geunwook/backend:latest
@@ -41,7 +39,10 @@ services:
       - ssl
     depends_on:
       - mysql
-      
+    volumes:
+      - images-data:/app/public/images
+      - videos-data:/app/public/videos
+      - thumbnails-data:/app/public/thumbnails
   backend-ai:
     container_name: backend-ai
     image: geunwook/backend-ai1:latest
@@ -57,8 +58,9 @@ services:
       - backend
       - ssl
     volumes:
-      - db-data:/var/lib/mysql
-
+      - images-data:/app/public/images
+      - videos-data:/app/public/videos
+      - thumbnails-data:/app/public/thumbnails
   frontend:
     container_name: frontend
     image: geunwook/frontend1:latest
@@ -69,7 +71,10 @@ services:
     networks:
       - frontend
       - ssl
-      
+    volumes:
+      - images-data:/app/public/images
+      - videos-data:/app/public/videos
+      - thumbnails-data:/app/public/thumbnails
   mysql:
     container_name: mysql
     image: mysql:8
@@ -83,29 +88,14 @@ services:
     networks:
       - backend
       - ssl
-  
-  # app:
-    # build: .
-    # container_name: spring-app
-    # environment:
-      # SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/whitebox
-      # SPRING_DATASOURCE_USERNAME: root
-      # SPRING_DATASOURCE_PASSWORD: ssafy
-    # depends_on:
-      # - mysql
-    # ports:
-      # - "8080:8080"
-    # networks:
-      # - app-network
-    # volumes:
-      # - db-data:/var/lib/mysql
 
 networks: 
   ssl:
   backend:
   frontend:
-  app-network:
 
 volumes:
-  db-data:
   mysql-data:
+  images-data:
+  videos-data:
+  thumbnails-data:
