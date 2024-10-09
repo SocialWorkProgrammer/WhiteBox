@@ -46,10 +46,5 @@ public class Community {
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<CommunityComment> comments;
-//    @PrePersist
-//    protected void onCreate() {
-//        if (this.comCreatedAt == null) {  // 값이 없는 경우에만 설정
-//            this.comCreatedAt = LocalDateTime.now();  // 현재 시간으로 설정
-//        }
-//    }
+
 }
