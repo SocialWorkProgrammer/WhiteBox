@@ -102,7 +102,11 @@ function Main() {
                             </div>
                         ) : (
                             <div className="flex flex-col items-center space-y-4">
+<<<<<<< HEAD
                                 <p>드래그 앤 드롭 구역</p>
+=======
+                                <p>여기에 파일을 끌어다 놓으세요.</p>
+>>>>>>> FE-Develop
                                 <input
                                     id="fileInput"
                                     type="file" 
