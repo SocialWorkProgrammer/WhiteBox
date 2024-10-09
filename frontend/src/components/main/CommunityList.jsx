@@ -68,6 +68,7 @@ function CommunityList({ type }) {
                 </div>
                 {voteCommunityList?.map((item, index) => (
                     <div key={index} className={`grid grid-cols-4 border shadow m-2 cursor-pointer p-1 ${index < 3 ? highlightPosting[index] : ''}`} onClick={() => handleCommunityDetailClick({type:'vote', item})}>
+                        <img src={item.thumbnail1} alt="" />
                         <span className="col-span-2 text-base truncate">{item.title}</span>
                         <div className="col-span-2">
                             <span className="text-xs truncate">투표 수 : {item.totalVotes}</span>

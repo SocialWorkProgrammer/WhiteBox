@@ -77,7 +77,7 @@ function CommunityGeneralList() {
                   : <div className="w-[100px] text-center">[0]</div>
                 }
                 <div className="w-[100px] text-center" key={item.comIndex}>{item.comHit}</div>
-                <div className="w-[100px] font-bold text-center" key={item.idx}>{item.userNickname}</div>
+                <div className="w-[100px] font-bold text-center overflow-hidden text-ellipsis whitespace-nowrap" key={item.idx}>{item.userNickname}</div>
               </div>
             </a>
           ))): (
