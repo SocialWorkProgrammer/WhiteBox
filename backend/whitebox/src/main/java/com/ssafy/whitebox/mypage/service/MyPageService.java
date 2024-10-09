@@ -77,7 +77,7 @@ public class MyPageService {
     public List<UserCommunityResponseParam> getUserCommunities(UserDetails userDetails, int pageIndex) {
         User user = userRepository.findByUserEmail(userDetails.getUsername());
 
-        PageRequest pageRequest = PageRequest.of(pageIndex - 1, 3); // 페이지 당 10개씩
+        PageRequest pageRequest = PageRequest.of(pageIndex - 1, 5); // 페이지 당 10개씩
         List<Community> userCommunities = communityRepository.findByUser(user, pageRequest).getContent();
         return userCommunities.stream()
                 .map(this::convertToCommunityParam)
