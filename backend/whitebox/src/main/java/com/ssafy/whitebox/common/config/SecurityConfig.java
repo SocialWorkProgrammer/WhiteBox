@@ -56,7 +56,7 @@ public class SecurityConfig {
                             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                                 CorsConfiguration configuration = new CorsConfiguration();
                                 configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://j11a104.p.ssafy.io")); // 정확한 도메인 추가
-                                configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // OPTIONS 메서드 추가
+                                configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // OPTIONS 메서드 추가
                                 configuration.setAllowCredentials(true);
                                 configuration.setAllowedHeaders(Arrays.asList("*"));
                                 configuration.setExposedHeaders(Arrays.asList("Authorization"));
