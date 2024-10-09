@@ -27,34 +27,4 @@ public class LawyerService {
     public Lawyer findLawyerByNameAndDate(String name, Date date) {
         return lawyerRepository.findByLawyerNameAndLawyerDate(name, date);
     }
-
-    public ResponseEntity<String> verifyLawyerImageWithPython(String name, Date date, String email, MultipartFile file, String lawyerImageUrl) {
-        try {
-            // Python 서버에 이미지 검증 요청 전송
-            MultiValueMap<String, Object> body = fromMultipartData(name, date, email, file, lawyerImageUrl);
-
-            ResponseEntity<String> response = webClient.post()
-                    .uri("/api/v1/lawyer")
-                    .bodyValue(body)
-                    .retrieve()
-                    .toEntity(String.class)
-                    .block();
-
-            return response;
-
-        } catch (WebClientResponseException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(e.getStatusCode()).body("이미지 검증 중 오류가 발생했습니다: " + e.getMessage());
-        }
-    }
-
-    private MultiValueMap<String, Object> fromMultipartData(String name, Date date, String email, MultipartFile file, String lawyerImageUrl) {
-        LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("file", file.getResource()); // 업로드된 이미지 파일
-        body.add("name", name);
-        body.add("date", date);
-        body.add("user_email", email);
-        body.add("lawyer_image_url", lawyerImageUrl); // 데이터베이스에 있는 변호사 이미지 URL 추가
-        return body;
-    }
 }
