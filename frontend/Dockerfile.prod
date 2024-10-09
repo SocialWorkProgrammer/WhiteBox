@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # # 1. Node.js 이미지 사용
 # FROM node:16-slim
 
@@ -20,6 +21,8 @@
 # EXPOSE 3000
 
 # CMD ["npm", "start"]
+=======
+>>>>>>> FE-Develop
 
 FROM node:20.15.0-alpine as builder
 

@@ -4,11 +4,19 @@ import { useNavigate } from "react-router-dom";
 
 function MyVoteList () {
     const navigate = useNavigate();
+<<<<<<< HEAD
     const [ voteList, setVoteList ] = useState([]);
     const [ pageId, setPageId ] = useState(1);
     const [ totalVoteCount, setTotalVoteCount ] = useState(0);
     const loadVoteList = useAuthStore((state) => state.getMyVotes);
     const itemsPerPage = 6;
+=======
+    const [ voteList, setVoteList ] = useState(null);
+    const [ pageId, setPageId ] = useState(1);
+    const [ totalVoteCount, setTotalVoteCount ] = useState(0);
+    const loadVoteList = useAuthStore((state) => state.getMyVotes);
+    const itemsPerPage = 5;
+>>>>>>> FE-Develop
 
     useEffect(() => {
         const fetchVoteList = async () => {
@@ -33,6 +41,7 @@ function MyVoteList () {
     }
 
     return (
+<<<<<<< HEAD
         <div className="mt-3">
             {/* 투표목록 */}
             {voteList.map((vote) => (
@@ -41,6 +50,45 @@ function MyVoteList () {
                     <span>투표비율 : {vote.approvalPercent} : {vote.neutralPercent} : {vote.oppositePercent}</span>
                     <span>투표수 : {vote.voteCount}</span>
                     <span>댓글 수 : {vote.commentCount}</span>
+=======
+        voteList ? (
+            <div className="mt-3">
+            {/* 투표목록 */}
+            {voteList.map((vote) => (
+                <div key={vote.voteId} onClick={() => handleClickDetail({voteId:vote.voteId})} className="cursor-pointer hover:bg-gray-300 border shadow m-2 p-1">
+                    <div className="flex justify-between items-center">
+                        <span className="">{vote.title}</span>
+                        <span className="text-xs">[ {vote.commentCount} ]</span>
+                    </div>
+                    <div>
+                        <div className="flex items-center mt-2 truncate">
+                            <div className="w-11/12 flex h-6">
+                                <div 
+                                    className="bg-blue-300"
+                                    style={{
+                                        width: `${Math.max(vote.approvalPercent, 2)}%`,
+                                        minWidth: "10px",
+                                    }}
+                                >{vote.approvalPercent}%</div>
+                                <div 
+                                    className="bg-gray-300"
+                                    style={{
+                                        width: `${Math.max(vote.neutralPercent, 2)}%`,
+                                        minWidth: "10px",
+                                    }}
+                                ></div>
+                                <div 
+                                    className="bg-red-300"
+                                    style={{
+                                        width: `${Math.max(vote.oppositePercent, 2)}%`,
+                                        minWidth: "10px",
+                                    }}
+                                >{vote.oppositePercent}%</div>
+                            </div>
+                            <span className="ml-4">{vote.voteCount}명</span>
+                        </div>
+                    </div>
+>>>>>>> FE-Develop
                 </div>
             ))}
             {/* 페이지네이션 */}
@@ -56,10 +104,22 @@ function MyVoteList () {
                         {index + 1}
                     </button>
                 ))}
+<<<<<<< HEAD
                 <span className="me-2 cursor-pointer" onClick={() => handlePageChange(pageId + 1)}>&gt;</span>
                 <span className="me-2 cursor-pointer" onClick={() => handlePageChange(totalPages)}>&gt;&gt;</span>
             </div>
         </div>
+=======
+                <span className="ms-1 me-2 cursor-pointer" onClick={() => handlePageChange(pageId + 1)}>&gt;</span>
+                <span className="me-2 cursor-pointer" onClick={() => handlePageChange(totalPages)}>&gt;&gt;</span>
+            </div>
+        </div>
+        ) : (
+            <div className="mt-3 ml-4">
+                <span>참여한 투표가 없습니다.</span>
+            </div>
+        )
+>>>>>>> FE-Develop
     )
 }
 

@@ -71,8 +71,14 @@ function CommunityGeneralDetail() {
             video: response.videoUrl, //data에서는 videoUrl로 나오므로 주의!
             voteId: response.voteId,
             votesCount: response.votesCount,
+<<<<<<< HEAD
             }) 
             console.log('사진들 = ',data.images);
+=======
+            userType: response.userType,
+            }) 
+            console.log('사진들 = ',data);
+>>>>>>> FE-Develop
         } catch (err) {
           console.log(err);
           throw err
@@ -178,6 +184,7 @@ function CommunityGeneralDetail() {
                 return (
                 <div key={idx} className="flex flex-col h-[95px] border-b-2">
                 <div className="flex flex-row justify-between">
+<<<<<<< HEAD
                 <div className="flex flex-row gap-3">
                   {isLawyer === true ?  <img src={lawyerBadge} alt="" className="h-8 w-8" /> : <div className="h-8 w-8"></div>}
                   <div className="border-box text-xl">{comment.userNickname}</div>
@@ -185,6 +192,15 @@ function CommunityGeneralDetail() {
                   <div className="justify-self-end col-span-3 text-xl">{commentDate}</div>
                 </div>
                 <div className="mt-4">{comment.comment}</div>
+=======
+                <div className="flex flex-row">
+                  {comment.userType === "LAWYER" ?  <img src={lawyerBadge} alt="" className="h-8 w-8" /> : <></>}
+                  <div className="border-box text-xl ml-3">{comment.userNickname}</div>
+                  </div>
+                  <div className="justify-self-end col-span-3 text-xl">{commentDate}</div>
+                </div>
+                <div className="mt-4 ml-3">{comment.comment}</div>
+>>>>>>> FE-Develop
                 </div>)
               })): (
               <p>댓글 없음!</p>
