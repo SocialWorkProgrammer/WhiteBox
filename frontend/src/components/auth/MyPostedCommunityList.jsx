@@ -22,8 +22,13 @@ function MyPostedCommunityList () {
         const fetchMyPosts = async() => {
             const fetchedMyPosts = await loadMyPostings({ pageId })
             console.log(fetchedMyPosts);
-            setMyPostings(fetchedMyPosts.userCommunities);
-            setPostsCount(fetchedMyPosts.totalCommunities);
+            if (fetchedMyPosts.totalCommunities === 0) {
+                setMyPostings(null)
+            } else {
+                setMyPostings(fetchedMyPosts.userCommunities);
+                setPostsCount(fetchedMyPosts.totalCommunities);
+            }
+            
         };
         fetchMyPosts();
     }, [pageId, loadMyPostings])

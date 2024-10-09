@@ -14,8 +14,12 @@ function MyVoteList () {
         const fetchVoteList = async () => {
             const fetchedVoteList = await loadVoteList({ pageId });
             console.log(fetchedVoteList);
-            setVoteList(fetchedVoteList.userVotes);
-            setTotalVoteCount(fetchedVoteList.totalVotes)
+            if (fetchedVoteList.totalVotes === 0) {
+                setVoteList(null)
+            } else {
+                setVoteList(fetchedVoteList.userVotes);
+                setTotalVoteCount(fetchedVoteList.totalVotes)    
+            }
         }
         fetchVoteList();
     }, [pageId, loadVoteList]);

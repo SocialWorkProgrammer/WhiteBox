@@ -34,8 +34,12 @@ function MyAccidentList () {
         const fetchVideoList = async () => {
             const fetchedVideoList = await loadVideoList({ pageId });
             console.log(fetchedVideoList);
-            setVideoList(fetchedVideoList.userVideos);
-            setTotalVideoCount(fetchedVideoList.totalVideos)
+            if (fetchedVideoList.totalVideos === 0) {
+                setVideoList(null)
+            } else {
+                setVideoList(fetchedVideoList.userVideos);
+                setTotalVideoCount(fetchedVideoList.totalVideos)
+            }
         }
         fetchVideoList();
     }, [pageId, loadVideoList]);
