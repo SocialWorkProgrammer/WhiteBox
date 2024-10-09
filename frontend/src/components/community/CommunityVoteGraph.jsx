@@ -17,6 +17,9 @@ const VoteGraph = ({voteId, approvalPercent, neutralPercent, oppositePercent, cl
           rateMy: approvalPercent,
           rateYour: oppositePercent,
           rateNeutral: neutralPercent,
+          // rateMy: 68,
+          // rateYour: 27,
+          // rateNeutral: 5,
         });
         console.log(data.rateMy, data.rateYour, data.rateNeutral);
       }, [approvalPercent, oppositePercent, neutralPercent]);   

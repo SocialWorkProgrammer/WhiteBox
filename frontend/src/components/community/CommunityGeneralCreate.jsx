@@ -43,29 +43,17 @@ function MyComponent() {
     // 이미지와 텍스트 분리
     const images = Array.from(doc.getElementsByTagName('img')).map(img => img.src);
     const description = doc.body.innerText; // 텍스트 내용
-<<<<<<< HEAD
-    console.log(images)
-=======
->>>>>>> FE-Develop
     return {
       description,
       images, // 이미지 배열
     };
   };
-<<<<<<< HEAD
-  console.log('asdf', handleSubmitData().images)
-=======
->>>>>>> FE-Develop
   const modules = {
     toolbar: {
       container: [
         [{ header: [1, 2, 3, 4, 5, false] }],
         ["bold", "underline", "italic"],
-<<<<<<< HEAD
-        ["image", "link"],
-=======
         ["image"],
->>>>>>> FE-Develop
       ]
     },
   };
@@ -98,11 +86,7 @@ function MyComponent() {
               <PatchButton
                 id={id}
                 title={title}
-<<<<<<< HEAD
-                content={value}
-=======
                 content={handleSubmitData().description}
->>>>>>> FE-Develop
               /> :
               <SubmitButton
                 title={title}

@@ -7,11 +7,6 @@ import { useEffect } from 'react';
 
 const BASE_URL = useStore.getState().BASE_URL;
 // const accessToken = useAuthStore.getState().accessToken;
-<<<<<<< HEAD
-// const accessToken = useAuthStore.getState().accessToken
-// console.log(useAuthStore.getState())
-=======
->>>>>>> FE-Develop
 const accessToken = localStorage.getItem('accessToken')
 
 const useCommunityStore = create((set) => ({
@@ -21,10 +16,6 @@ const useCommunityStore = create((set) => ({
             pageId = 1
         }
         try {
-<<<<<<< HEAD
-            console.log('token = ', accessToken)
-=======
->>>>>>> FE-Develop
             const url = `${BASE_URL}/community/page/${pageId}`;
             // const url = '/dummy/Communitydb.json'
             // if문 통해 accessToken이 없을 경우 공란으로 냄겨둠
@@ -32,10 +23,6 @@ const useCommunityStore = create((set) => ({
                 Authorization: `${accessToken}`,
             } : {};
             const response = await get(url, {}, headers);
-<<<<<<< HEAD
-            console.log('목록을 제대로 불러왔다!', response, pageId)
-=======
->>>>>>> FE-Develop
             return response
         } catch (err) {
             throw err;
@@ -74,37 +61,13 @@ const useCommunityStore = create((set) => ({
             } : {};
 
             for (let [key, value] of formData.entries()) {
-<<<<<<< HEAD
-                console.log(`${key}:`, value);
-=======
                 // console.log(`${key}:`, value);
->>>>>>> FE-Develop
             }
 
             // POST 요청
             const response = await axios.post(url, formData, { headers });
             return response;
         } catch (err) {
-<<<<<<< HEAD
-            console.log('post 에러 발생 =', err);
-        }
-    },
-        // 일반게시글 수정하기
-        patchCommunityDetail: async ({id, comTitle, comDescription}) => {
-            try {
-                const url = `${BASE_URL}/community/${id}`;
-                const headers =  accessToken ? {
-                    Authorization: `${accessToken}`,
-                } : {};
-                const response = await patch(url, {comTitle, comDescription}, headers);
-                console.log(accessToken)
-                return response
-            } catch (err) {
-                console.log(`일반 게시물  수정 실패 : `, err);
-                throw err;
-            }
-        },
-=======
             throw(err)
         }
     },
@@ -123,7 +86,6 @@ const useCommunityStore = create((set) => ({
             throw err;
         }
     },
->>>>>>> FE-Develop
     
 
     // 일반게시물 삭제하기
@@ -156,11 +118,7 @@ const useCommunityStore = create((set) => ({
             const response = await axios.post(url, {comment}, { headers });
             return response;
         } catch (err) {
-<<<<<<< HEAD
-            console.log('댓글 에러 발생 =', err);
-=======
             throw(err)
->>>>>>> FE-Develop
         }
     },
     // 일반게시판 댓글 삭제하기
@@ -179,38 +137,6 @@ const useCommunityStore = create((set) => ({
         }
     },
 
-<<<<<<< HEAD
-        // 투표게시글 목록 불러오기
-        getCommunityVoteList: async ({pageIndex}) => {
-            try {
-                const url = `${BASE_URL}/vote/page/${pageIndex}`;
-                const headers = {
-                    Authorization: `${accessToken}`,
-                };
-                const response = await get(url, {}, headers);
-                console.log('useCommunityVoteStore의 응답', response)
-                return response
-            } catch (err) {
-                console.log(`투표 게시물  불러오기 실패 : `, err);
-                throw err;
-            }
-        },
-        // 메인용 투표게시글 목록 불러오기
-        getMainVoteCommunityList: async() => {
-            try {
-                const url = `${BASE_URL}/mainpage/top-votes`;
-                const headers = {
-                    Authorization: `${accessToken}`,
-                };
-                const response = await get(url, {}, headers);
-                return response
-            } catch (err) {
-                console.log(err);
-                throw err;
-            }
-        },
-            // 투표게시글 상세 불러오기
-=======
     // 투표게시글 목록 불러오기
     getCommunityVoteList: async ({pageIndex}) => {
         try {
@@ -241,7 +167,6 @@ const useCommunityStore = create((set) => ({
         }
     },
     // 투표게시글 상세 불러오기
->>>>>>> FE-Develop
     getCommunityVoteDetail: async ({voteId}) => {
         try {
             const url = `${BASE_URL}/vote/${voteId}`
@@ -251,11 +176,7 @@ const useCommunityStore = create((set) => ({
             const response = await get(url, {}, headers);
             return response
         } catch (err) {
-<<<<<<< HEAD
-            console.log(`투표 게시물  불러오기 실패 : `, err);
-=======
             throw(err)
->>>>>>> FE-Develop
         }
     },
 
@@ -272,11 +193,7 @@ const useCommunityStore = create((set) => ({
             const response = await axios.post(url, {comment}, { headers });
             return response;
         } catch (err) {
-<<<<<<< HEAD
-            console.log('투표댓글 에러 발생 =', err);
-=======
             throw(err)
->>>>>>> FE-Develop
         }
     },
     // 투표게시판 댓글 삭제하기
@@ -290,10 +207,6 @@ const useCommunityStore = create((set) => ({
             console.log('삭제 성공 : ', response)
             return response
         } catch (err) {
-<<<<<<< HEAD
-            console.log(`투표댓글 삭제 실패 : `, err);
-=======
->>>>>>> FE-Develop
             throw err;
         }
     },
@@ -309,11 +222,7 @@ const useCommunityStore = create((set) => ({
             const response = await axios.post(url, {voteId, voteTarget}, { headers });
             return response;
         } catch (err) {
-<<<<<<< HEAD
-            console.log('투표댓글 에러 발생 =', err);
-=======
             throw(err)
->>>>>>> FE-Develop
         }
     },
 }))

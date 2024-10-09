@@ -48,57 +48,6 @@ function LawyerAuthModal({ closeModal }) {
         }
     }
 
-<<<<<<< HEAD
-    return (
-        <div>
-            {/* 이름 받기 */}
-            <div className="mb-4 flex items-center">
-                <label className="block text-gray-700 w-1/4">이름</label>
-                <input
-                    type="text"
-                    className="w-3/4 px-3 py-2 border rounded-lg"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-            </div>
-            {/* 생일 받기 */}
-            <div className="mb-4 flex items-center">
-                <label className="block text-gray-700 w-1/4">생일</label>
-                <input 
-                    type="date"
-                    className="w-3/4 px-3 py-2 border rounded-lg"
-                    value={birth}
-                    onChange={(e) => setBirth(e.target.value)}
-                    max={new Date().toISOString().split("T")[0]}
-                />
-            </div>
-            {/* 파일 받기 */}
-            <div className="mb-4 flex items-center">
-                <label className="block text-gray-700 w-1/4">이미지 업로드</label>
-                <input
-                    type="file"
-                    accept="image/*"
-                    className="w-3/4"
-                    onChange={handleFileChange}
-                />
-            </div>
-            {/* 제출 하기 */}
-            <div className='flex justify-between'>
-                <button
-                    onClick={closeModal}
-                    className="px-4 py-2 rounded-lg hover:bg-gray-300"
-                    disabled={isLoading}
-                    >
-                    취소
-                </button>
-                <button
-                    onClick={() => handleSubmit()}
-                    className={`px-4 py-2 rounded-lg hover:bg-gray-300 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    disabled={isLoading}
-                >
-                    제출
-                </button>
-=======
     const handleRemoveFile = () => {
         setFile(null);
     }
@@ -166,7 +115,6 @@ function LawyerAuthModal({ closeModal }) {
                         제출
                     </button>
                 </div>
->>>>>>> FE-Develop
             </div>
         </div>
     );
