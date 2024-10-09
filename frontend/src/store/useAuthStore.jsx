@@ -140,14 +140,18 @@ const useAuthStore = create((set) => ({
     authLawyer: async({ name, date, image }) => {
         const userEmail = localStorage.getItem('user').id;
         try {
-            const url = `http://localhost:8000/api/v1/lawyer?name=${encodeURIComponent(name)}&date=${encodeURIComponent(date)}&user_email=${userEmail}`;
+            const url = `${BASE_URL}/verify-lawyer`;
             const headers = {
                 Authorization: localStorage.getItem('accessToken'),
                 'Content-Type': 'multipart/form-data',
             };
+            const description = 	{
+                lawyerName: name,
+                lawyerDate: date,
+                email: userEmail
+            }
             const formData = new FormData();
-            formData.append('name', name);
-            formData.append('date', date);
+            formData.append('description', description);
             formData.append('file', image)
 
             console.log({ url, formData, headers });
