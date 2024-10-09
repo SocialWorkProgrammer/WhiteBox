@@ -16,7 +16,6 @@ function TumbnailRotator({ thumbnails }) {
     return (
         <div>
             <img src={thumbnails[activeId]} alt="" />
-            썸네일 로테이터
         </div>
     )
 }
