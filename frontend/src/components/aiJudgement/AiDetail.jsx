@@ -39,7 +39,7 @@ function AiDetail () {
         const fetchData = async () => {
             const fetchedData = await getData({ id });
             setData(fetchedData);
-            // setVideoSrc(`../../../public/videos/${fetchedData.aiVideoUrl}`);
+            setVideoSrc(fetchedData.videoUrl);
             console.log(fetchedData);
         }
         fetchData();

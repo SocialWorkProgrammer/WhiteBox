@@ -24,7 +24,6 @@ function Login() {
         event.preventDefault();
         const response = await login({...user});
         if (response.isSuccess) {
-            // 메인페이지로 이동
             const nickname = response.nickname;
             navigate(`/auth/profile/${nickname}`);
         } else {
@@ -38,20 +37,20 @@ function Login() {
             <Helmet>
                 <title>White Box | 로그인</title>
             </Helmet>
-            <div className="title">로그인</div>
-            <div className="description">White Box에 로그인 하시면 다양한 서비스를 이용하실 수 있습니다.</div>
+            <div className="login-title">로그인</div>
+            <div className="login-description">White Box에 로그인 하시면 다양한 서비스를 이용하실 수 있습니다.</div>
             <div className="login-modal">
-                <form onSubmit={handleOnSubmit}>
-                    <div className="form-group">
+                <form className="login-form-container" onSubmit={handleOnSubmit}>
+                    <div className="login-form-group">
                         <label htmlFor="id">이메일</label>
                         <input type="email" id="id" name="id" value={user.id} onChange={handleOnChange} required/>
                     </div>
-                    <div className="form-group">
+                    <div className="login-form-group">
                         <label htmlFor="password">비밀번호</label>
                         <input type="password" id="password" name="password" value={user.password} onChange={handleOnChange} required/>
                     </div>
 
-                    <button className="button" type="submit">로그인</button>
+                    <button className="login-button" type="submit">로그인</button>
                 </form>
             </div>
         </div>
