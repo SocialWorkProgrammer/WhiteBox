@@ -1092,41 +1092,18 @@ def process_frame(model, frame, class_names):
     frame_with_preds = draw_predictions(frame.copy(), bboxes, labels, class_names)
     return frame_with_preds
 
-# def run_mmaction2_inference():
-#     cmd = [
-#         "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/venv/Scripts/python.exe", "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/mmaction2/tools/test.py",
-#         "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace/slowfast_exp3.py",
-#         "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace/best_acc_top1_epoch_94.pth",
-#         "--work-dir", "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace"
-#     ]
-#     subprocess.run(cmd, check=True)
-
 def run_mmaction2_inference():
     cmd = [
-        "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/venv/Scripts/python.exe",
-        "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/mmaction2/tools/test.py",
-        "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace/slowfast_exp3.py",
-        "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace/best_acc_top1_epoch_94.pth",
-        "--work-dir", "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace"
+        "C:/Users/SSAFY/Desktop/ai test/venv/Scripts/python.exe", "C:/Users/SSAFY/Desktop/ai test/mmaction2/tools/test.py",
+        "C:/Users/SSAFY/Downloads/slowfast_exp3.py",
+        "C:/Users/SSAFY/Downloads/best_acc_top1_epoch_94.pth",
+        "--work-dir", "C:/Users/SSAFY/Desktop/ai test/workspace"
     ]
-    
-    # 환경 변수 설정
-    env = os.environ.copy()
-    env['PYTHONPATH'] = 'C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai'
-    
-    # 작업 디렉토리 설정
-    work_dir = "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace"
-    
-    try:
-        result = subprocess.run(cmd, check=True, env=env, cwd=work_dir, capture_output=True, text=True)
-        print("Output:", result.stdout)
-    except subprocess.CalledProcessError as e:
-        print("Error occurred:", e)
-        print("Error output:", e.stderr)
+    subprocess.run(cmd, check=True)
 
 
 def load_classification_results():
-    with open("C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace/result.pkl", 'rb') as f:
+    with open("C:/Users/SSAFY/Desktop/ai test/workspace/result.pkl", 'rb') as f:
         results = pickle.load(f)
     return results
 
@@ -1136,12 +1113,9 @@ async def analyze_video(file: UploadFile = File(...)):
     detection_config_path = "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace/cascade_rcnn_cfg.py"
     detection_checkpoint_path = "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace/best_coco_bbox_mAP_epoch_10.pth"
 
-    classification_config_path = "C:/Users/SSAFY/Downloads/slowfast_exp3.py"
-    classification_checkpoint_path = "C:/Users/SSAFY/Downloads/best_acc_top1_epoch_94.pth"
-
     temp_dir = tempfile.mkdtemp()
     temp_video_path = None
-    output_dir = os.path.expanduser("C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace/images")
+    output_dir = os.path.expanduser("C:/Users/SSAFY/Desktop/ai test/workspace/images")
     os.makedirs(output_dir, exist_ok=True)
 
     try:
@@ -1202,11 +1176,9 @@ async def analyze_video(file: UploadFile = File(...)):
         print(f"Total frames processed: {frame_count}")
         print(f"Output directory: {output_dir}")
 
-        annotation_path = "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace/annotation.txt"
+        annotation_path = "C:/Users/SSAFY/Desktop/ai test/workspace/annotation.txt"
         with open(annotation_path, 'w') as f:
             f.write(f"images {frame_count}")
-
-
         run_mmaction2_inference()
 
         classification_results = load_classification_results()
