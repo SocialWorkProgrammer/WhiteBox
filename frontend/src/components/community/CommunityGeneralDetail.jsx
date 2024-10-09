@@ -143,7 +143,7 @@ function CommunityGeneralDetail() {
                   {data.images.map((image, idx) => (
                     <div key={idx}>
                       <img
-                        src={`/etc/upload/images/${image.imageUrl}`}
+                        src={`${image.imageUrl}`}
                         alt="이미지 로딩 불가"
                       />
                     </div>
