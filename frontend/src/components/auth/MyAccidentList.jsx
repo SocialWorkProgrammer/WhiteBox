@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useAuthStore from "../../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
+import { ko } from "date-fns/locale";
+import { formatDistanceToNow, parseISO } from "date-fns";
 
 function TumbnailRotator({ thumbnails }) {
     const [ activeId, setActiveId ] = useState(0);
@@ -56,21 +58,7 @@ function MyAccidentList () {
     };
 
     const formatDate = (date) => {
-        const createdTime = new Date(date);
-        const currentTime = new Date();
-        const diffTime = Math.floor((currentTime - createdTime) / 1000);
-        if (diffTime < 60) {
-            return `${diffTime}초 전`;
-        } else if (diffTime < 3600) {
-            const minutes = Math.floor(diffTime / 60);
-            return `${minutes}분 전`;
-        } else if (diffTime < 86400) {
-            const hours = Math.floor(diffTime / 3600);
-            return `${hours}시간 전`;
-        } else {
-            const days = Math.floor(diffTime / 86400);
-            return `${days}일 전`;
-        }
+        return formatDistanceToNow(parseISO(date), { addSuffix: true, locale: ko})
     }
     return (
         <div>
