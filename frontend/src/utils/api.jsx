@@ -3,11 +3,7 @@ import axios from 'axios';
 // Axios 인스턴스 설정
 const api = axios.create({
     baseURL: '', // 기본 URL 설정
-<<<<<<< HEAD
-    timeout: 10000, // 요청 타임아웃 시간 설정
-=======
     timeout: 1000000, // 요청 타임아웃 시간 설정
->>>>>>> FE-Develop
     headers: { 'Content-Type': 'application/json' }, // 기본 헤더 설정
 });
 

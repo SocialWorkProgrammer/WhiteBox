@@ -7,12 +7,6 @@ function SubmitButton({ title, description, className, images }) {
   const BASE_URL = useStore.getState().BASE_URL;
   const postCommunityGeneral = useCommunityStore((state) => state.postCommunityGeneral);
   const navigate = useNavigate();
-<<<<<<< HEAD
-  console.log(images)
-  // Base64 문자열을 Blob으로 변환하는 함수
-  const base64ToBlob = (base64Data) => {
-    const byteCharacters = atob(base64Data.replace(/^data:image\/jpeg;base64,/, ""));
-=======
   // Base64 문자열을 Blob으로 변환하는 함수
   const base64ToBlob = (base64Data) => {
     // MIME 타입 추출 (image/jpeg 또는 image/png 등)
@@ -20,37 +14,22 @@ function SubmitButton({ title, description, className, images }) {
     // Base64 데이터에서 MIME 타입 제거
     const byteCharacters = atob(base64Data.replace(/^data:image\/\w+;base64,/, ""));
     // Blob 생성
->>>>>>> FE-Develop
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
       byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
-<<<<<<< HEAD
-    return new Blob([new Uint8Array(byteNumbers)], { type: 'image/jpeg' });
-  };
-
-=======
     return new Blob([new Uint8Array(byteNumbers)], { type: mimeType });
   };
   
->>>>>>> FE-Develop
   // onSubmit 함수
   const onSubmit = async () => {
     try {
       console.log('제목:', title, '내용:', description, '이미지들:', images);
-<<<<<<< HEAD
-      if (title === '') {
-        alert('제목을 입력하세요');
-        return; // 입력 체크 후 함수 종료
-      }
-      else if (description === '') {
-=======
       if (!title.trim()) {
         alert('제목을 입력하세요');
         return; // 입력 체크 후 함수 종료
       }
       else if (!description.trim()) {
->>>>>>> FE-Develop
         alert('내용을 입력하세요');
         return; // 입력 체크 후 함수 종료
       }

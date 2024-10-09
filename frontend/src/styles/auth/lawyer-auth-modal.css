@@ -1,11 +1,7 @@
 .lawyer-auth-modal button {
     width: 112px;
     height: 43px;
-<<<<<<< HEAD
-    background-color: rgba(69, 142, 247, 0.5); /* #458EF7 with 50% opacity */
-=======
     background-color: rgba(69, 142, 247, 0.5); 
->>>>>>> FE-Develop
     border: none;
     border-radius: 5px;
     cursor: pointer;
