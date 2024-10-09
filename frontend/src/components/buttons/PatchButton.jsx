@@ -16,14 +16,22 @@ function PatchButton ({id, title, content, className}) {
   const navigate = useNavigate();
   // onSubmit 함수
   const onSubmit = async () => {
-    try {
-      const response = await patchCommunityDetail({id : id, comTitle : title, comDescription: cleanContent}) // 위에서 props로 받기 때문에, 데이터셋을 정할 필요 없이 바로 title: title 등으로 넣을 수 있음
-      console.log('수정된 게시글', response);
-      alert('게시글이 수정되었습니다!')
-      navigate(`/community/general/${id}`);
-    } catch(err) {
-      console.log(err.response.config.data)
-      alert('게시글 수정에 실패했습니다.')
+    if (!title.trim()) {
+      alert('제목을 작성1해주세요')
+    }
+    else if (!content.trim()) {
+      alert('내용을 작성해주세요')
+    }
+    else {
+      try { 
+        const response = await patchCommunityDetail({id : id, comTitle : title, comDescription: cleanContent}) // 위에서 props로 받기 때문에, 데이터셋을 정할 필요 없이 바로 title: title 등으로 넣을 수 있음
+        console.log('수정된 게시글', response);
+        alert('게시글이 수정되었습니다!')
+        navigate(`/community/general/${id}`);
+      } catch(err) {
+        console.log(err.response.config.data)
+        alert('게시글 수정에 실패했습니다.')
+      }
     }
   };
   return (

@@ -40,6 +40,7 @@
     width: 240px;
     height: 210px;
 }
+
 .lawyer-auth-modal {
     position: fixed;
     top: 50%;
@@ -49,5 +50,4 @@
     width: 831px;
     height: 449px;
     padding: 0px;
-    background-color: #D9D9D9;
 }

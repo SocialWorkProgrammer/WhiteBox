@@ -10,6 +10,8 @@ import { useCommunityStore } from '../../store/useCommunityStore';
 import ImageSlider from '../community/CommunityVoteImageSlider'
 import hotvotepost from '../../public/img/hotvotepost.svg'
 import { Helmet } from 'react-helmet';
+import { formatDistanceToNow, parseISO, differenceInDays, differenceInHours, differenceInMinutes } from "date-fns";
+
 
 function CommunityGeneralList() {
   const getCommunityVoteList = useCommunityStore((state) => state.getCommunityVoteList); // 게시판 목록 불러오기
@@ -46,6 +48,23 @@ function CommunityGeneralList() {
   // 마우스 호버 시 썸네일 동작
   const [isHovered, setIsHovered] = useState(null);
 
+    // 시간 포매팅 - 투표 게시판
+    const formatingExpirationTime = (dateString) => {
+    const now = new Date();
+    const expiration = new Date(dateString)
+
+    const daysLeft = differenceInDays(dateString, now);
+    const hoursLeft = differenceInHours(dateString, now);
+    const minutesLeft = differenceInMinutes(dateString, now);
+
+      if (daysLeft > 1) {
+          return `D-${daysLeft}`;
+      } else {
+          return "종료";
+      }
+  }
+
+
   return (
     // 전체 컴포넌트
     <div>
@@ -65,26 +84,29 @@ function CommunityGeneralList() {
             currentItems.map((item, idx) => (
             <a
               href={`/community/vote/${item.voteId}`} 
-              className="flex flex-row gap-[15px] max-w-[397px] h-[154px] text-xl my-2 hover:border-2 border-[#458EF7]" 
+              className="flex flex-row gap-[15px] text-xl my-2 hover:border" 
               key={item.voteId}
               onMouseEnter={()=>setIsHovered(idx)}
               onMouseLeave={()=>setIsHovered(false)}>
-              {isHovered === idx ? 
+              {isHovered === idx ?
                 <ImageSlider
                   thumbnail1={item.thumbnail1}
                   thumbnail2={item.thumbnail2}
                   thumbnail3={item.thumbnail3}
                   thumbnail4={item.thumbnail4}
-                  className="w-[150px] h-[150px] block"
+                  className="relative w-[150px] h-[150px]"
                 />
-                 : <img src={`/thumbnails/${item.thumbnail1}`} className="w-[150px] h-[150px] block"/> }
+                 : <img src={item.thumbnail1} className="relative w-[150px] h-[150px]"/>
+              }
               <div className="flex flex-col gap-3">
                 <div className="w-[200px] font-bold text-ellipsis overflow-hidden whitespace-nowrap">{item.voTitle}</div>
                 <div className="flex flex-row">
+
                   {item.totalVotes > 10 ? <img src={hotvotepost} alt="" className="pr-2" /> : <p></p>}
                   <div className="text-[15px] font-light text-[#0A3DF2]">투표 수 {item.totalVotes}</div>
                 </div>
                 <div className="text-[15px] w-[240px] text-ellipsis overflow-hidden whitespace-nowrap right-0 font-bold">{item.nickname}</div>
+                <div className="">{formatingExpirationTime(item.expirationDate)}</div>
               </div>
             </a>
           ))): (

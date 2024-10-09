@@ -30,7 +30,11 @@ const ImageSlider = ({ thumbnail1, thumbnail2, thumbnail3, thumbnail4, className
 
     return (
         <div>
-            <img src={`/thumbnails/${images[currentIndex]}`} alt={`Slide ${currentIndex}`} className={`${className}`}/>
+            <img 
+                src={images[currentIndex]} 
+                alt={`Slide ${currentIndex}`} 
+                className={`${className}`}
+            />
         </div>
     );
 };

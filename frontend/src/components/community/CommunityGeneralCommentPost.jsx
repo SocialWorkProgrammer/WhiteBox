@@ -50,9 +50,9 @@ const CommunityGeneralCommentPost = ({ id, onCommentUpdate }) => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col space-y-2 w-[100%] border-2 rounded">
       <div className="flex flex-row place-content-between w-[100%] border-b-2">
-        <div className="flex flex-row items-center gap-2">
-          {isLawyer === true ?  <img src={lawyerBadge} alt="" className="h-8 w-8" /> : <div className="h-8 w-8"></div>}
-          <p className="">{userId}</p>
+        <div className="flex flex-row items-center">
+          {isLawyer === true ?  <img src={lawyerBadge} alt="" className="h-8 w-8" /> : <></>}
+          <p className="ml-3">{userId}</p>
         </div>
         <button
           type="submit"

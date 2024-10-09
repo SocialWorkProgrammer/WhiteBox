@@ -7,16 +7,17 @@ import { ko } from "date-fns/locale";
 function MyPostedCommunityList () {
     const navigate = useNavigate();
     const loadMyPostings = useAuthStore((State) => State.getMyPostings);
-    const [ myPostings, setMyPostings ] = useState([]);
+    const [ myPostings, setMyPostings ] = useState(null);
     const [ pageId, setPageId ] = useState(1);
     const [ postsCount, setPostsCount ] = useState(0);
-    const itemsPerPage = 3;
+    const itemsPerPage = 5;
 
     // 시간 포매팅
     const formattingTime = (dateString) => {
         return formatDistanceToNow(parseISO(dateString), { addSuffix: true, locale: ko });
     }
 
+    // 데이터 로드
     useEffect(() => {
         const fetchMyPosts = async() => {
             const fetchedMyPosts = await loadMyPostings({ pageId })
@@ -27,6 +28,7 @@ function MyPostedCommunityList () {
         fetchMyPosts();
     }, [pageId, loadMyPostings])
 
+    // 페이지 네이션을 위한 총 페이지 계산
     const totalPages = Math.ceil(postsCount / itemsPerPage);
     const handlePageChange = (newPageId) => {
         if (newPageId >= 1 && newPageId <= totalPages) {
@@ -34,15 +36,17 @@ function MyPostedCommunityList () {
         }
     }
 
+    // 디테일 페이지로 이동
     const handleClickDetail = ({ pageId }) => {
         navigate(`/community/general/${pageId}`)
     }
 
     return (
-        <div className="mt-3">
+        myPostings ? (
+            <div className="mt-3">
             {/* 영상 목록 */}
             {myPostings.map((post) => (
-                <div key={post.comIndex} className="grid grid-cols-12 border shadow m-2">
+                <div key={post.comIndex} className="p-2 grid grid-cols-12 border shadow m-2 cursor-pointer hover:bg-gray-300">
                     <span className="col-span-8 cursor-pointer" onClick={() => handleClickDetail({pageId:post.comIndex})}>{post.comTitle}</span>
                     <div className="col-span-4">
                         <span className="text-sm">{formattingTime(post.comCreatedAt)}</span>
@@ -68,6 +72,11 @@ function MyPostedCommunityList () {
                 <span className="me-2 cursor-pointer" onClick={() => handlePageChange(totalPages)}>&gt;&gt;</span>
             </div>
         </div>
+        ) : (
+            <div className="mt-3 ml-4">
+                <span>작성한 글이 없습니다.</span>
+            </div>
+        )
     )
 }
 

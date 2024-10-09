@@ -59,30 +59,32 @@ function AiDetail () {
 
     return (
         <div className="mt-5">
-            <p>영상올린날짜 : {formatData(data.aiCreatedAt)}</p>
-            <div className="grid grid-cols-2 gap-4">
-                <div className="col-span-1">
-                    <div className="border border-gray-300 rounded-lg bg-black text-white">
-                        <video controls="controls">
-                            <source src={videoSrc} type="video/mp4" />
-                        </video>
+            <div className={`&${showVoteModal ? 'blur-xl' : ''}`}>
+                <p>영상올린날짜 : {formatData(data.aiCreatedAt)}</p>
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="col-span-1">
+                        <div className="border border-gray-300 rounded-lg bg-black text-white">
+                            <video controls="controls">
+                                <source src={videoSrc} type="video/mp4" />
+                            </video>
+                        </div>
+                        <AiDescriptionCard type='ratio' content={[data.aiOtherFault, data.aiUserFault]}/>
+                        <AiDescriptionCard type='description'content={data.aiDescription}/>
                     </div>
-                    <AiDescriptionCard type='ratio' content={[data.aiOtherFault, data.aiUserFault]}/>
-                    <AiDescriptionCard type='situation' content={data.aiRelatedInformation}/>
+                    <div className="col-span-1">
+                        <AiDescriptionCard type='situation' content={data.aiResult}/> 
+                        <AiDescriptionCard type='law' content={data.aiRelatedLaw}/>
+                        <AiDescriptionCard type='precedent' content={data.aiExplanation}/>
+                    </div>
                 </div>
-                <div className="col-span-1">
-                    <AiDescriptionCard type='description'/>
-                    <AiDescriptionCard type='law' content={data.aiRelatedLaw}/>
-                    <AiDescriptionCard type='precedent'/>
+                <div className="grid grid-cols-4 gap-4">
+                    <div className="col-span-3"></div>
+                    {data.uploaded ? 
+                        <div onClick={navigateVoteDetail} className="cursor-pointer border rounded-lg p-2 text-center">투표게시판 이동</div>
+                        : 
+                        <div onClick={handleAiVoteModal} className="cursor-pointer border rounded-lg p-2 text-center">투표올리기</div>
+                    }
                 </div>
-            </div>
-            <div className="grid grid-cols-4 gap-4">
-                <div className="col-span-3"></div>
-                {data.uploaded ? 
-                    <div onClick={navigateVoteDetail} className="cursor-pointer border rounded-lg p-2 text-center">투표게시판 이동</div>
-                    : 
-                    <div onClick={handleAiVoteModal} className="cursor-pointer border rounded-lg p-2 text-center">투표올리기</div>
-                }
             </div>
             {showVoteModal && <AiVoteModal id={id} closeModal={closeAiVoteModal} videoSrc={videoSrc}/>}
         </div>

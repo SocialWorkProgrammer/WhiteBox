@@ -7,16 +7,16 @@ function AiDescriptionCard ({ type, content }) {
             title = '과실 비율'
             break;
         case 'situation':
-            title = '사고 상황'
+            title = '법적 기준 및 결론'
             break;
         case 'description':
-            title = '과실 비율 해설'
+            title = '사고 발생 상황 분석'
             break;
         case 'law':
             title = '관련 법규'
             break;
         case 'precedent':
-            title = '관련 판례 및 사례'
+            title = '과실 비율 및 근거'
             break;
         default:
             title = '';

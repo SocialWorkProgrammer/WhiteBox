@@ -43,19 +43,17 @@ function MyComponent() {
     // 이미지와 텍스트 분리
     const images = Array.from(doc.getElementsByTagName('img')).map(img => img.src);
     const description = doc.body.innerText; // 텍스트 내용
-    console.log(images)
     return {
       description,
       images, // 이미지 배열
     };
   };
-  console.log('asdf', handleSubmitData().images)
   const modules = {
     toolbar: {
       container: [
         [{ header: [1, 2, 3, 4, 5, false] }],
         ["bold", "underline", "italic"],
-        ["image", "link"],
+        ["image"],
       ]
     },
   };
@@ -88,7 +86,7 @@ function MyComponent() {
               <PatchButton
                 id={id}
                 title={title}
-                content={value}
+                content={handleSubmitData().description}
               /> :
               <SubmitButton
                 title={title}

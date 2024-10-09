@@ -27,7 +27,7 @@ function UserProfile() {
         return date.toLocaleDateString('ko-KR'); 
     };
 
-    const handleOnClick = () => {
+    const handleOpenModal = () => {
         setShowModal(true);
     };
 
@@ -57,50 +57,48 @@ function UserProfile() {
     }
 
     return (
-        <div className="profile-container" onClick={handleOutsideClick}>
-            <Helmet>
-                <title>White Box | {user?.nickname || ''}의 프로필</title>
-            </Helmet>
-            <div className="title-user-profile">
-                <div className="profile">
-                    <div>
-                        닉네임 : {user?.nickname || ''}
+        <div>
+            <div className={`profile-container ${showModal ? 'blur-xl' : ''}`} onClick={handleOutsideClick}>
+                <Helmet>
+                    <title>White Box | {user?.nickname || ''}의 프로필</title>
+                </Helmet>
+                <div className="title-user-profile">
+                    <div className="profile">
+                        <div>
+                            닉네임 : {user?.nickname || ''}
+                        </div>
+                        <div>
+                            가입일 : {formatDate(user?.registrationDate)}
+                        </div>
+                        <div>
+                            이메일 : {user?.id || ''}
+                        </div>
                     </div>
-                    <div>
-                        가입일 : {formatDate(user?.registrationDate)}
-                    </div>
-                    <div>
-                        이메일 : {user?.id || ''}
+                    <div className="lawyer">
+                        {user?.isLawyer === true ? (
+                            <img src={lawyerBadge} alt="변호사 배지" className="lawyer-badge" />
+                        ) : (
+                            <button onClick={handleOpenModal}>변호사 회원 인증</button>
+                        )}
                     </div>
                 </div>
-                <div className="lawyer">
-                    {user?.isLawyer === true ? (
-                        <img src={lawyerBadge} alt="변호사 배지" className="lawyer-badge" />
-                    ) : (
-                        <button onClick={handleOnClick}>변호사 회원 인증</button>
-                    )}
+                <div className="community">
+                    <div className="grid grid-cols-12">
+                        <div className="col-span-2"></div>
+                        <div className="col-span-2 m-3 cursor-pointer p-2 text-center bg-orange-50 hover:bg-orange-200" onClick={() => setShowTab(1)}>내 사고</div>
+                        <div className="col-span-2 m-3 cursor-pointer p-2 text-center bg-orange-50 hover:bg-orange-200" onClick={() => setShowTab(2)}>내가 쓴 글</div>
+                        <div className="col-span-2 m-3 cursor-pointer p-2 text-center bg-orange-50 hover:bg-orange-200" onClick={() => setShowTab(3)}>내가 한 투표</div>
+                        <div className="col-span-4"></div>
+                    </div>
+                    <div className="grid grid-cols-12">
+                        <div className="col-span-2"></div>
+                        <div className="col-span-8">{renderCommunity()}</div>
+                        <div className="col-span-2"></div>
+                    </div>
                 </div>
             </div>
-            <div className="community">
-                <div className="grid grid-cols-12">
-                    <div className="col-span-2"></div>
-                    <div className="col-span-2 m-3 cursor-pointer p-2 text-center bg-orange-50 hover:bg-orange-200" onClick={() => setShowTab(1)}>내 사고</div>
-                    <div className="col-span-2 m-3 cursor-pointer p-2 text-center bg-orange-50 hover:bg-orange-200" onClick={() => setShowTab(2)}>내가 쓴 글</div>
-                    <div className="col-span-2 m-3 cursor-pointer p-2 text-center bg-orange-50 hover:bg-orange-200" onClick={() => setShowTab(3)}>내가 한 투표</div>
-                    <div className="col-span-4"></div>
-                </div>
-                <div className="grid grid-cols-12">
-                    <div className="col-span-2"></div>
-                    <div className="col-span-8">{renderCommunity()}</div>
-                    <div className="col-span-2"></div>
-                </div>
-            </div>
-
-
             {showModal && (
-                <div className="lawyer-auth-modal">
-                    <LawyerAuthModal closeModal={closeLawyerModal}/>
-                </div>
+                <LawyerAuthModal closeModal={closeLawyerModal}/>
             )}
         </div>
     );

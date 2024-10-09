@@ -25,7 +25,6 @@ function CommunityGeneralDetail() {
     const user = localStorage.getItem('user');
     if (user) {
       const parsedUser = JSON.parse(user);
-      console.log(parsedUser);
       setStoredUser(parsedUser)
       setStoredUserId(parsedUser.nickname)
       setIsLawyer(parsedUser.isLawyer)
@@ -44,6 +43,7 @@ function CommunityGeneralDetail() {
     createdAt: '',
     hit: '',
     comments: [],
+    userType: '',
   });
   const [error, setError] = useState(null);
   
@@ -51,7 +51,6 @@ function CommunityGeneralDetail() {
     const getDetail = async () => {
       try {
         const response = await getCommunityDetail({ id });
-        console.log(response);
         const date = dayjs(response.comCreatedAt).format('YYYY-MM-DD HH:mm:ss');
         setData({
           nickname: response.userNickname,
@@ -61,7 +60,9 @@ function CommunityGeneralDetail() {
           hit: response.comHit,
           comments: response.comments,
           createdAt: date,
+          userType: response.userType,
         });
+        console.log(response);
       } catch (error) {
         console.log('오류 발생', error);
         setError(error);
@@ -86,7 +87,6 @@ function CommunityGeneralDetail() {
   
   // 댓글 작성 시 새로고침 기능
   const handleCommentUpdate = (newComments, lastComment) => {
-    console.log('받은 new =', newComments);
     setData((prevData) => ({
       ...prevData,
       comments: newComments
@@ -124,7 +124,7 @@ function CommunityGeneralDetail() {
                 <div className="max-w-[300px] flex flex-col place-content-center m-4">
                   {data.images.map((image, idx) => (
                     <div key={idx}>
-                      <img src={`${image.imageUrl}`} alt="이미지 로딩 불가" />
+                      <img src={image.imageUrl} alt="이미지 로딩 불가" />
                     </div>
                   ))}
                 </div>
@@ -142,9 +142,9 @@ function CommunityGeneralDetail() {
                   return (
                     <div key={idx} className="flex flex-col h-auto border-b-2">
                       <div className="flex flex-row justify-between">
-                        <div className="flex flex-row gap-3">
-                          {isLawyer === true ?  <img src={lawyerBadge} alt="" className="h-8 w-8" /> : <div className="h-8 w-8"></div>}
-                          <div className="border-box text-xl">{comment.userNickname}</div>
+                        <div className="flex flex-row">
+                          {comment.userType === "LAWYER" ?  <img src={lawyerBadge} alt="" className="h-8 w-8" /> : <></>}
+                          <div className="border-box ml-3 text-xl">{comment.userNickname}</div>
                         </div>
                         <div className="flex flex-row gap-5">
                           <div className="justify-self-end col-span-3 text-xl">{commentDate}</div>
@@ -154,7 +154,7 @@ function CommunityGeneralDetail() {
                           }
                         </div>
                       </div>
-                      <div className="mt-4">{comment.comment}</div>
+                      <div className="mt-4 ml-3">{comment.comment}</div>
                     </div>
                   );
                 })
