@@ -7,6 +7,9 @@ import { Helmet } from 'react-helmet';
 function SignUp() {
     const navigate = useNavigate();
     const { checkEmail, checkNickname, signUp, login} = useAuthStore();
+    const [ nicknameLengthError, setNicknameLengthError ] = useState('');
+    const [ passwordConfirmError, setPasswordConfirmError ] = useState('');
+    const [ isCanSubmit, setIsCanSubmit ] = useState(false);
 
     const [user, setUser] = useState({
         id: "",
@@ -17,9 +20,27 @@ function SignUp() {
 
     const handleOnChange = (event) => {
         const { name, value } = event.target;
-        setUser({
-            ...user, [name]: value,
-        });
+        const updatedUser = { ...user, [name]: value}
+        setUser(updatedUser)
+
+        // 닉네임 글자 수 제한
+        if (name === 'nickname' && value.length >= 10) {
+            setNicknameLengthError('닉네임은 10글자를 초과할 수 없습니다.');
+            return;
+        } else {
+            setNicknameLengthError('');
+        }
+        console.log(user);
+        console.log(updatedUser);
+        // 비밀번호 확인
+        if (updatedUser.password && updatedUser.passwordConfirm && updatedUser.password !== updatedUser.passwordConfirm) {
+            setPasswordConfirmError('비밀번호가 일치하지 않습니다.');
+            setIsCanSubmit(false);
+        }
+        if (updatedUser.password && updatedUser.passwordConfirm && updatedUser.password === updatedUser.passwordConfirm) {
+            setPasswordConfirmError('');
+            setIsCanSubmit(true);
+        }
     };
 
     const validatePassword = (password) => {
@@ -30,6 +51,9 @@ function SignUp() {
 
     const handleOnSubmit = async (event) => {
         event.preventDefault();
+        if (!isCanSubmit) {
+            return;
+        }
 
         if (!validatePassword(user.password)) {
             alert("비밀번호는 최소 8자 이상이며, 숫자와 문자를 포함해야 합니다.");
@@ -69,28 +93,29 @@ function SignUp() {
             <Helmet>
                 <title>White Box | 회원가입</title>
             </Helmet>
-            <div className="title">회원가입</div>
-            <div className="description">White Box의 회원이 되시면 다양한 서비스를 이용하실 수 있습니다.</div>
+            <div className="title-signup">회원가입</div>
+            <div className="description-signup">White Box의 회원이 되시면 다양한 서비스를 이용하실 수 있습니다.</div>
             <div className="signup-modal">
-                <form onSubmit={handleOnSubmit}>
-                    <div className="form-group">
+                <form className='signup-form-container' onSubmit={handleOnSubmit}>
+                    <div className="signup-form-group">
                         <label htmlFor="id">이메일</label>
                         <input type="email" id="id" name="id" value={user.id} onChange={handleOnChange} required/>
                     </div>
-                    <div className="form-group">
+                    <div className="signup-form-group">
                         <label htmlFor="nickname">닉네임</label>
-                        <input type="text" id="nickname" name="nickname" value={user.nickname} onChange={handleOnChange} required/>
+                        <input type="text" id="nickname" name="nickname" value={user.nickname} onChange={handleOnChange} maxLength={10} required/>
                     </div>
-                    <div className="form-group">
+                    {nicknameLengthError && <div className="error-message"><p className="text-red-500">{nicknameLengthError}</p></div>}
+                    <div className="signup-form-group">
                         <label htmlFor="password">비밀번호</label>
                         <input type="password" id="password" name="password" value={user.password} onChange={handleOnChange} required/>
                     </div>
-                    <div className="form-group">
+                    <div className="signup-form-group">
                         <label htmlFor="passwordConfirm">비밀번호 확인</label>
                         <input type="password" id="passwordConfirm" name="passwordConfirm" value={user.passwordConfirm} onChange={handleOnChange} required/>
                     </div>
-
-                    <button className="button" type="submit">회원가입</button>
+                    {passwordConfirmError && <div className="error-message"><br /><p className="text-red-500">{passwordConfirmError}</p></div>}
+                    <button className={`button-signup ${isCanSubmit ? '' : 'disabled'}`} type="submit">회원가입</button>
                 </form>
             </div>
         </div>

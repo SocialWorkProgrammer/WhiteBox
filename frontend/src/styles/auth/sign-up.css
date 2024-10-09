@@ -1,49 +1,49 @@
-.title {
+.title-signup {
     text-align: center;
-    margin-top: 137px;
-    font-size: 40px;
-    margin-bottom: 49px;
+    margin-top: 50px;
+    font-size: 30px;
+    margin-bottom: 29px;
 }
 
-.description {
+.description-signup {
     text-align: center;
-    margin-top: 49px;
+    margin-top: 25px;
     font-size: 30px;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
 }
 
 .signup-modal {
     background: rgba(217, 217, 217, 0.2);
     width: 826px;
-    height: 429px;
+    height: auto;
     border-radius: 8px;
     margin: 0 auto;
     position: relative;
     padding-top: 63px;
-    /* padding-bottom: 32px; */
+    padding-bottom:21px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);    
 }
 
-form {
+.signup-form-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.form-group {
+.signup-form-group {
     margin-bottom: 7px;
     display: flex;
     align-items: center;
     width: 100%;
 }
 
-.form-group label {
+.signup-form-group label {
     margin-left: 33px;
     font-size: 20px;
 }
 
-.form-group input {
+.signup-form-group input {
     margin-left: auto;
     margin-right: 50px;
     width: 584px;
@@ -52,7 +52,7 @@ form {
     border-radius: 4px; 
 }
 
-.button {
+.button-signup {
     width: 148px;
     height: 56px;
     background-color: #458EF7;
@@ -64,5 +64,15 @@ form {
     font-size: 20px;
     cursor: pointer;
     border-radius: 20px;
-    margint-top: 100px;
-  }
+    margin-top:20px;
+}
+
+.button-signup.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.error-message {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
