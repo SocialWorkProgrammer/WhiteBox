@@ -65,7 +65,7 @@ public class LawyerController {
 
             // WebClient를 사용하여 Python 서버로 데이터 전송
             ResponseEntity<String> response = webClient.post()
-                    .uri("http://localhost:8000/api/v1/lawyer")  // Python 서버 URL로 교체
+                    .uri("http://192.168.100.15:8000/api/v1/lawyer")  // Python 서버 URL로 교체
                     .body(BodyInserters.fromMultipartData(body))  // Multipart 데이터 전송
                     .retrieve()
                     .toEntity(String.class)
