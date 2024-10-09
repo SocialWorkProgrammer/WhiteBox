@@ -17,6 +17,7 @@ import com.ssafy.whitebox.ai.repository.AIResultRepository;
 import com.ssafy.whitebox.vote.repository.UserVoteRepository;
 import com.ssafy.whitebox.community.repository.CommunityRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -47,7 +48,7 @@ public class MyPageService {
     public List<AIResultResponseParam> getUserVideos(UserDetails userDetails, int pageIndex) {
         User user = userRepository.findByUserEmail(userDetails.getUsername());
 
-        PageRequest pageRequest = PageRequest.of(pageIndex - 1, 6); // 페이지 당 10개씩
+        PageRequest pageRequest = PageRequest.of(pageIndex - 1, 6, Sort.by(Sort.Direction.DESC, "createdAt")); // 페이지 당 10개씩
         List<AIResult> userVideos = aiResultRepository.findByUser(user, pageRequest).getContent();
         return userVideos.stream()
                 .map(this::convertToAIResultResponseParam)
@@ -77,7 +78,7 @@ public class MyPageService {
     public List<UserCommunityResponseParam> getUserCommunities(UserDetails userDetails, int pageIndex) {
         User user = userRepository.findByUserEmail(userDetails.getUsername());
 
-        PageRequest pageRequest = PageRequest.of(pageIndex - 1, 5); // 페이지 당 10개씩
+        PageRequest pageRequest = PageRequest.of(pageIndex - 1, 5, Sort.by(Sort.Direction.DESC, "comCreatedAt"));
         List<Community> userCommunities = communityRepository.findByUser(user, pageRequest).getContent();
         return userCommunities.stream()
                 .map(this::convertToCommunityParam)
@@ -88,7 +89,7 @@ public class MyPageService {
     public List<UserVoteResponseParam> getUserVotes(UserDetails userDetails, int pageIndex) {
         User user = userRepository.findByUserEmail(userDetails.getUsername());
 
-        PageRequest pageRequest = PageRequest.of(pageIndex - 1, 3); // 페이지 당 10개씩
+        PageRequest pageRequest = PageRequest.of(pageIndex - 1, 3, Sort.by(Sort.Direction.DESC, "id"));
         List<UserVote> userVotes = userVoteRepository.findByUser(user, pageRequest).getContent();
         return userVotes.stream()
                 .map(this::convertToUserVoteResponseParam)
