@@ -133,7 +133,6 @@ async def process_query(request: QueryRequest, db: Session = Depends(get_db)):
     
     base_path = "판례" 
 
-    case_details = {}
     reference_case_content = None
     precedent_content = None
     try:
@@ -178,14 +177,14 @@ async def process_query(request: QueryRequest, db: Session = Depends(get_db)):
             "results": results
         }
 
-    try:
-        async with httpx.AsyncClient() as client:
-            spring_response = await client.post(
-                "http://localhost/api/v1/upload-video",  
-                json=response_data
-            )
-            spring_response.raise_for_status()
-    except httpx.HTTPStatusError as e:
-        raise HTTPException(status_code=500, detail=f"Spring 서버로 전송 중 오류가 발생했습니다: {str(e)}")
+    # try:
+    #     async with httpx.AsyncClient() as client:
+    #         spring_response = await client.post(
+    #             "http://localhost/api/v1/upload-video",  
+    #             json=response_data
+    #         )
+    #         spring_response.raise_for_status()
+    # except httpx.HTTPStatusError as e:
+    #     raise HTTPException(status_code=500, detail=f"Spring 서버로 전송 중 오류가 발생했습니다: {str(e)}")
 
     return JSONResponse(content=response_data)
