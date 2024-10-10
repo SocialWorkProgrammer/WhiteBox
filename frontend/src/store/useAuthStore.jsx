@@ -137,28 +137,26 @@ const useAuthStore = create((set) => ({
 
     // 변호사 인증하기
     authLawyer: async({ name, date, image }) => {
-        const userEmail = localStorage.getItem('user').id;
+        const user = JSON.parse(localStorage.getItem('user'));
+        const userEmail = user ? user.id : null;
         try {
             const url = `${BASE_URL}/verify-lawyer`;
             const headers = {
                 Authorization: localStorage.getItem('accessToken'),
             };
-            const lawyerRequest = {
-                lawyerName: name,
-                lawyerDate: date,
-                email: userEmail
-            }
             const formData = new FormData();
-            formData.append('lawyerRequest', JSON.stringify(lawyerRequest));
+            formData.append('lawyerName', name);
+            formData.append('lawyerDate', date);
+            formData.append('email', userEmail);
             formData.append('file', image)
 
-            console.log({ url, formData, headers });
-
             const response = await axios.post(url, formData, { headers });
+            console.log(response);
             return response;
         } catch (err) {
+            const errorMsg = err.response.data
+            window.alert(errorMsg.split(':')[0])
             console.log(err);
-            throw err;
         }
     },
 

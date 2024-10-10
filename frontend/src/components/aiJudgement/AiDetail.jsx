@@ -39,7 +39,6 @@ function AiDetail () {
         const fetchData = async () => {
             const fetchedData = await getData({ id });
             setData(fetchedData);
-            // setVideoSrc("https://whitebox-lawyer-vertify.s3.ap-northeast-2.amazonaws.com/videos/95a60887-d06a-4edc-adb7-12d841230213.mp4");
             setVideoSrc(fetchedData.aiVideoUrl);
             console.log(fetchedData);
         }

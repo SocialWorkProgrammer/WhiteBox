@@ -36,7 +36,7 @@ function UserProfile() {
         setShowModal(true);
     };
 
-    const closeLawyerModal = () => {
+    const closeModal = () => {
         setShowModal(false);
     }
     const handleOutsideClick = (event) => {
@@ -103,7 +103,7 @@ function UserProfile() {
                 </div>
             </div>
             {showModal && (
-                <LawyerAuthModal closeModal={closeLawyerModal}/>
+                <LawyerAuthModal closeModal={closeModal}/>
             )}
         </div>
     );

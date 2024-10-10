@@ -40,8 +40,10 @@ function CommunityGeneralTabs() {
             </div>
           {/* 게시판 안내 */}
           <div className="community-notice border-y-[2px] border-black flex flex-col place-content-center p-1">
-            <h1 className="text-3xl mb-4 font-semibold">일반 게시판</h1>
-            <p className="text-xl">    다양한 주제에 대해 자유롭게 이야기하고 소통하는 공간입니다. 모두가 편안하게 의견을 나눌 수 있도록 서로 존중하는 커뮤니티를 만들어 갑시다. 자유롭게 글을 올리고, 의견을 나누어 보세요!</p>  
+            <h1 className="text-2xl mt-2 mb-4 font-semibold">일반 게시판</h1>
+            <p className="text-md line-clamp-3 mb-1">
+              다양한 주제에 대해 자유롭게 이야기하고 소통하는 공간입니다. 모두가 편안하게 의견을 나눌 수 있도록 서로 존중하는 커뮤니티를 만들어 갑시다. 자유롭게 글을 올리고, 의견을 나누어 보세요!
+            </p>  
           </div>
           </div>
           </div>
