@@ -80,10 +80,6 @@ public class FileStorageService {
         // 압축된 파일을 S3에 업로드
         String compressedVideoUrl = saveFile(Files.readAllBytes(compressedFile.toPath()), compressedFileName, type);
 
-        // 임시 파일 삭제
-        originalFile.delete();
-        compressedFile.delete();
-
         return compressedVideoUrl;
     }
 
