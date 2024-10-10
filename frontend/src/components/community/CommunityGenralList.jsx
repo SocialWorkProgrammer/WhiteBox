@@ -39,7 +39,7 @@ function CommunityGeneralList() {
   
   return (
     // 전체 컴포넌트
-    <div>
+    <div className='mt-6'>
       <Helmet>
         <title>White Box | 일반게시판</title>
       </Helmet>

@@ -43,7 +43,7 @@ function MyVoteList () {
             {voteList.map((vote) => (
                 <div key={vote.voteId} onClick={() => handleClickDetail({voteId:vote.voteId})} className="cursor-pointer hover:bg-gray-300 border shadow m-2 p-1">
                     <div className="flex justify-between items-center">
-                        <span className="">{vote.title}</span>
+                        <span className="font-semibold">{vote.title}</span>
                         <span className="text-xs">[ {vote.commentCount} ]</span>
                     </div>
                     <div>

@@ -39,12 +39,13 @@ function AiDetail () {
         const fetchData = async () => {
             const fetchedData = await getData({ id });
             setData(fetchedData);
+            // setVideoSrc("https://whitebox-lawyer-vertify.s3.ap-northeast-2.amazonaws.com/videos/a2aa34e2-b366-4d60-8784-efa7238c10ad.mp4");
             setVideoSrc(fetchedData.aiVideoUrl);
             console.log(fetchedData);
         }
         fetchData();
     }, [getData, id])
-    
+
     const formatData = (date) => {
         const newDate = new Date(date);
         const year = newDate.getFullYear();
@@ -64,7 +65,7 @@ function AiDetail () {
                 <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-1">
                         <div className="border border-gray-300 rounded-lg bg-black text-white">
-                            <video controls="controls">
+                            <video controls autoplay>
                                 <source src={videoSrc} type="video/mp4" />
                             </video>
                         </div>

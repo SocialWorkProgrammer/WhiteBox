@@ -27,10 +27,9 @@ function UserProfile() {
         if (!dateString) return '';
         const date = parseISO(dateString);
         const distance = formatDistanceToNow(date, {
-            locale: ko,
-            addSuffix: true 
+            locale: ko, 
         });
-        return distance;
+        return distance
     };
 
     const handleOpenModal = () => {
@@ -74,10 +73,10 @@ function UserProfile() {
                             닉네임 : {user?.nickname || ''}
                         </div>
                         <div>
-                            가입일 : {formatDate(user?.registrationDate)}
+                            이메일 : {user?.id || ''}
                         </div>
                         <div>
-                            이메일 : {user?.id || ''}
+                            White - Box와 함께한지 {formatDate(user?.registrationDate)}
                         </div>
                     </div>
                     <div className="lawyer">
