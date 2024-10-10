@@ -60,7 +60,7 @@ const CommunityGeneralCommentPost = ({ id, onCommentUpdate }) => {
         value={comment}
         onChange={handleCommentChange}
         onKeyDown={handleKeyDown}
-        placeholder="댓글을 작성하세요."
+        placeholder="댓글 작성 후 수정, 삭제가 불가능합니다."
         className="rounded p-2 w-[100%]"
         rows="4"
       />
