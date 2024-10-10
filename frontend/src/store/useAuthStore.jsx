@@ -111,7 +111,7 @@ const useAuthStore = create((set) => ({
                     isLawyer: userData.userType === 'LAWYER',
                 },
             })
-
+            window.location.reload(true);
             return {
                 isSuccess: true,
                 nickname:userData.userNickname
