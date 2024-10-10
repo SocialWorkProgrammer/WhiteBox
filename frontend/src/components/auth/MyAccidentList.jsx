@@ -94,12 +94,12 @@ function MyAccidentList () {
                             <button
                                 key={index}
                                 onClick={() => handlePageChange(index + 1)}
-                                className={`cursor-pointer p-2 ${pageId === index + 1? "bg-gray-400 text-white" : "hover:bg-gray-300"}`}
+                                className={`cursor-pointer m-1 p-2 rounded-lg ${pageId === index + 1? "bg-gray-400 text-white" : "hover:bg-gray-300"}`}
                             >
                                 {index + 1}
                             </button>
                         ))}
-                        <span className="me-2 cursor-pointer" onClick={() => handlePageChange(pageId + 1)}>&gt;</span>
+                        <span className="ms-1 me-2 cursor-pointer" onClick={() => handlePageChange(pageId + 1)}>&gt;</span>
                         <span className="me-2 cursor-pointer" onClick={() => handlePageChange(totalPages)}>&gt;&gt;</span>
                     </div>
                 </div>
