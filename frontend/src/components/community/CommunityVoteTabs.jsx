@@ -12,21 +12,23 @@ function CommunityGeneralTabs() {
         <div className="max-w-[1300px] col-span-8 border-x-2 p-3">
           {/* 게시판 탭 */}
           <div className="flex flex-row">
-            <a className="community-tab-active flex flex-row text-[25px] font-medium" href="/community/vote">
-            <img 
-                src={voteIcon}
-                alt="자유"
-                className="w-10 h-10"
+          <a href="/community/vote" className="community-tab-active flex items-center text-[25px] font-bold">
+              <img 
+                src={voteIcon} 
+                alt=""
+                className="w-10 h-10 place-content-center" 
                 />
-              투표
-              </a>
-            <a className="community-tab-deactive flex flex-row text-[25px] font-medium" href="/community/general">
-            <img 
-              src={communityIcon}
-              alt="" 
-              className="w-10 h-10"
-              />
-            <p>일반</p>
+              <p className="flex-grow text-center">투표</p>
+              <div className='mr-2'></div>
+            </a>
+            <a href="/community/general" className="community-tab-deactive flex items-center text-[25px] font-bold">
+              <img 
+                src={communityIcon}
+                alt="자유"
+                className="w-10 h-10 place-content-center mt-1"
+                />
+              <p className='flex-grow text-center'>일반</p>
+              <div className='mr-2'></div>
             </a>
             </div>
           {/* 게시판 안내 */}
