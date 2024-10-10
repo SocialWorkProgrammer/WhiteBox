@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.MediaType;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.Date;
 
 @RequiredArgsConstructor
 @RestController
@@ -37,14 +39,16 @@ public class LawyerController {
 
     @PostMapping(value = "/verify-lawyer", consumes = {"multipart/form-data"})
     public ResponseEntity<String> verifyLawyer(
-            @Parameter(description = "변호사 정보 (JSON)", required = true)
-            @RequestPart("lawyerRequest") LawyerParam lawyerParam,
+            @RequestParam("lawyerName") String lawyerName,
+            @RequestParam("lawyerDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date lawyerDate,
+            @RequestParam("email") String email,
+            @RequestParam("file") MultipartFile file) {
 
-            @Parameter(description = "파일 업로드 (이미지)", required = true)
-            @RequestPart("file") MultipartFile file) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
         // 변호사 조회
-        Lawyer lawyer = lawyerService.findLawyerByNameAndDate(lawyerParam.getLawyerName(), lawyerParam.getLawyerDate());
+        Lawyer lawyer = lawyerService.findLawyerByNameAndDate(lawyerName, lawyerDate);
         if (lawyer == null) {
             return ResponseEntity.status(404).body("변호사를 찾을 수 없습니다.");
         }
@@ -68,15 +72,14 @@ public class LawyerController {
 
             // WebClient를 사용하여 Python 서버로 데이터 전송
             ResponseEntity<String> response = webClient.post()
-                    .uri(fastapiServerUrl +"/api/v1/lawyer")
-                    .contentType(MediaType.MULTIPART_FORM_DATA) // Python 서버 URL로 교체
+                    .uri(fastapiServerUrl +"/api/v1/lawyer")  // Python 서버 URL로 교체
                     .body(BodyInserters.fromMultipartData(body))  // Multipart 데이터 전송
                     .retrieve()
                     .toEntity(String.class)
                     .block();  // 응답을 기다림
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody().contains("변호사 인증 성공!")) {
-                User user = userService.getUserByEmail(lawyerParam.getEmail());
+                User user = userService.getUserByEmail(email);
                 user.userType(UserType.LAWYER);
                 userService.saveUser(user);
 
