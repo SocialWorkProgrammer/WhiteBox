@@ -65,8 +65,16 @@ public class FileStorageService {
 
 
     public String compressAndSaveFile(MultipartFile file, String type) throws IOException, InterruptedException {
+        // 서버에 명시적인 임시 디렉토리 설정 (예: /home/ubuntu/upload/temp)
+        Path tempDir = Paths.get("/home/ubuntu/upload/temp");
+        File dir = new File(tempDir.toString());
 
-        Path tempDir = Files.createTempDirectory("");
+        // 디렉토리가 없으면 생성
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        // 원본 파일을 임시 디렉토리에 저장
         File originalFile = new File(tempDir.toFile(), file.getOriginalFilename());
         file.transferTo(originalFile);
 
@@ -82,7 +90,6 @@ public class FileStorageService {
 
         return compressedVideoUrl;
     }
-
     private void compressVideo(File inputFile, File outputFile) throws IOException, InterruptedException {
         // FFmpeg 명령어 구성 (비트레이트 줄여서 압축)
         ProcessBuilder processBuilder = new ProcessBuilder(
