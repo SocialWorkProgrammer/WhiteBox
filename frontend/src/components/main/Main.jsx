@@ -76,12 +76,12 @@ function Main() {
                 <div className="w-[100vw] grid grid-cols-12 gap-4 h-full" style={{ height: 'calc(100vh - 90px)' }}>
                     <div className="col-span-2"></div>
                     {/* gif 파일 */}
-                    <div className="col-span-4 bg-gray-300 flex items-center justify-center">
-                        <img src="" alt="GIF" className="max-w-full max-h-full" />
+                    <div className="col-span-4 hidden md:flex items-center justify-center">
+                        <img src="" alt="GIF" className="max-w-full max-h-full bg-red-300" />
                     </div>
                     
                     {/* 비디오 드래그 앤 드롭 */}
-                    <div className='col-span-4 flex items-center justify-center'>
+                    <div className='col-span-8 flex items-center justify-center md:col-span-4'>
                         <div 
                             className="rounded-3xl p-6 pt-12 shadow-2xl"
                             onDrop={ handleDrop }
