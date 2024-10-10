@@ -12,25 +12,27 @@ function CommunityGeneralTabs() {
         <div className="max-w-[1300px] col-span-8 border-x-2 p-3">
           {/* 게시판 탭 */}
           <div className="flex flex-row">
-            <a href="/community/vote" className="community-tab-deactive flex flex-row text-[25px] font-medium">
+            <a href="/community/vote" className="community-tab-deactive flex  hover:bg-gray-100 items-center text-[25px] font-bold">
               <img 
                 src={voteIcon} 
                 alt=""
-                className="w-10 h-10" 
+                className="w-10 h-10 place-content-center" 
                 />
-              <p>투표</p>
+              <p className="flex-grow text-center">투표</p>
+              <div className='mr-2'></div>
             </a>
-            <a href="/community/general" className="community-tab-active flex flex-row text-[25px] font-medium">
+            <a href="/community/general" className="community-tab-active flex items-center text-[25px] font-bold">
               <img 
                 src={communityIcon}
                 alt="자유"
-                className="w-10 h-10"
+                className="w-10 h-10 place-content-center mt-1"
                 />
-              <p>일반</p>
+              <p className='flex-grow text-center'>일반</p>
+              <div className='mr-2'></div>
             </a>
             </div>
           {/* 게시판 안내 */}
-          <div className="community-notice border-y-[0.5px] border-marvel-blue flex flex-col place-content-center p-1">
+          <div className="community-notice border-y-[2px] border-black flex flex-col place-content-center p-1">
             <h1 className="text-3xl mb-4 font-semibold">일반 게시판</h1>
             <p className="text-xl">정치, 혐오글, 욕설 금지입니다.</p>  
           </div>

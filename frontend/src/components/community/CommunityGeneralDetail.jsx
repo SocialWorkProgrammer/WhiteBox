@@ -51,7 +51,7 @@ function CommunityGeneralDetail() {
     const getDetail = async () => {
       try {
         const response = await getCommunityDetail({ id });
-        const date = dayjs(response.comCreatedAt).format('YYYY-MM-DD HH:mm:ss');
+        const date = dayjs(response.comCreatedAt).format('YYYY-MM-DD HH:mm');
         setData({
           nickname: response.userNickname,
           title: response.comTitle,
@@ -138,7 +138,7 @@ function CommunityGeneralDetail() {
               <CommunityGeneralCommentPost id={id} onCommentUpdate={handleCommentUpdate} />
               {currentItems.length > 0 ? (
                 currentItems.map((comment, idx) => {
-                  const commentDate = dayjs(comment.postedAt).format('YYYY-MM-DD HH:mm:ss');
+                  const commentDate = dayjs(comment.postedAt).format('YYYY-MM-DD HH:mm');
                   return (
                     <div key={idx} className="flex flex-col h-auto border-b-2">
                       <div className="flex flex-row justify-between">
@@ -150,7 +150,7 @@ function CommunityGeneralDetail() {
                           <div className="justify-self-end col-span-3 text-xl">{commentDate}</div>
                           {storedUserId === comment.userNickname ?
                           <CommentDeleteButton id={id} onCommentUpdate={handleCommentUpdate} commentId={comment.id} userNickname={comment.userNickname} className="block hover:bg-gray-100 mr-5" />
-                          : <p></p>
+                          : <p className="block mr-[52px]"></p>
                           }
                         </div>
                       </div>
