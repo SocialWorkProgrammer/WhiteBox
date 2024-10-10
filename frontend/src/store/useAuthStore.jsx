@@ -111,7 +111,6 @@ const useAuthStore = create((set) => ({
                     isLawyer: userData.userType === 'LAWYER',
                 },
             })
-            window.location.reload(true);
             return {
                 isSuccess: true,
                 nickname:userData.userNickname
@@ -143,7 +142,6 @@ const useAuthStore = create((set) => ({
             const url = `${BASE_URL}/verify-lawyer`;
             const headers = {
                 Authorization: localStorage.getItem('accessToken'),
-                'Content-Type': 'multipart/form-data',
             };
             const lawyerRequest = {
                 lawyerName: name,
@@ -157,7 +155,7 @@ const useAuthStore = create((set) => ({
             console.log({ url, formData, headers });
 
             const response = await axios.post(url, formData, { headers });
-            return response.data;
+            return response;
         } catch (err) {
             console.log(err);
             throw err;
