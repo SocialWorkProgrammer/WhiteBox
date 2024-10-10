@@ -3,7 +3,6 @@ import { useCommunityStore } from "../../store/useCommunityStore";
 import { formatDistanceToNow, parseISO, differenceInDays, differenceInHours, differenceInMinutes } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
-import useStore from "../../store/useStore";
 
 function CommunityList({ type }) {
     const navigate = useNavigate();
@@ -13,7 +12,6 @@ function CommunityList({ type }) {
         1:"bg-indigo-200",
         2:"bg-indigo-100",
     }
-
 
     // 시간 포매팅 - 일반 게시판
     const formatingTime = (dateString) => {
@@ -40,24 +38,24 @@ function CommunityList({ type }) {
         }
     }
 
-
-    // 투표게시판인 경우
-    const getVoteCommunityList = useCommunityStore(state => state.getMainVoteCommunityList)
+    // 게시판 목록 로드
     const [ voteCommunityList, setVoteCommunityList ] = useState([]);
+    const [ generalCommunityList, setGeneralCommunityList ] = useState([]);
+    const getCommunityList = useCommunityStore((state) => state.getMainCommunityList)
+
     useEffect(() => {
-        if (type === "vote") {
-            const getData = async () => {
-                try {
-                    const response = await getVoteCommunityList({ pageIndex: 1 });
-                    setVoteCommunityList(response || []);
-                } catch (err) {
-                    console.log(err);
-                    setVoteCommunityList([]);
-                } 
+        const getData = async () => {
+            try {
+                const response = await getCommunityList();
+                setVoteCommunityList(response.votes || []);
+                setGeneralCommunityList(response.communities || []);
+            } catch (err) {
+                console.log(err);
             }
-            getData();
         }
-    }, [type, getVoteCommunityList])
+        getData();
+    }, [])
+
 
     // 투표게시판 렌더링
     const renderVoteCommunity = () => {
@@ -85,24 +83,6 @@ function CommunityList({ type }) {
             </div>
         )
     }
-
-    // 일반게시판
-    const getGeneralCommunityList = useCommunityStore(state => state.getCommunityGeneralList)
-    const [ generalCommunityList, setGeneralCommunityList ] = useState([]);
-    useEffect(() => {
-        if (type === "general") {
-            const getData = async () => {
-                try {
-                    const response = await getGeneralCommunityList({ pageId:1 });
-                    setGeneralCommunityList(response.content || []);
-                } catch (err) {
-                    console.log(err);
-                    setGeneralCommunityList([]);
-                } 
-            }
-            getData();
-        }
-    }, [type, getGeneralCommunityList])
 
     // 일반게시판 렌더링
     const renderGeneralCommunity = () => {

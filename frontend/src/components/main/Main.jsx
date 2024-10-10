@@ -81,44 +81,46 @@ function Main() {
                     </div>
                     
                     {/* 비디오 드래그 앤 드롭 */}
-                    <div 
-                        className="col-span-4 bg-gray-200 flex items-center justify-center"
-                        onDrop={ handleDrop }
-                        onDragOver={ handleDragOver }
-                    >
-                        {videoFile ? (
-                            <div>
+                    <div className='col-span-4 flex items-center justify-center'>
+                        <div 
+                            className="rounded-3xl p-6 pt-12 shadow-2xl"
+                            onDrop={ handleDrop }
+                            onDragOver={ handleDragOver }
+                        >
+                            {videoFile ? (
                                 <div>
-                                    <span>{videoName}</span>
-                                    <button onClick={handleRemoveFile} className='mt-2 bg-red-500 text-white px-4 py-2 rounded cursor-pointer'>
-                                        x
-                                    </button>
+                                    <div>
+                                        <span>{videoName}</span>
+                                        <button onClick={handleRemoveFile} className='mt-2 bg-red-500 text-white px-4 py-2 rounded cursor-pointer'>
+                                            x
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <button onClick={handleClickAiJudegement} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded cursor-pointer'>
+                                            AI판단 보러 가기
+                                        </button>
+                                    </div>
                                 </div>
-                                <div>
-                                    <button onClick={handleClickAiJudegement} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded cursor-pointer'>
-                                        AI판단 보러 가기
-                                    </button>
+                            ) : (
+                                <div className="flex flex-col items-center space-y-4">
+                                    <p>여기에 파일을 끌어다 놓으세요.</p>
+                                    <input
+                                        id="fileInput"
+                                        type="file" 
+                                        accept="video/*" 
+                                        onChange={handleFileInputChange} 
+                                        className="hidden"
+                                    />
+                                    <label 
+                                        htmlFor="fileInput" 
+                                        className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
+                                    >
+                                        파일 첨부
+                                    </label>
                                 </div>
-                            </div>
-                        ) : (
-                            <div className="flex flex-col items-center space-y-4">
-                                <p>여기에 파일을 끌어다 놓으세요.</p>
-                                <input
-                                    id="fileInput"
-                                    type="file" 
-                                    accept="video/*" 
-                                    onChange={handleFileInputChange} 
-                                    className="hidden"
-                                />
-                                <label 
-                                    htmlFor="fileInput" 
-                                    className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
-                                >
-                                    파일 첨부
-                                </label>
-                            </div>
-                            
-                        )}
+                                
+                            )}
+                        </div>
                     </div>
                     <div className="col-span-2"></div>
                 </div>

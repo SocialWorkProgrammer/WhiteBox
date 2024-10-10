@@ -48,7 +48,7 @@ function SubmitButton({ title, description, className, images }) {
 
   return (
     <button
-      className={`border-2 w-[95px] h-[38px] ${className}`}
+      className={`border-2 w-[95px] h-[38px] hover:bg-gray-100 ${className}`}
       onClick={onSubmit}>
       제출
     </button>

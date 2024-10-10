@@ -152,8 +152,8 @@ const useCommunityStore = create((set) => ({
             throw err;
         }
     },
-    // 메인용 투표게시글 목록 불러오기
-    getMainVoteCommunityList: async() => {
+    // 메인페이지 게시글 목록 불러오기
+    getMainCommunityList: async() => {
         try {
             const url = `${BASE_URL}/mainpage/top-votes`;
             const headers = {
