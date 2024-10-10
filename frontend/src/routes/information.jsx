@@ -13,7 +13,7 @@ const InformationRoutes = () => {
     const sidebarWidth = isOpen ? 'w-[200px]' : 'w-[90px]';
 
     return (
-        <div className="grid grid-cols-12 overflow-hidden">
+        <div className="grid grid-cols-12 overflow-hidden mt-3">
             <Helmet>
                 <title>White Box | 정보게시판</title>
             </Helmet>

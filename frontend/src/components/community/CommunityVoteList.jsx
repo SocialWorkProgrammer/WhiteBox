@@ -34,7 +34,7 @@ function CommunityGeneralList() {
         }
       }
     loadCommunityVoteList();
-  }, []);
+  }, [currentPage]);
 
 
   // 페이지네이션 관련 변수들
