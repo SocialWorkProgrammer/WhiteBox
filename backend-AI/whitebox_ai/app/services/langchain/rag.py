@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
+
 load_dotenv()
 
 embedding_function = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
@@ -11,26 +12,38 @@ vector_store = Chroma(persist_directory="chroma_data", embedding_function=embedd
 
 embedding_file_path = os.path.join("app", "services", "langchain", "embedding.pickle")
 
-if not os.path.exists(os.path.join("chroma_data", "index")):
-    if not os.path.exists(embedding_file_path):
-        print(f"파일을 찾을 수 없습니다: {embedding_file_path}")
+BATCH_SIZE = 5000
+
+def process_embeddings():
+    """임베딩 데이터를 로드하고 벡터 스토어에 추가하는 함수"""
+    if not os.path.exists(os.path.join("chroma_data", "index")):
+        if not os.path.exists(embedding_file_path):
+            print(f"파일을 찾을 수 없습니다: {embedding_file_path}")
+            return
+        else:
+            with open(embedding_file_path, 'rb') as f:
+                precedent_embedding_dict = pickle.load(f)
+
+            texts = list(precedent_embedding_dict.keys())
+            embeddings = list(precedent_embedding_dict.values())
+
+            try:
+                # 벡터 스토어에 배치로 데이터 추가
+                for i in range(0, len(texts), BATCH_SIZE):
+                    batch_texts = texts[i:i + BATCH_SIZE]
+                    batch_embeddings = embeddings[i:i + BATCH_SIZE]
+
+                    vector_store.add_texts(texts=batch_texts, embeddings=batch_embeddings)
+
+                vector_store.persist()
+                print("벡터 스토어에 데이터가 성공적으로 추가되었습니다.")
+            except Exception as e:
+                print(f"벡터 스토어에 텍스트를 추가하는 중 오류가 발생했습니다: {e}")
     else:
-        with open(embedding_file_path, 'rb') as f:
-            precedent_embedding_dict = pickle.load(f)
-
-        texts = list(precedent_embedding_dict.keys())
-        embeddings = list(precedent_embedding_dict.values())
-
-        try:
-            vector_store.add_texts(texts=texts, embeddings=embeddings)
-            vector_store.persist()
-            print("벡터 스토어에 데이터가 성공적으로 추가되었습니다.")
-        except Exception as e:
-            print(f"벡터 스토어에 텍스트를 추가하는 중 오류가 발생했습니다: {e}")
-else:
-    print("벡터 스토어가 이미 초기화되어 있습니다.")
+        print("벡터 스토어가 이미 초기화되어 있습니다.")
 
 def query_similar_terms(query_text):
+    """쿼리 텍스트에 대한 유사한 결과를 검색하는 함수"""
     try:
         results = vector_store.similarity_search(query_text, k=5)
         return [result.page_content for result in results]

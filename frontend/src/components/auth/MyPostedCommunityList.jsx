@@ -52,11 +52,12 @@ function MyPostedCommunityList () {
             {/* 영상 목록 */}
             {myPostings.map((post) => (
                 <div key={post.comIndex} className="p-2 grid grid-cols-12 border shadow m-2 cursor-pointer hover:bg-gray-300">
-                    <span className="col-span-8 cursor-pointer" onClick={() => handleClickDetail({pageId:post.comIndex})}>{post.comTitle}</span>
+                    <span className="col-span-8 cursor-pointer font-semibold" onClick={() => handleClickDetail({pageId:post.comIndex})}>{post.comTitle}</span>
                     <div className="col-span-4">
-                        <span className="text-sm">{formattingTime(post.comCreatedAt)}</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span className="text-sm">조회수 : {post.commentCount}</span>
+                        <div className="grid grid-cols-2">
+                            <span className="text-sm col-span-1">{formattingTime(post.comCreatedAt)}</span>
+                            <span className="text-sm col-span-1">조회수 : {post.commentCount}</span>
+                        </div>
                     </div>
                 </div>  
             ))}

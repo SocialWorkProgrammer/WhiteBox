@@ -154,7 +154,7 @@ function Main() {
                     <div className="col-span-2"></div>
                 </div>
             )}
-            <div className="mt-3">
+            <div className="mt-3 border-t-2 pt-3">
                 {isLogin ? (
                     <div className='grid grid-cols-12'>
                         <div className='col-span-2'></div>

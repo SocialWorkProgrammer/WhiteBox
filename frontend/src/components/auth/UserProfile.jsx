@@ -85,9 +85,9 @@ function UserProfile() {
                 <div className="community">
                     <div className="grid grid-cols-12">
                         <div className="col-span-2"></div>
-                        <div className="col-span-2 m-3 cursor-pointer p-2 text-center bg-orange-50 hover:bg-orange-200" onClick={() => setShowTab(1)}>내 사고</div>
-                        <div className="col-span-2 m-3 cursor-pointer p-2 text-center bg-orange-50 hover:bg-orange-200" onClick={() => setShowTab(2)}>내가 쓴 글</div>
-                        <div className="col-span-2 m-3 cursor-pointer p-2 text-center bg-orange-50 hover:bg-orange-200" onClick={() => setShowTab(3)}>내가 한 투표</div>
+                        <div className={`col-span-2 m-3 cursor-pointer p-2 text-center hover:bg-orange-200 ${showTab === 1 ? 'bg-orange-200' : 'bg-orange-50'}`} onClick={() => setShowTab(1)}>내 사고</div>
+                        <div className={`col-span-2 m-3 cursor-pointer p-2 text-center hover:bg-orange-200 ${showTab === 2 ? 'bg-orange-200' : 'bg-orange-50'}`} onClick={() => setShowTab(2)}>내가 쓴 글</div>
+                        <div className={`col-span-2 m-3 cursor-pointer p-2 text-center hover:bg-orange-200 ${showTab === 3 ? 'bg-orange-200' : 'bg-orange-50'}`} onClick={() => setShowTab(3)}>내가 한 투표</div>
                         <div className="col-span-4"></div>
                     </div>
                     <div className="grid grid-cols-12">

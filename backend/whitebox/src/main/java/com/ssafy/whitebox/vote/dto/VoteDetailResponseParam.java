@@ -21,6 +21,7 @@ public class VoteDetailResponseParam {
     private LocalDateTime expirationDate;
     private int hit;
     private boolean isImage;
+    private String nickname;
 
     // AIResult 정보
     private String aiDescription;
@@ -44,6 +45,7 @@ public class VoteDetailResponseParam {
     // 생성자
     public VoteDetailResponseParam(Vote vote, AIResult aiResult, List<VoteImageParam> images, List<VoteCommentParam> comments, int approvalPercent, int oppositePercent, int neutralPercent) {
         this.voteId = vote.getVoteId();
+        this.nickname = vote.getUser().userNickname();
         this.title = vote.getVoTitle();
         this.description = vote.getVoDescription();
         this.approvalPercent = approvalPercent;

@@ -36,15 +36,13 @@ services:
       - .env
     ports:
       - "8080:8080"
+    volumes:
+      - /usr/bin/ffmpeg:/usr/bin/ffmpeg  
     networks:
       - backend
       - ssl
     depends_on:
       - mysql
-    volumes:
-      - /etc/upload/images:/etc/upload/images
-      - /etc/upload/videos:/etc/upload/videos
-      - /etc/upload/thumbnails:/etc/upload/thumbnails  
 
   frontend:
     container_name: frontend
@@ -56,10 +54,6 @@ services:
     networks:
       - frontend
       - ssl
-    volumes:
-      - /etc/upload/images:/etc/upload/images
-      - /etc/upload/videos:/etc/upload/videos
-      - /etc/upload/thumbnails:/etc/upload/thumbnails  
 
   mysql:
     container_name: mysql
@@ -81,5 +75,4 @@ networks:
   frontend:
 
 volumes:
-  db-data:
   mysql-data:
