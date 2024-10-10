@@ -39,12 +39,23 @@ function AiDetail () {
         const fetchData = async () => {
             const fetchedData = await getData({ id });
             setData(fetchedData);
+            try {
+                const response = await fetchData(fetchedData.aiVideoUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const videoBlob = await response.blob();
+                const blobUrl = URL.createObjectURL(videoBlob);
+                setVideoSrc(blobUrl)
+            } catch (err) {
+                console.log(err);
+            }
             setVideoSrc(fetchedData.aiVideoUrl);
             console.log(fetchedData);
         }
         fetchData();
     }, [getData, id])
-    
+
     const formatData = (date) => {
         const newDate = new Date(date);
         const year = newDate.getFullYear();
