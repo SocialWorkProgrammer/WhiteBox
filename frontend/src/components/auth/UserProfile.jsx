@@ -8,6 +8,8 @@ import MyAccidentList from "./MyAccidentList";
 import MyPostedCommunityList from "./MyPostedCommunityList";
 import MyVoteList from "./MyVoteList";
 import { Helmet } from 'react-helmet';
+import { formatDistanceToNow, parseISO, differenceInDays, differenceInHours, differenceInMinutes } from "date-fns";
+import { ko } from "date-fns/locale";
 
 function UserProfile() {
     const navigate = useNavigate();
@@ -23,8 +25,12 @@ function UserProfile() {
 
     const formatDate = (dateString) => {
         if (!dateString) return '';
-        const date = new Date(dateString);
-        return date.toLocaleDateString('ko-KR'); 
+        const date = parseISO(dateString);
+        const distance = formatDistanceToNow(date, {
+            locale: ko,
+            addSuffix: true 
+        });
+        return distance;
     };
 
     const handleOpenModal = () => {
