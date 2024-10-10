@@ -47,6 +47,8 @@ public class FileStorageService {
                 return "videos";
             case "thumbnail":
                 return "thumbnails";
+            case "video/mp4":
+                return "video/mp4";
             default:
                 throw new IllegalArgumentException("Invalid file type: " + type);
         }
