@@ -107,7 +107,6 @@ function CommunityGeneralDetail() {
     setCurrentPage(Math.ceil(lastComment/10));
   };
 
-        
   return (
     <div>
       <Helmet>
@@ -133,10 +132,11 @@ function CommunityGeneralDetail() {
             <div className="min-h-[300px] p-3">
               {/* 비디오 */}
               <div className="flex flex-row place-content-between">
+                {data.videoUrl ?
                 <video width="700" controls autoplay>
                   <source src={data.videoUrl} type="video/mp4" />
                 </video>
-                <p>{data.videoUrl}</p>
+                :<p>Loading...</p>}
               {/* 현장사진 */}
                 {data.images ? <div>
                 <p>현장사진</p>
