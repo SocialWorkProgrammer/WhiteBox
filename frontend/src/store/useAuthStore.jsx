@@ -118,7 +118,7 @@ const useAuthStore = create((set) => ({
             }
         } catch (err) {
             console.log('로그인 중 오류 발생:', err);
-            throw err;
+            return { isSuccess:false }
         }
     },
 
