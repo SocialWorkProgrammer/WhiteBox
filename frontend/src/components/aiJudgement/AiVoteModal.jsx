@@ -13,18 +13,20 @@ function AiVoteModal ({ id, closeModal }) {
     const [ isLoading, setIsLoading ] = useState(false);
 
     const handleSubmit = async () => {
-        setIsLoading(true);
-        console.log({ id, title, content, files, voteDuration});
-        if (title === '') {
-            window.alert('제목을 입력하세요')
-        } else if (content === '') {
-            window.alert('내용을 입력하세요')
-        } else {
-            const response = await postVote({ id, title, description:content, images:files, expirationDate:voteDuration});
-            closeModal();
-            navigate(`/community/vote/${response.data.voteId}`)
+        if (window.confirm("게시글을 제출하면 수정 및 삭제할 수 없습니다. 제출하시겠습니까?")) {
+            setIsLoading(true);
+            console.log({ id, title, content, files, voteDuration});
+            if (title === '') {
+                window.alert('제목을 입력하세요')
+            } else if (content === '') {
+                window.alert('내용을 입력하세요')
+            } else {
+                const response = await postVote({ id, title, description:content, images:files, expirationDate:voteDuration});
+                closeModal();
+                navigate(`/community/vote/${response.data.voteId}`)
+            }
+            setIsLoading(false);
         }
-        setIsLoading(false);
     }
 
     const getVoteDuration = (day) => {

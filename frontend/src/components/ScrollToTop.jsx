@@ -31,7 +31,6 @@ const ScrollToTop = () => {
             onClick={scrollToTop}
             className="fixed bottom-20 right-10 rounded-full shadow-lg border w-8 h-8 flex flex-col items-center justify-center"
         >
-            <span style={{ fontSize: '1.2rem', lineHeight: '0.8rem', marginBottom: '-0.4rem' }}>↑</span>
             <span style={{ fontSize: '0.8rem', lineHeight: '1rem' }}>TOP</span>
         </button>
         )

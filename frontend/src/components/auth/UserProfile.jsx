@@ -8,6 +8,8 @@ import MyAccidentList from "./MyAccidentList";
 import MyPostedCommunityList from "./MyPostedCommunityList";
 import MyVoteList from "./MyVoteList";
 import { Helmet } from 'react-helmet';
+import { formatDistanceToNow, parseISO, differenceInDays, differenceInHours, differenceInMinutes } from "date-fns";
+import { ko } from "date-fns/locale";
 
 function UserProfile() {
     const navigate = useNavigate();
@@ -23,8 +25,11 @@ function UserProfile() {
 
     const formatDate = (dateString) => {
         if (!dateString) return '';
-        const date = new Date(dateString);
-        return date.toLocaleDateString('ko-KR'); 
+        const date = parseISO(dateString);
+        const distance = formatDistanceToNow(date, {
+            locale: ko, 
+        });
+        return distance
     };
 
     const handleOpenModal = () => {
@@ -68,10 +73,10 @@ function UserProfile() {
                             닉네임 : {user?.nickname || ''}
                         </div>
                         <div>
-                            가입일 : {formatDate(user?.registrationDate)}
+                            이메일 : {user?.id || ''}
                         </div>
                         <div>
-                            이메일 : {user?.id || ''}
+                            White - Box와 함께한지 {formatDate(user?.registrationDate)}
                         </div>
                     </div>
                     <div className="lawyer">
