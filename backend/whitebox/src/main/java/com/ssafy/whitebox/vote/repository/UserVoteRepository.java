@@ -14,7 +14,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface UserVoteRepository extends JpaRepository<UserVote, Long> {
-//    UserVote findByAiIndexAndVoterUserIndex(Long aiIndex, Long voterUserIndex);
+
     Optional<UserVote> findByUserAndVote(User user, Vote vote);
     // 특정 Vote의 총 투표 수를 계산하는 메서드
     @Query("SELECT COUNT(uv) FROM UserVote uv WHERE uv.vote = :vote")
