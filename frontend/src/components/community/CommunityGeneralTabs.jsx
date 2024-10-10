@@ -1,6 +1,7 @@
 import communityIcon from '../../public/img/community-general.svg'
 import voteIcon from '../../public/img/community-vote-deactive.svg'
 import "../../styles/community/communitygenrallist.css"
+import { Tooltip } from "react-tooltip";
 
 function CommunityGeneralTabs() {
   return (
@@ -12,7 +13,12 @@ function CommunityGeneralTabs() {
         <div className="max-w-[1300px] col-span-8 border-x-2 p-3">
           {/* 게시판 탭 */}
           <div className="flex flex-row">
-            <a href="/community/vote" className="community-tab-deactive flex  hover:bg-gray-100 items-center text-[25px] font-bold">
+            <a 
+              href="/community/vote" 
+              className="community-tab-deactive flex  hover:bg-gray-100 items-center text-[25px] font-bold"
+              data-tooltip-id="vote-tab-tooltip"
+              data-tooltip-content="투표게시판에서는 글 및 댓글 수정, 삭제가 불가하니 유의해주세요"
+            >
               <img 
                 src={voteIcon} 
                 alt=""
@@ -21,6 +27,7 @@ function CommunityGeneralTabs() {
               <p className="flex-grow text-center">투표</p>
               <div className='mr-2'></div>
             </a>
+              <Tooltip id="vote-tab-tooltip" place="bottom"/>
             <a href="/community/general" className="community-tab-active flex items-center text-[25px] font-bold">
               <img 
                 src={communityIcon}

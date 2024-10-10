@@ -25,7 +25,6 @@ function CommunityGeneralList() {
           // 여기서 setData(가공된 responseData)를 통해서 데이터설정을 해주세용
           setData(responseData.content)
           setTotalElements(responseData.totalElements)
-          console.log('responseData.content==', responseData.content)
         } catch (err) {
           console.log(err);
         }

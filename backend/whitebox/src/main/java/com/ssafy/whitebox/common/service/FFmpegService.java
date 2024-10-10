@@ -66,6 +66,14 @@ public class FFmpegService {
         if (outputImage.exists()) {
             outputImage.delete();
         }
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------");
+        System.out.println(ffmpegPath);
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------");
 
         ProcessBuilder processBuilder = new ProcessBuilder(
                 ffmpegPath,

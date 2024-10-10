@@ -4,7 +4,6 @@ import com.ssafy.whitebox.ai.dto.AIDetailResultResponseParam;
 import com.ssafy.whitebox.ai.dto.AIResultResponseParam;
 import com.ssafy.whitebox.ai.entity.AIResult;
 import com.ssafy.whitebox.ai.repository.AIResultRepository;
-import com.ssafy.whitebox.community.dto.CommunityParam;
 import com.ssafy.whitebox.community.repository.CommunityRepository;
 import com.ssafy.whitebox.mypage.dto.UserCommunityResponseParam;
 import com.ssafy.whitebox.mypage.dto.UserInfoResponseParam;
