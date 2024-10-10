@@ -145,13 +145,13 @@ const useAuthStore = create((set) => ({
                 Authorization: localStorage.getItem('accessToken'),
                 'Content-Type': 'multipart/form-data',
             };
-            const description = {
+            const lawyerRequest = {
                 lawyerName: name,
                 lawyerDate: date,
                 email: userEmail
             }
             const formData = new FormData();
-            formData.append('description', JSON.stringify(description));
+            formData.append('lawyerRequest', JSON.stringify(lawyerRequest));
             formData.append('file', image)
 
             console.log({ url, formData, headers });
