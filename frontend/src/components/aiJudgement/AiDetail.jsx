@@ -60,15 +60,16 @@ function AiDetail () {
 
     return (
         <div className="mt-5">
+            <div className="border border-gray-300 rounded-lg bg-black text-white">
+                <video controls autoplay>
+                    <source src={videoSrc} type="video/mp4" />
+                </video>
+            </div>
             <div className={`&${showVoteModal ? 'blur-xl' : ''}`}>
                 <p>영상올린날짜 : {formatData(data.aiCreatedAt)}</p>
                 <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-1">
-                        <div className="border border-gray-300 rounded-lg bg-black text-white">
-                            <video controls autoplay>
-                                <source src={videoSrc} type="video/mp4" />
-                            </video>
-                        </div>
+                        
                         <AiDescriptionCard type='ratio' content={[data.aiOtherFault, data.aiUserFault]}/>
                         <AiDescriptionCard type='precedent' content={data.aiExplanation}/>
                     </div>
