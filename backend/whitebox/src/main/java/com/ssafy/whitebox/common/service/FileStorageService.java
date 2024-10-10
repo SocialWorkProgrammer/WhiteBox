@@ -67,8 +67,8 @@ public class FileStorageService {
 
     public String compressAndSaveFile(MultipartFile file, String type) throws IOException, InterruptedException {
         // 서버에 명시적인 임시 디렉토리 설정 (예: /home/ubuntu/upload/temp)
-        Path tempDir = Paths.get("/home/ubuntu/upload/temp");
-        File dir = new File(tempDir.toString());
+        String uploadDir = "/home/ubuntu/upload/temp/";
+        File dir = new File(uploadDir);
 
         // 디렉토리가 없으면 생성
         if (!dir.exists()) {
@@ -76,12 +76,12 @@ public class FileStorageService {
         }
 
         // 원본 파일을 임시 디렉토리에 저장
-        File originalFile = new File(tempDir.toFile(), file.getOriginalFilename());
+        File originalFile = new File(uploadDir + file.getOriginalFilename());
         file.transferTo(originalFile);
 
         // 압축된 파일을 저장할 경로 설정
         String compressedFileName = "compressed_" + file.getOriginalFilename();
-        File compressedFile = new File(tempDir.toFile(), compressedFileName);
+        File compressedFile = new File(uploadDir + compressedFileName);
 
         // 비디오 파일 압축 (1/3 크기)
         compressVideo(originalFile, compressedFile);
