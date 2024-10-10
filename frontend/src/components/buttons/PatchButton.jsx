@@ -36,7 +36,7 @@ function PatchButton ({id, title, content, className}) {
   };
   return (
     <button
-      className={`${className}`}
+      className={`${className} border-2 w-[95px] h-[38px] hover:bg-gray-100`}
       onClick={onSubmit}>
         수정
       </button>

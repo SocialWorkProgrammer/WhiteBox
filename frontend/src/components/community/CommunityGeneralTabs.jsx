@@ -12,7 +12,7 @@ function CommunityGeneralTabs() {
         <div className="max-w-[1300px] col-span-8 border-x-2 p-3">
           {/* 게시판 탭 */}
           <div className="flex flex-row">
-            <a href="/community/vote" className="community-tab-deactive flex items-center text-[25px] font-bold">
+            <a href="/community/vote" className="community-tab-deactive flex  hover:bg-gray-100 items-center text-[25px] font-bold">
               <img 
                 src={voteIcon} 
                 alt=""

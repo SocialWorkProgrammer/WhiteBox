@@ -21,7 +21,7 @@ function CommunityGeneralTabs() {
               <p className="flex-grow text-center">투표</p>
               <div className='mr-2'></div>
             </a>
-            <a href="/community/general" className="community-tab-deactive flex items-center text-[25px] font-bold">
+            <a href="/community/general" className="community-tab-deactive flex items-center text-[25px] hover:bg-gray-100 font-bold">
               <img 
                 src={communityIcon}
                 alt="자유"
