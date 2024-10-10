@@ -48,6 +48,7 @@ function CommunityList({ type }) {
         const getData = async () => {
             try {
                 const response = await getCommunityList();
+                console.log(response);
                 setVoteCommunityList(response.votes || []);
                 setGeneralCommunityList(response.communities || []);
             } catch (err) {
