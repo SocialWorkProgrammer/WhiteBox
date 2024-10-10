@@ -9,6 +9,7 @@ import com.ssafy.whitebox.user.service.UserService;
 import com.ssafy.whitebox.user.util.UserType;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -28,6 +29,10 @@ public class LawyerController {
     private final LawyerService lawyerService;
     private final UserService userService;
     private final WebClient webClient = WebClient.create();
+
+
+    @Value("${fastapi.server.url}")
+    private String fastapiServerUrl;
 
     @PostMapping(value = "/verify-lawyer", consumes = {"multipart/form-data"})
     public ResponseEntity<String> verifyLawyer(
@@ -65,7 +70,7 @@ public class LawyerController {
 
             // WebClient를 사용하여 Python 서버로 데이터 전송
             ResponseEntity<String> response = webClient.post()
-                    .uri("http://192.168.100.15:8000/api/v1/lawyer")  // Python 서버 URL로 교체
+                    .uri(fastapiServerUrl +"/api/v1/lawyer")  // Python 서버 URL로 교체
                     .body(BodyInserters.fromMultipartData(body))  // Multipart 데이터 전송
                     .retrieve()
                     .toEntity(String.class)
