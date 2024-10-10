@@ -34,16 +34,19 @@ public class AIResult {
     @Column(name = "ai_created_at", nullable = false)
     private LocalDateTime createdAt;
 
-
+    @Lob
     @Column(name = "ai_related_law")
     private String aiRelatedLaw;
 
+    @Lob
     @Column(name = "ai_explanation")
     private String aiExplanation;
 
+    @Lob
     @Column(name = "ai_description")
     private String aiDescription;
 
+    @Lob
     @Column(name = "ai_Result")
     private String aiResult;
 
@@ -64,6 +67,7 @@ public class AIResult {
 
     @Column(name = "thumbnail3", length = 255)
     private String thumbnail3;
+
     @Column(name = "thumbnail4", length = 255)
     private String thumbnail4;
 
