@@ -78,7 +78,7 @@ public class AIResultService {
                 .filename(videoFile.getOriginalFilename());
 
         return client.post()
-                .uri("/analyze-video/")
+                .uri("/api/v1/analyze-video/")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(BodyInserters.fromMultipartData(builder.build()))
                 .retrieve()
