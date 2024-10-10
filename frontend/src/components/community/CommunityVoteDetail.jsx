@@ -133,10 +133,10 @@ function CommunityGeneralDetail() {
               {/* 비디오 */}
               <div className="flex flex-row place-content-between">
                 {data.videoUrl ?
-                <video width="700" controls autoplay>
+                <video width="700" controls>
                   <source src={data.videoUrl} type="video/mp4" />
                 </video>
-                :<p>Loading...</p>}
+                :<p>{data.videoUrl}</p>}
               {/* 현장사진 */}
                 {data.images ? <div>
                 <p>현장사진</p>
