@@ -133,9 +133,10 @@ function CommunityGeneralDetail() {
             <div className="min-h-[300px] p-3">
               {/* 비디오 */}
               <div className="flex flex-row place-content-between">
-                <video controls width="700" autoplay>
+                <video width="700" controls autoplay>
                   <source src={data.videoUrl} type="video/mp4" />
                 </video>
+                <p>{data.videoUrl}</p>
               {/* 현장사진 */}
                 {data.images ? <div>
                 <p>현장사진</p>
@@ -143,7 +144,7 @@ function CommunityGeneralDetail() {
                 {data.images.map((image, idx) => (
                   <img
                   key={idx}
-                  src={`/images/${image.imageUrl}`}
+                  src={image.imageUrl}
                   alt='#'
                   // 스마트폰 사진비율 16:9에 맞춤
                   className= "w-[304px] h-[171px]"
