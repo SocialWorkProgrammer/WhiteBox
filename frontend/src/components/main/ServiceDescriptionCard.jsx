@@ -15,7 +15,7 @@ function ServiceDescriptionCard () {
     ]
     const renderImage = (img) => {
         return (
-                <div className="flex justify-center items-center w-1/2">
+                <div className="flex justify-center items-center md:w-1/2 w-full">
                     <img 
                         src={img} 
                         alt="" 
@@ -27,7 +27,7 @@ function ServiceDescriptionCard () {
 
     const renderText = ({title, summary, description}) => {
         return (
-            <div className=" w-1/2 flex-col content-center justify-center">
+            <div className="w-1/2 flex-col content-center justify-center hidden md:flex">
                 <h2 className="p-3 m-7 text-2xl font-bold mb-2">{title}</h2>
                 <p className="p-3 m-7 text-base text-gray-700 font-semibold mb-2">{summary}</p>
                 <p className="p-3 m-7 text-sm text-gray-500">{description}</p>

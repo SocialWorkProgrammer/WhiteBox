@@ -23,6 +23,7 @@ function CommunityGeneralDetail() {
     aiOtherFault : 0,
     aiRelatedInformation : '',
     aiRelatedLaw: '',
+    aiResult: '',
     aiUserFault: 0,
     approvalPercent: 0,
     comments: [],
@@ -55,7 +56,8 @@ function CommunityGeneralDetail() {
           console.log('요청받은 데이터 = ', response);
           setData({
             aiOtherFault : response.aiOtherFault,
-            aiRelatedInformation : response.aiRelatedInformation,
+            aiDescription : response.aiDescription,
+            aiResult : response.aiResult,
             // aiRelatedInformation: '신호기에 의해 교통정리가 이루어지지 않는 삼거리 교차로에서 차량이 좌회전 중 왼쪽에서 오른쪽으로 직진 중인 이륜차와 충돌한 사고입니다',
             aiRelatedLaw: response.aiRelatedLaw,
             // aiRelatedLaw: '도로교통법 제2조(정의), 도로교통법 제 25조(교차로 통행방법), 도로교통법제 26조(교통정리가 없는 교차로에서의 양보운전)',
@@ -132,7 +134,7 @@ function CommunityGeneralDetail() {
               {/* 비디오 */}
               <div className="flex flex-row place-content-between">
                 <video controls width="700" 
-                  src={`/videos/${data.video}`}></video>
+                  src={data.video}></video>
               {/* 현장사진 */}
                 {data.image === true ? <div>
                 <p>현장사진</p>
@@ -155,7 +157,8 @@ function CommunityGeneralDetail() {
             <CommunityVoteAiResult 
               aiUserFault={data.aiUserFault}
               aiOtherFault={data.aiOtherFault}
-              aiRelatedInformation={data.aiRelatedInformation}
+              aiRelatedInformation={data.aiDescription}
+              aiResult={data.aiResult}
               aiRelatedLaw={data.aiRelatedLaw} />
             {/* 투표 */}
             <VoteGraph
