@@ -12,6 +12,7 @@ import ContactUs from './components/main/ContactUs';
 import PrivacyPolicy from './components/main/PrivacyPolicy';
 import TermsAndConditions from './components/main/TermsAndConditions';
 import ScrollToTop from './components/ScrollToTop';
+import "./styles/main/main.css"
 
 function ProtectedRoute({ component: Component }) {
   const isLogin = useAuthStore((state) => state.isLogin());

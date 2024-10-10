@@ -151,7 +151,7 @@ const useAuthStore = create((set) => ({
                 email: userEmail
             }
             const formData = new FormData();
-            formData.append('description', JSON.stringfy(description));
+            formData.append('description', JSON.stringify(description));
             formData.append('file', image)
 
             console.log({ url, formData, headers });

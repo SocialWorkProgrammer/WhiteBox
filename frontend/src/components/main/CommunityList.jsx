@@ -3,6 +3,7 @@ import { useCommunityStore } from "../../store/useCommunityStore";
 import { formatDistanceToNow, parseISO, differenceInDays, differenceInHours, differenceInMinutes } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
+import { Tooltip } from "react-tooltip";
 
 function CommunityList({ type }) {
     const navigate = useNavigate();
@@ -61,8 +62,16 @@ function CommunityList({ type }) {
     const renderVoteCommunity = () => {
         return (
             <div className="flex-row">
-                <div>
-                    <span className="flex justify-center">투표 게시판</span>
+                <div className="flex justify-center">
+                    <span 
+                        id="vote-list-title-tooltip"
+                        className="cursor-pointer" 
+                        onClick={() => handleCommunityListClick('vote')}
+                        data-tooltip-id="vote-list-title-tooltip"
+                        data-tooltip-content="투표게시판으로 이동"
+                    >
+                        투표 게시판
+                    </span>
                 </div>
                 {voteCommunityList?.map((item, index) => (
                     <div key={index} className={`grid grid-cols-4 border shadow m-2 cursor-pointer p-1 ${index < 3 ? highlightPosting[index] : ''}`} onClick={() => handleCommunityDetailClick({type:'vote', item})}>
@@ -77,9 +86,10 @@ function CommunityList({ type }) {
                         
                     </div>
                 ))}
-                <div className="flex justify-end me-1" onClick={() => handleCommunityListClick('vote')} >
-                    <span className="cursor-pointer text-xs">더보기</span>
-                </div>
+                {(voteCommunityList.length === 0) && (
+                    <div className="m-2 p-1 text-sm">게시글이 없습니다.</div>
+                )}
+                <Tooltip id="vote-list-title-tooltip" place="right"/>
             </div>
         )
     }
@@ -88,8 +98,16 @@ function CommunityList({ type }) {
     const renderGeneralCommunity = () => {
         return (
             <div className="flex-row ms-2">
-                <div>
-                    <span className="flex justify-center">일반 게시판</span>
+                <div className="flex justify-center">
+                    <span 
+                        id="general-list-title-tooltip"
+                        className="cursor-pointer" 
+                        onClick={() => handleCommunityListClick('general')}
+                        data-tooltip-id="general-list-title-tooltip"
+                        data-tooltip-content="일반게시판으로 이동"
+                    >
+                        일반 게시판
+                    </span>
                 </div>
                 {generalCommunityList?.map((item, index) => (
                     <div key={index} className={`grid grid-cols-4 border shadow m-2 cursor-pointer p-1 ${index < 3 ? highlightPosting[index] : ''}`} onClick={() => handleCommunityDetailClick({type:'general', item})}>
@@ -102,9 +120,10 @@ function CommunityList({ type }) {
                     </div>
                     </div>
                 ))}
-                <div className="flex justify-end me-1" onClick={() => handleCommunityListClick('general')} >
-                    <span className="cursor-pointer text-xs">더보기</span>
-                </div>
+                {(generalCommunityList.length === 0) && (
+                    <div className="m-2 p-1 text-sm">게시글이 없습니다.</div>
+                )}
+                <Tooltip id="general-list-title-tooltip" place="right"/>
             </div>
         )
     }
