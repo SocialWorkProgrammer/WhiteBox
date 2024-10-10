@@ -6,6 +6,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import useAIStore from '../../store/useAIStore.jsx'
 import { Helmet } from 'react-helmet';
 import "../../styles/main/main.css";
+import mainGIF from '../../public/img/sample.gif'
 
 function Main() {
     const navigate = useNavigate();
@@ -106,7 +107,7 @@ function Main() {
                     </div>
                     {/* gif 파일 */}
                     <div className="col-span-4 hidden md:flex items-center justify-center">
-                        <img src="" alt="GIF" className="max-w-full max-h-full bg-red-300" />
+                        <img src={mainGIF} alt="GIF" className="shadow-xl max-w-full max-h-full bg-red-300" />
                     </div>
                     
                     {/* 비디오 드래그 앤 드롭 */}

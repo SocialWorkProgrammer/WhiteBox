@@ -39,7 +39,6 @@ function AiDetail () {
         const fetchData = async () => {
             const fetchedData = await getData({ id });
             setData(fetchedData);
-            // setVideoSrc("https://whitebox-lawyer-vertify.s3.ap-northeast-2.amazonaws.com/videos/95a60887-d06a-4edc-adb7-12d841230213.mp4");
             setVideoSrc(fetchedData.aiVideoUrl);
             console.log(fetchedData);
         }
@@ -59,10 +58,10 @@ function AiDetail () {
     };
 
     return (
-        <div className="mt-5">
-            <div className="border border-gray-300 rounded-lg bg-black text-white">
+        <div className="mt-10">
+            <div className="bg-none border-none text-white w-full">
                 {videoSrc ? (
-                    <video controls autoPlay>
+                    <video controls autoPlay className="w-full h-auto">
                         <source src={videoSrc} type="video/mp4" />
                     </video>
                 ) : (
@@ -70,8 +69,8 @@ function AiDetail () {
                 )}
             </div>
             <div className={`&${showVoteModal ? 'blur-xl' : ''}`}>
-                <p>영상올린날짜 : {formatData(data.aiCreatedAt)}</p>
-                <div className="grid grid-cols-2 gap-4">
+                <p className="mt-3 flex justify-end text-xs">영상 업로드 : {formatData(data.aiCreatedAt)}</p>
+                <div className="flex-row md:grid grid-cols-2 gap-4">
                     <div className="col-span-1">
                         
                         <AiDescriptionCard type='ratio' content={[data.aiOtherFault, data.aiUserFault]}/>
@@ -83,7 +82,7 @@ function AiDetail () {
                         <AiDescriptionCard type='law' content={data.aiRelatedLaw}/>
                     </div>
                 </div>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="flex justify-end mt-3 md:grid grid-cols-4 gap-4">
                     <div className="col-span-3"></div>
                     {data.uploaded ? 
                         <div onClick={navigateVoteDetail} className="cursor-pointer border rounded-lg p-2 text-center">투표게시판 이동</div>

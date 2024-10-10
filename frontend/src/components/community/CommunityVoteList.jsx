@@ -61,7 +61,7 @@ function CommunityGeneralList() {
       <CommunityVoteTabs />
       <div className="grid grid-cols-12 border-b-2">
         <div className="col-span-2"></div>
-        <div className="max-w-[1300px] col-span-8 border-x-2 p-3">
+        <div className="col-span-8 border-x-2 p-3">
           <div className="mt-10 grid grid-cols-2 2xl:grid-cols-4 gap-5">
             {currentItems.length > 0 ? (
               currentItems.map((item, idx) => (
@@ -77,18 +77,18 @@ function CommunityGeneralList() {
                       thumbnail2={item.thumbnail2}
                       thumbnail3={item.thumbnail3}
                       thumbnail4={item.thumbnail4}
-                      className="relative w-[150px] h-[150px]"
+                      className="relative w-36 h-36"
                     />
                   ) : (
-                    <img src={item.thumbnail1} className="relative w-[150px] h-[150px]"/>
+                    <img src={item.thumbnail1} className="relative w-36 h-36"/>
                   )}
-                  <div className="flex flex-col gap-3 overflow-hidden text-ellipsis whitespace-nowrap">
-                    <div className="w-[200px] font-bold">{item.voTitle}</div>
+                  <div className="hidden md:flex flex-col gap-3 overflow-hidden text-ellipsis whitespace-nowrap">
+                    <div className="w-48 font-bold">{item.voTitle}</div>
                     <div className="flex flex-row">
                       {item.totalVotes > 10 ? <img src={hotvotepost} alt="" className="pr-2" /> : <p></p>}
                       <div className="font-light text-[#0A3DF2]">투표 수 {item.totalVotes}</div>
                     </div>
-                    <div className="w-[240px] right-0 font-bold">{item.nickname}</div>
+                    <div className="w-60 right-0 font-bold">{item.nickname}</div>
                     <div className="">{formatingExpirationTime(item.expirationDate)}</div>
                   </div>
                 </a>
@@ -97,7 +97,6 @@ function CommunityGeneralList() {
               <div className="col-span-2 flex flex-nowrap gap-[15px] max-w-[397px] h-[150px] border-2 text-xl items-center my-2">아직 글이 없습니다.</div>
             )}
           </div>
-          <div className="relative w-auto h-[38px] mt-5 mb-10"></div>
           <Pagination
             totalItems={totalElements} 
             itemsPerPage={itemsPerPage}
@@ -106,7 +105,7 @@ function CommunityGeneralList() {
             className="relative w-auto"
           />
         </div>
-        <div className="col-span-3"></div>
+        <div className="col-span-2"></div>
       </div>
     </div>
   );
