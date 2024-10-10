@@ -38,6 +38,7 @@ function CommunityGeneralDetail() {
     video: '', //data에서는 videoUrl로 나오므로 주의!
     voteId: 0,
     votesCount: 0,
+    nickname: '',
   });
   const [error, setError] = useState(null);
   
@@ -75,6 +76,7 @@ function CommunityGeneralDetail() {
             votesCount: response.votesCount,
             // votesCount: 347,
             userType: response.userType,
+            nickname: response.nickname,
             }) 
             console.log('사진들 = ',data);
         } catch (err) {
@@ -113,13 +115,13 @@ function CommunityGeneralDetail() {
       <div className="grid grid-cols-12 min-h-[300px]">
         <div className="col-span-2"></div>
         {/* 여기서부터 글 컨테이너 */}
-        <div className="max-w-[1300px] col-span-8 flex place-content-center">
+        <div className="max-w-[1300px] col-span-8 place-content-center">
           <div className= "h-auto border-x-2">
             <div className="flex border-box min-h-[34px] px-[7px] p-1 bg-[#BBBBBB]"><p className="text-xl">{data.title}</p></div>
-              <div className="border-box grid grid-cols-12 text-[15px] mt-2">
-                <div className="col-span-8 ml-2">{data.nickname}</div>
-                <div className="col-span-4 flex flex-row gap-2">
-                  <span className="">투표 수</span>
+              <div className="flex flex-row border-box place-content-between text-[15px] mt-2">
+                <div className="inline-block ml-5">{data.nickname}</div>
+                <div className="flex flex-row mr-5">
+                  <span className="mr-1">투표 수</span>
                   <span className="text-[#231FE8]">{data.votesCount}</span>
                   <span className="mx-2">|</span>
                   <span className="">작성일 {data.createdAt}</span>
@@ -129,7 +131,7 @@ function CommunityGeneralDetail() {
             <div className="min-h-[300px] p-3">
               {/* 비디오 */}
               <div className="flex flex-row place-content-between">
-                <video controls width="500" 
+                <video controls width="700" 
                   src={`/videos/${data.video}`}></video>
               {/* 현장사진 */}
                 {data.image === true ? <div>
@@ -202,10 +204,9 @@ function CommunityGeneralDetail() {
             onPageChange={handlePageChange}
             className="relative w-auto"
             />
-
           </div>
-        <div className="col-span-2"></div>
       </div>
+        <div className="col-span-2"></div>
     </div>
     </div>
   )
