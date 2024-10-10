@@ -1,6 +1,6 @@
 import React, {useState} from "react"; 
 
-const AiResultAccordion = ({aiUserFault, aiOtherFault, aiRelatedInformation, aiRelatedLaw}) => {
+const AiResultAccordion = ({aiUserFault, aiOtherFault, aiRelatedInformation, aiRelatedLaw, aiResult}) => {
   const [open, setOpen] = useState(true);
   const toggleAccordion = () => {
     setOpen(!open)
@@ -18,8 +18,9 @@ const AiResultAccordion = ({aiUserFault, aiOtherFault, aiRelatedInformation, aiR
           <div className="flex flex-row gap-3">
           <p>게시자:상대 = </p><p className="text-[#DC1B3E] font-bold">{aiUserFault}</p><p>:</p><p className="text-[#458EF7] font-bold">{aiOtherFault}</p>
           </div>
-          <p>관련 법률 : {aiRelatedLaw}</p>
+          <p>관련 결과 : {aiResult}</p>
           <p>관련 정보 : {aiRelatedInformation}</p>
+          <p>관련 법률 : {aiRelatedLaw}</p>
         </div>
         </>
         :     <div onClick={toggleAccordion} className="relative flex flex-row gap-5 border-b-2 border-black w-auto hover:cursor-pointer hover:bg-gray-100 mt-10">
