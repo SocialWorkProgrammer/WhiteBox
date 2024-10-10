@@ -2,7 +2,6 @@ package com.ssafy.whitebox.vote.controller;
 
 
 import com.ssafy.whitebox.vote.dto.*;
-import org.springframework.cglib.core.Local;
 import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.whitebox.vote.service.VoteService;
 import lombok.*;

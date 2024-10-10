@@ -1,6 +1,6 @@
 package com.ssafy.whitebox.user.entity;
 
-import com.ssafy.whitebox.user.dto.UserParam;
+
 import com.ssafy.whitebox.user.util.UserType;
 import jakarta.persistence.*;
 import lombok.Getter;

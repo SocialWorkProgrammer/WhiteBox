@@ -2,14 +2,12 @@ package com.ssafy.whitebox.community.repository;
 
 import com.ssafy.whitebox.community.entity.Community;
 import com.ssafy.whitebox.user.entity.User;
-import com.ssafy.whitebox.vote.entity.Vote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CommunityRepository extends JpaRepository<Community, Long> {
