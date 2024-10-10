@@ -55,7 +55,7 @@ function CommunityGeneralList() {
           <div className="flex flex-row text-[13px] place-content-between">
           <div className="flex flex-row">
             <div className="block w-[50px] text-center">번호</div>
-            <div className="block ml-7">제목</div>
+            <div className="block ml-7 max-w-[25vw]">제목</div>
           </div>
           <div className="flex w-[300px] items-center place-content-between">
             <div className="w-[100px] text-center" >댓글수</div>
