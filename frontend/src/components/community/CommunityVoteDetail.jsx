@@ -73,7 +73,7 @@ function CommunityGeneralDetail() {
             neutralPercent: response.neutralPercent,
             oppositePercent: response.oppositePercent,
             title: response.title,
-            video: response.videoUrl, //data에서는 videoUrl로 나오므로 주의!
+            videoUrl: response.videoUrl, //data에서는 videoUrl로 나오므로 주의!
             voteId: response.voteId,
             votesCount: response.votesCount,
             // votesCount: 347,
@@ -133,10 +133,11 @@ function CommunityGeneralDetail() {
             <div className="min-h-[300px] p-3">
               {/* 비디오 */}
               <div className="flex flex-row place-content-between">
-                <video controls width="700" 
-                  src={data.video}></video>
+                <video controls width="700" autoplay>
+                  <source src={data.videoUrl} type="video/mp4" />
+                </video>
               {/* 현장사진 */}
-                {data.image === true ? <div>
+                {data.images ? <div>
                 <p>현장사진</p>
                 <div className="grid grid-cols-2 gap-4 max-w-[700px] max-h-[400px] m-2">
                 {data.images.map((image, idx) => (
