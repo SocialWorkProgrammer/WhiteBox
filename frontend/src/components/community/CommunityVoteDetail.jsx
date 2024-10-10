@@ -50,7 +50,7 @@ function CommunityGeneralDetail() {
     const loadCommunityCommentList = async () => {
         try {
           const response = await getCommunityVoteDetail({voteId});
-          const date = dayjs(response.createdAt).format('YYYY-MM-DD HH:mm:ss');
+          const date = dayjs(response.createdAt).format('YYYY-MM-DD HH:mm');
           console.log('요청받은 데이터 = ', response);
           setData({
             aiOtherFault : response.aiOtherFault,
@@ -118,7 +118,7 @@ function CommunityGeneralDetail() {
             <div className="flex border-box min-h-[34px] px-[7px] p-1 bg-[#BBBBBB]"><p className="text-xl">{data.title}</p></div>
               <div className="border-box grid grid-cols-12 text-[15px] mt-2">
                 <div className="col-span-8 ml-2">{data.nickname}</div>
-                <div className="col-span-4 flex flex-row">
+                <div className="col-span-4 flex flex-row gap-2">
                   <span className="">투표 수</span>
                   <span className="text-[#231FE8]">{data.votesCount}</span>
                   <span className="mx-2">|</span>
@@ -178,7 +178,7 @@ function CommunityGeneralDetail() {
             <CommentPostForm id={voteId} onCommentUpdate={handleCommentUpdate} />
             {currentItems.length > 0 ? (
             currentItems.map((comment, idx) => {
-                const commentDate = dayjs(comment.postedAt).format('YYYY-MM-DD HH:mm:ss')
+                const commentDate = dayjs(comment.postedAt).format('YYYY-MM-DD HH:mm')
                 return (
                 <div key={idx} className="flex flex-col min-h-[95px] border-b-2">
                 <div className="flex flex-row justify-between">
