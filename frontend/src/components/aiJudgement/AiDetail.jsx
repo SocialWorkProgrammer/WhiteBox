@@ -39,7 +39,7 @@ function AiDetail () {
         const fetchData = async () => {
             const fetchedData = await getData({ id });
             setData(fetchedData);
-            // setVideoSrc("https://whitebox-lawyer-vertify.s3.ap-northeast-2.amazonaws.com/videos/a2aa34e2-b366-4d60-8784-efa7238c10ad.mp4");
+            // setVideoSrc("https://whitebox-lawyer-vertify.s3.ap-northeast-2.amazonaws.com/videos/95a60887-d06a-4edc-adb7-12d841230213.mp4");
             setVideoSrc(fetchedData.aiVideoUrl);
             console.log(fetchedData);
         }
@@ -61,9 +61,13 @@ function AiDetail () {
     return (
         <div className="mt-5">
             <div className="border border-gray-300 rounded-lg bg-black text-white">
-                <video controls autoplay>
-                    <source src={videoSrc} type="video/mp4" />
-                </video>
+                {videoSrc ? (
+                    <video controls autoPlay>
+                        <source src={videoSrc} type="video/mp4" />
+                    </video>
+                ) : (
+                    <p>비디오를 불러오는 중입니다...</p>
+                )}
             </div>
             <div className={`&${showVoteModal ? 'blur-xl' : ''}`}>
                 <p>영상올린날짜 : {formatData(data.aiCreatedAt)}</p>

@@ -30,6 +30,7 @@ function Login() {
             const nickname = response.nickname;
             navigate(`/auth/profile/${nickname}`);
             setIsLoading(false)
+            window.location.reload(true);
         } else {
             setIsLoading(false)
             alert("등록되지 않은 사용자이거나, 비밀번호가 일치하지 않습니다.");
