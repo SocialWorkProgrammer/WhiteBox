@@ -55,8 +55,7 @@
 .login-button {
     width: 148px;
     height: 56px;
-    background-color: #458EF7;
-    opacity: 0.5;
+    background-color: #6BA4F8;
     border: none;
     color: black;
     padding: auto;
@@ -65,4 +64,16 @@
     cursor: pointer;
     border-radius: 20px;
     margin-top: 25px;
+}
+
+.login-clip-loader {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 999;
 }

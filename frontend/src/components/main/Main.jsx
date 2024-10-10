@@ -1,10 +1,11 @@
-import React, { useState } from 'react'; 
+import React, { useEffect, useState } from 'react'; 
 import ServiceDescriptionCard from './ServiceDescriptionCard';
 import CommunityList from './CommunityList';
 import { useNavigate } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader';
 import useAIStore from '../../store/useAIStore.jsx'
 import { Helmet } from 'react-helmet';
+import "../../styles/main/main.css";
 
 function Main() {
     const navigate = useNavigate();
@@ -59,7 +60,34 @@ function Main() {
             return;
         }
     }
+    // 컨텐츠 더 있어요!! 를 보여주기
+    const [ isBottom, setIsBottom ] = useState(false);
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollPosition = window.innerHeight + window.scrollY;
+            const bottom = document.documentElement.offsetHeight;
+            setIsBottom(scrollPosition >= bottom);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+    
+    const [ isVisible, setIsVisible ] = useState(true);
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setIsVisible(prev => !prev);
+        }, 1000);
+        return () => clearInterval(intervalId);
+    }, []);
 
+    const handleScrollClick = () => {
+        window.scrollTo({
+            top:window.innerHeight / 2,
+            behavior: "smooth"
+        })
+    }
     return (
         <div>
             <Helmet>
@@ -74,14 +102,15 @@ function Main() {
             ) : (
                 
                 <div className="w-[100vw] grid grid-cols-12 gap-4 h-full" style={{ height: 'calc(100vh - 90px)' }}>
-                    <div className="col-span-2"></div>
+                    <div className="col-span-2">
+                    </div>
                     {/* gif 파일 */}
-                    <div className="col-span-4 bg-gray-300 flex items-center justify-center">
-                        <img src="" alt="GIF" className="max-w-full max-h-full" />
+                    <div className="col-span-4 hidden md:flex items-center justify-center">
+                        <img src="" alt="GIF" className="max-w-full max-h-full bg-red-300" />
                     </div>
                     
                     {/* 비디오 드래그 앤 드롭 */}
-                    <div className='col-span-4 flex items-center justify-center'>
+                    <div className='col-span-8 flex items-center justify-center md:col-span-4'>
                         <div 
                             className="rounded-3xl p-6 pt-12 shadow-2xl"
                             onDrop={ handleDrop }
@@ -143,6 +172,20 @@ function Main() {
                     <ServiceDescriptionCard />
                 )}
             </div>
+            {!isBottom && (
+                <div>
+                    {isVisible && (
+                        <div className="text-gray-500 fixed bottom-10 left-10 mb-4 ml-4 rotate-icon flex" onClick={handleScrollClick}>
+                            <span className='cursor-pointer'>&gt;&gt;&gt;</span>
+                        </div>
+                    )}
+                    {!isVisible && (
+                        <div className="text-gray-300 fixed bottom-20 left-10 mb-4 ml-4 rotate-icon flex" onClick={handleScrollClick}>
+                            <span className='cursor-pointer'>&gt;&gt;&gt;</span>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }

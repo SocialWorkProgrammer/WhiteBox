@@ -39,7 +39,7 @@ function AiDetail () {
         const fetchData = async () => {
             const fetchedData = await getData({ id });
             setData(fetchedData);
-            setVideoSrc(fetchedData.videoUrl);
+            setVideoSrc(fetchedData.aiVideoUrl);
             console.log(fetchedData);
         }
         fetchData();
@@ -69,12 +69,12 @@ function AiDetail () {
                             </video>
                         </div>
                         <AiDescriptionCard type='ratio' content={[data.aiOtherFault, data.aiUserFault]}/>
-                        <AiDescriptionCard type='description'content={data.aiDescription}/>
+                        <AiDescriptionCard type='precedent' content={data.aiExplanation}/>
                     </div>
                     <div className="col-span-1">
+                        <AiDescriptionCard type='description'content={data.aiDescription}/>
                         <AiDescriptionCard type='situation' content={data.aiResult}/> 
                         <AiDescriptionCard type='law' content={data.aiRelatedLaw}/>
-                        <AiDescriptionCard type='precedent' content={data.aiExplanation}/>
                     </div>
                 </div>
                 <div className="grid grid-cols-4 gap-4">

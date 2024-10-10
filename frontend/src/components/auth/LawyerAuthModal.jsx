@@ -101,7 +101,7 @@ function LawyerAuthModal({ closeModal }) {
                 {/* 제출 하기 */}
                 <div className='flex justify-between'>
                     <button
-                        onClick={closeModal}
+                        onClick={() => closeModal()}
                         className="px-4 py-2 rounded-lg hover:bg-gray-300"
                         disabled={isLoading}
                         >
