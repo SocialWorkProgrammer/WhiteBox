@@ -42,9 +42,6 @@ public class LawyerController {
             @Parameter(description = "파일 업로드 (이미지)", required = true)
             @RequestPart("file") MultipartFile file) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-
         // 변호사 조회
         Lawyer lawyer = lawyerService.findLawyerByNameAndDate(lawyerParam.getLawyerName(), lawyerParam.getLawyerDate());
         if (lawyer == null) {
