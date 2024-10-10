@@ -1185,24 +1185,112 @@ async def analyze_video(file: UploadFile = File(...)):
         print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
         print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
         print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
-        print(classification_results)
-        print(classification_results[0]['pred_label'].item())
+        ai_result = dict_label[str(classification_results[0]['pred_label'].item())]
+        print(ai_result)
         print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
         print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
         print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
-
         
 
-        # result = {
-        #     "aiDescription": "사고 발생 상황 분석",
-        #     "aiExplanation": "과실 비율과 그 근거",
-        #     "aiResult": "법적 기준 및 결론",
-        #     "aiRelatedLaw": "관련 법(있을수도있고없을수도있음)",
-        #     "aiUserFault": 80,
-        #     "aiOtherFault": 20
-        # }
+
+
+
+        # LLM
+        query_text = f'{ai_result[0]}에서 f{ai_result[1]}'
+        accident_location = ai_result[0]
+        accident_location_description = ai_result[1]
+        a_direction = ai_result[2]
+        b_direction = ai_result[3]
+        a_percentage = ai_result[4]
+        b_percentage = ai_result[5]
+
+        embedding_function = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))  
+        vector_store = Chroma(persist_directory="chroma_data", embedding_function=embedding_function)
+
+        try:
+            similar_query = vector_store.similarity_search(query_text, k=1)
+            if not similar_query:
+                raise HTTPException(status_code=404, detail="유사한 쿼리를 찾을 수 없습니다.")
+            
+            retrieved_content = similar_query[0].page_content
+            match = re.search(r'\\(\d+)', retrieved_content)
+            if not match:
+                raise HTTPException(status_code=500, detail="검색된 쿼리에서 번호를 추출할 수 없습니다.")
+            
+            case_number = match.group(1)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail="유사한 쿼리를 검색하는 중 오류가 발생했습니다.")
+
+        # 번호에 해당하는 파일 내용을 읽기 위한 폴더 목록
+        folder_paths = [
+            "참조판례", "판례내용"
+        ]
+        
+        base_path = "판례" 
+
+        reference_case_content = None
+        precedent_content = None
+        try:
+            for folder in folder_paths:
+                file_path = os.path.join(base_path, folder, f"{case_number}.txt")
+                if os.path.exists(file_path):
+                    with open(file_path, 'r', encoding='euc-kr') as file:
+                        if folder == "참조판례":
+                            reference_case_content = file.read()  
+                        elif folder == "판례내용":
+                            precedent_content = file.read() 
+                else:
+                    if folder == "참조판례":
+                        reference_case_content = f"{folder}에서 {case_number}에 해당하는 파일을 찾을 수 없습니다."
+                    elif folder == "판례내용":
+                        precedent_content = f"{folder}에서 {case_number}에 해당하는 파일을 찾을 수 없습니다."
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"케이스 내용을 읽는 중 오류가 발생했습니다: {str(e)}")
+
+
+        results = []
+        try:
+            if precedent_content:
+                result = run_chain(
+                    accident_location=accident_location,
+                    accident_location_description=accident_location_description,
+                    a_direction=a_direction,
+                    b_direction=b_direction,
+                    a_percentage=a_percentage,
+                    b_percentage=b_percentage,
+                    precedent_content=precedent_content  
+                )
+                results.append(result)
+            else:
+                raise HTTPException(status_code=500, detail="판례내용이 없습니다. 프롬프트를 실행할 수 없습니다.")
+
+        except Exception as e:
+            raise HTTPException(status_code=500, detail="프롬프트 처리 중 오류가 발생했습니다.")
+
+
+        print('#############################')
+        print('#############################')
+        print('#############################')
+        print(results)
+        print('#############################')
+        print('#############################')
+        print('#############################')
+        print(reference_case_content)
+        print('#############################')
+        print('#############################')
+        print('#############################')
+
+        aiRelatedLaw = reference_case_content
+        if '해당하는 파일을 찾을 수 없습니다.' in reference_case_content:
+            aiRelatedLaw = '관련 판례를 찾지 못하였습니다.'
+
         result = {
-          "result" : dict_label[str(classification_results[0]['pred_label'].item())]
+            "aiDescription": results[0]['description'],
+            "aiExplanation": results[0]['explanation'],
+            "aiResult": results[0]['Result'],
+            "aiRelatedLaw": aiRelatedLaw,
+            "aiUserFault": ai_result[5],
+            "aiOtherFault": ai_result[4]
         }
 
 
