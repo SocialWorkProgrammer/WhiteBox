@@ -34,3 +34,9 @@
 #logo {
     cursor: pointer;
 }
+
+.rotate-icon {
+    display: inline-block;
+    transform: rotate(90deg);
+    margin-left: 8px; 
+}
