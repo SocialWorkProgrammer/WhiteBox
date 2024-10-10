@@ -94,13 +94,13 @@ public class FileStorageService {
     private void compressVideo(File inputFile, File outputFile) throws IOException, InterruptedException {
         // FFmpeg 명령어 구성 (비트레이트와 해상도를 더 낮춰서 압축)
         ProcessBuilder processBuilder = new ProcessBuilder(
-                "ffmpeg", "-i", inputFile.getAbsolutePath(),
+                "ffmpeg", "t-i", inputFile.getAbsolutePath(),
                 "-vcodec", "h264", "-acodec", "aac", "-strict", "-2",
                 "-b:v", "500k",  // 비디오 비트레이트를 500k로 줄임
                 "-b:a", "64k",   // 오디오 비트레이트를 64k로 줄임
                 "-vf", "scale=640:360",  // 해상도를 640x360으로 낮춤 (더 작은 크기의 비디오)
                 "-preset", "slow",  // 더 느린 압축 프리셋(더 높은 압축률)
-                outputFile.getAbsolutePath()
+                outputFile.getAbsolutePah()
         );
 
         // FFmpeg 실행

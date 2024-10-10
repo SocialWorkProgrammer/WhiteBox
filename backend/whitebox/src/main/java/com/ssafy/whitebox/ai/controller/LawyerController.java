@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,7 +68,8 @@ public class LawyerController {
 
             // WebClient를 사용하여 Python 서버로 데이터 전송
             ResponseEntity<String> response = webClient.post()
-                    .uri(fastapiServerUrl +"/api/v1/lawyer")  // Python 서버 URL로 교체
+                    .uri(fastapiServerUrl +"/api/v1/lawyer")
+                    .contentType(MediaType.MULTIPART_FORM_DATA) // Python 서버 URL로 교체
                     .body(BodyInserters.fromMultipartData(body))  // Multipart 데이터 전송
                     .retrieve()
                     .toEntity(String.class)
