@@ -38,7 +38,7 @@ public class AIResultService {
     public AIResult createAIResult(String userEmail, MultipartFile videoFile) throws IOException, InterruptedException {
         User user = userRepository.findByUserEmail(userEmail);
         // 비디오 파일 저장
-        String videoUrl = fileStorageService.saveFile(videoFile, "video");
+        String videoUrl = fileStorageService.saveFile(videoFile, "video/mp4");
 
         // 썸네일 추출 및 저장
         String thumbnails = ffmpegService.extractThumbnails(videoFile);
