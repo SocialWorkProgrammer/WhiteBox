@@ -32,7 +32,7 @@ function CommunityGeneralTabs() {
             </a>
             </div>
           {/* 게시판 안내 */}
-          <div className="community-notice border-y-[0.5px] border-marvel-blue flex flex-col place-content-center p-1">
+          <div className="community-notice border-y-[2px] border-black flex flex-col place-content-center p-1">
             <h1 className="text-3xl mb-4 font-semibold">투표 게시판</h1>
             <p className="text-xl">정치, 혐오글, 욕설 금지입니다.</p>  
           </div>
