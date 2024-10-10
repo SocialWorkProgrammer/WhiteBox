@@ -27,7 +27,7 @@ function MyVoteList () {
     const totalPages = Math.ceil(totalVoteCount / itemsPerPage);
 
     const handlePageChange = (newPageId) => {
-        if (pageId >= 1 && newPageId <= totalPages) {
+        if (pageId > 1 && newPageId <= totalPages) {
             setPageId(newPageId);
         }
     }
@@ -50,21 +50,21 @@ function MyVoteList () {
                         <div className="flex items-center mt-2 truncate">
                             <div className="w-11/12 flex h-6">
                                 <div 
-                                    className="bg-blue-300"
+                                    className="bg-blue-600"
                                     style={{
                                         width: `${Math.max(vote.approvalPercent, 2)}%`,
                                         minWidth: "10px",
                                     }}
                                 >{vote.approvalPercent}%</div>
                                 <div 
-                                    className="bg-gray-300"
+                                    className="bg-stone-400"
                                     style={{
                                         width: `${Math.max(vote.neutralPercent, 2)}%`,
                                         minWidth: "10px",
                                     }}
                                 ></div>
                                 <div 
-                                    className="bg-red-300"
+                                    className="bg-red-600"
                                     style={{
                                         width: `${Math.max(vote.oppositePercent, 2)}%`,
                                         minWidth: "10px",
