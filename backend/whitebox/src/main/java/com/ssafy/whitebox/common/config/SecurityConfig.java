@@ -54,18 +54,17 @@ public class SecurityConfig {
 
                             @Override
                             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-
                                 CorsConfiguration configuration = new CorsConfiguration();
-                                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                                configuration.setAllowedMethods(Collections.singletonList("*"));
+                                configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://j11a104.p.ssafy.io")); // 정확한 도메인 추가
+                                configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // OPTIONS 메서드 추가
                                 configuration.setAllowCredentials(true);
-                                configuration.setAllowedHeaders(Collections.singletonList("*"));
-                                configuration.setExposedHeaders(Arrays.asList("Authorization"));  // Authorization 헤더 노출
+                                configuration.setAllowedHeaders(Arrays.asList("*"));
+                                configuration.setExposedHeaders(Arrays.asList("Authorization"));
                                 configuration.setMaxAge(3600L);
-
                                 return configuration;
                             }
-                        }));
+                        })
+                );
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -75,7 +74,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/api/v1/users/login", "/api/v1/users",
-                                "/v3/api-docs/**", "/swagger-resources/**", "/swagger-ui/**").permitAll()
+                                "/v3/api-docs/**", "/swagger-resources/**", "/swagger-ui/**", "/api/v1//verify-lawyer").permitAll()
                         .anyRequest().authenticated());
 
         // JWT Filter

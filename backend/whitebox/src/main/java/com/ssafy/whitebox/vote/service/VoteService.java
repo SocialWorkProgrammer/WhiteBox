@@ -17,6 +17,7 @@ import com.ssafy.whitebox.vote.repository.VoteCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -224,7 +225,7 @@ public class VoteService {
                 .collect(Collectors.toList());
         List<VoteComment> comments = voteCommentRepository.findByVote(vote);
         List<VoteCommentParam> commentParams = comments.stream()
-                .map(comment -> new VoteCommentParam(comment.getUser().userNickname(), comment.getComment(), comment.getPostedAt()))
+                .map(comment -> new VoteCommentParam(comment.getUser().userNickname(), comment.getComment(), comment.getPostedAt(), comment.getUser().userType().getValue()))
                 .collect(Collectors.toList());
 //         총 투표수가 0일 때를 대비하여 예외 처리
         if (totalVotes == 0) {
@@ -260,7 +261,7 @@ public class VoteService {
     }
 
     public PageResponse<VoteListResponseParam> getVotesWithPagination(int pageIndex, int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageIndex - 1, pageSize);
+        PageRequest pageRequest = PageRequest.of(pageIndex - 1, pageSize, Sort.by(Sort.Direction.DESC, "voCreatedAt"));
         Page<Vote> votePage = voteRepository.findAll(pageRequest);
 
         // Vote 엔티티를 VoteListResponseParam으로 변환하면서 댓글 수, 총 투표 수, 썸네일 추가

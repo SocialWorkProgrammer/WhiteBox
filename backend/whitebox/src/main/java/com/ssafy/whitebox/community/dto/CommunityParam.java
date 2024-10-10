@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import java.util.List;
 import java.time.LocalDateTime;
-import com.ssafy.whitebox.user.entity.User;
 
 @Getter
 @Setter
@@ -19,7 +18,6 @@ public class CommunityParam {
     private List<CommunityImageParam> images;
     private Long userIndex;
     private String userNickname;
-    private User user;
     private List<CommunityCommentParam> comments;
     private int commentCount;
 }

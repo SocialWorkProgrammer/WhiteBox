@@ -1,14 +1,12 @@
-import httpx
 import re
 import os
 from dotenv import load_dotenv
-from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
+from fastapi import APIRouter, UploadFile, File, HTTPException, Depends, Form
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from app.services.models import Lawyer, QueryRequest
+from app.services.models import QueryRequest
 from app.services.service import url_to_img, byte_to_img
 from app.core.database import get_db
-from app.services.langchain import prompt, rag
 from app.services.langchain.prompt import run_chain
 from deepface import DeepFace
 from pydantic import BaseModel
@@ -48,26 +46,19 @@ def verify_lawyer_image(lawyer_image_url: str, uploaded_image_bytes: bytes):
 
 @router.post("/api/v1/lawyer")
 async def compare_image(
-    name: str, 
-    date: str, 
-    user_email: str,
-    file: UploadFile = File(...), 
-    db: Session = Depends(get_db)
+    img_path: str = Form(...),
+    file: UploadFile = File(...)
 ):
-    lawyer = db.query(Lawyer).filter(Lawyer.lawyer_name == name, Lawyer.lawyer_date == date).first()
-
-    if not lawyer:
-        raise HTTPException(status_code=404, detail=FAILURE_MESSAGE)
-
     uploaded_image_bytes = await file.read()
-    result = verify_lawyer_image(lawyer.lawyer_image_url, uploaded_image_bytes)
+    result = verify_lawyer_image(img_path, uploaded_image_bytes)
     distance = result['distance']
 
     if distance <= DISTANCE_THRESHOLD:
-        update_user_type_to_lawyer(db, user_email)
         return JSONResponse(content={"message": SUCCESS_MESSAGE, "user_type": USER_TYPE_LAWYER})
     
     return JSONResponse(content={"message": FAILURE_MESSAGE, "user_type": USER_TYPE_MEMBER})
+
+
 
 @router.post("/api/v1/analyze-video/")
 async def analyze_video(file: UploadFile = File(...)):
@@ -76,10 +67,12 @@ async def analyze_video(file: UploadFile = File(...)):
     try:
         file_content = await file.read()
         logger.info(f"File size: {len(file_content)} bytes")
-
+        # 이 더미데이터를 채워서 return 해주면 됩니다!~@!@~!@~!@@@!~!~!~!~!~!~
         result = {
-            "aiRelatedInformation": "Sample AI Information",
-            "aiRelatedLaw": "Sample AI Law",
+            "aiDescription": "사고 발생 상황 분석",
+            "aiExplanation": "과실 비율과 그 근거",
+            "aiResult": "법적 기준 및 결론",
+            "aiRelatedLaw": "관련 법(있을수도있고없을수도있음)",
             "aiUserFault": 80,
             "aiOtherFault": 20
         }
@@ -129,7 +122,6 @@ async def process_query(request: QueryRequest, db: Session = Depends(get_db)):
     
     base_path = "판례" 
 
-    case_details = {}
     reference_case_content = None
     precedent_content = None
     try:
@@ -174,14 +166,14 @@ async def process_query(request: QueryRequest, db: Session = Depends(get_db)):
             "results": results
         }
 
-    try:
-        async with httpx.AsyncClient() as client:
-            spring_response = await client.post(
-                "http://localhost/api/v1/upload-video",  
-                json=response_data
-            )
-            spring_response.raise_for_status()
-    except httpx.HTTPStatusError as e:
-        raise HTTPException(status_code=500, detail=f"Spring 서버로 전송 중 오류가 발생했습니다: {str(e)}")
+    # try:
+    #     async with httpx.AsyncClient() as client:
+    #         spring_response = await client.post(
+    #             "http://localhost/api/v1/upload-video",  
+    #             json=response_data
+    #         )
+    #         spring_response.raise_for_status()
+    # except httpx.HTTPStatusError as e:
+    #     raise HTTPException(status_code=500, detail=f"Spring 서버로 전송 중 오류가 발생했습니다: {str(e)}")
 
     return JSONResponse(content=response_data)

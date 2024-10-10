@@ -21,9 +21,12 @@ public class VoteDetailResponseParam {
     private LocalDateTime expirationDate;
     private int hit;
     private boolean isImage;
+    private String nickname;
 
     // AIResult 정보
-    private String aiRelatedInformation;
+    private String aiDescription;
+    private String aiExplanation;
+    private String aiResult;
     private String aiRelatedLaw;
     private int aiUserFault;
     private int aiOtherFault;
@@ -42,6 +45,7 @@ public class VoteDetailResponseParam {
     // 생성자
     public VoteDetailResponseParam(Vote vote, AIResult aiResult, List<VoteImageParam> images, List<VoteCommentParam> comments, int approvalPercent, int oppositePercent, int neutralPercent) {
         this.voteId = vote.getVoteId();
+        this.nickname = vote.getUser().userNickname();
         this.title = vote.getVoTitle();
         this.description = vote.getVoDescription();
         this.approvalPercent = approvalPercent;
@@ -53,7 +57,9 @@ public class VoteDetailResponseParam {
         this.isImage = vote.isVoIsImage();
 
         // AIResult 정보
-        this.aiRelatedInformation = aiResult.getAiRelatedInformation();
+        this.aiDescription = aiResult.getAiDescription();
+        this.aiExplanation = aiResult.getAiExplanation();
+        this.aiResult = aiResult.getAiResult();
         this.aiRelatedLaw = aiResult.getAiRelatedLaw();
         this.aiUserFault = aiResult.getAiUserFault();
         this.aiOtherFault = aiResult.getAiOtherFault();

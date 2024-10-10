@@ -7,6 +7,7 @@ import com.ssafy.whitebox.community.repository.CommunityRepository;
 import com.ssafy.whitebox.common.service.FileStorageService;
 import com.ssafy.whitebox.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.whitebox.user.entity.User;
@@ -61,7 +62,6 @@ public class CommunityService {
         param.setImages(imageParams);
         param.setUserIndex(community.getUser().userIndex());
         param.setUserNickname(community.getUser().userNickname());
-        param.setUser(community.getUser());
         param.setCommentCount(community.getComments().size());
         return param;
     }
@@ -73,12 +73,12 @@ public class CommunityService {
                     CommunityCommentParam commentParam = new CommunityCommentParam();
                     commentParam.setId(comment.getId());
                     commentParam.setComment(comment.getComment());
+                    commentParam.setUserType(comment.getUser().userType().getValue());
                     commentParam.setUserNickname(comment.getUser().userNickname());
                     commentParam.setPostedAt(comment.getPostedAt());
                     return commentParam;
                 })
                 .collect(Collectors.toList());
-
         param.setComments(commentParams);  // 댓글 추가
         return param;
     }
@@ -155,7 +155,7 @@ public class CommunityService {
 
 
     public Page<CommunityParam> getCommunitiesWithPagination(int pageIndex, int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageIndex - 1, pageSize);
+        PageRequest pageRequest = PageRequest.of(pageIndex - 1, pageSize, Sort.by(Sort.Direction.DESC, "comCreatedAt"));
         Page<Community> communityPage = communityRepository.findAll(pageRequest);
 
         // Community 엔티티를 CommunityParam으로 변환하여 반환

@@ -3,7 +3,6 @@ package com.ssafy.whitebox.vote.entity;
 import lombok.Getter;
 import lombok.Setter;
 import com.ssafy.whitebox.user.entity.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity

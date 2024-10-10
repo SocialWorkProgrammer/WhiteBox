@@ -11,4 +11,5 @@ public class CommunityCommentParam {
     private String comment;
     private String userNickname;
     private LocalDateTime postedAt;
+    private String userType;
 }

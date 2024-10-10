@@ -1,7 +1,10 @@
 package com.ssafy.whitebox.mainpage.service;
 
+import com.ssafy.whitebox.community.entity.Community;
+import com.ssafy.whitebox.mainpage.dto.MainPageCommunityResponseParam;
 import com.ssafy.whitebox.vote.entity.Vote;
 import com.ssafy.whitebox.vote.repository.VoteRepository;
+import com.ssafy.whitebox.community.repository.CommunityRepository;
 import com.ssafy.whitebox.mainpage.dto.MainPageVoteResponseParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import java.util.stream.Collectors;
 public class MainPageService {
 
     private final VoteRepository voteRepository;
+    private final CommunityRepository communityRepository;
 
     public List<MainPageVoteResponseParam> getTop6Votes() {
         LocalDateTime currentDate = LocalDateTime.now();
@@ -23,6 +27,23 @@ public class MainPageService {
         return topVotes.stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
+    }
+
+    public List<MainPageCommunityResponseParam> getTop10Communities(){
+        List<Community> topCommunities = communityRepository.findTop10Communities();
+
+        return topCommunities.stream()
+                .map(this::convertToResponseCommunity)
+                .collect(Collectors.toList());
+    }
+
+    private MainPageCommunityResponseParam convertToResponseCommunity(Community community){
+        return MainPageCommunityResponseParam.builder()
+                .comId(community.getComIndex())
+                .title(community.getComTitle())
+                .hit(community.getComHit())
+                .createdAt(community.getComCreatedAt())
+                .build();
     }
 
     private MainPageVoteResponseParam convertToResponse(Vote vote) {
