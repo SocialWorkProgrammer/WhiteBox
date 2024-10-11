@@ -19,11 +19,11 @@
 ###  👥 팀원 소개
 | 팀원   | 역할        | 개발 내용                                                    |
 |------|-----------|----------------------------------------------------------|
-| 신우호 | 팀장, AI 리드    | 작성요망 |
+| 신우호 | 팀장, AI 리드    | MMAction2 SlowFast ResNet 50 모델을 이용하여 교통사고 블랙박스 영상을 124개의 교통사고 유형으로 분류 |
 | 정호성 | FE 리드     | 하하 |
-| 민  호 | 작성요망 | 작성요망   |
-| 차재훈 | 작성요망      | 작성요망              |
-| 송인범 | 작성요망        | 작성요망          |
+| 민  호 | FE | Figma 이용 UI 구현, 커뮤니티 구현(투표, 댓글, rich text editor 등 구현) |
+| 차재훈 | BE      | Spring boot와 FastAPI 간의 Reactive Streams 적용,게시판 REST API 구현과 미디어 파일 처리  |
+| 송인범 | BE,AI,INFRA | object-detection model 개발, rag 모델 개발, 변호사 인증 로직 개발, 회원 기능 개발, 정보 게시판 개발, AI 통신 서버 개발|
 | 김근욱 | 작성요망        | 작성요망 |
 
 
@@ -60,9 +60,9 @@
   <span style="font-size:17px; font-weight:bold; text-align: right; width: 100px;">BE & DB</span>
   <div style="text-align: left; flex: 1; padding-left: 10px;">
     <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> 
+    <img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white">
+    <img src="https://img.shields.io/badge/fastapi-009688?style=for-the-badge&logo=fastapi&logoColor=white">
     <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-    <img src="">
-    <img src="">
   </div>
 </div>
 
@@ -79,45 +79,71 @@
 <div style="display: flex; align-items: center; margin-bottom: 10px;">
   <span style="font-size:17px; font-weight:bold; text-align: right; width: 100px;">AI</span>
   <div style="text-align: left; flex: 1; padding-left: 10px;">
-    <img src="">
-    <img src="">
+    <img src="https://img.shields.io/badge/pytorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white">
+    <img src="https://img.shields.io/badge/langchain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white">
+    <img src="https://img.shields.io/badge/openai-412991?style=for-the-badge&logo=openai&logoColor=white">
   </div>
 </div>
 
 ## 3. 아키텍처 & ERD
 
 <img src="readMeSrc/Architect.png" alt="img_1" style="max-width: 100%; height: auto;">
-<img src="readMeSrc/Erd.png" alt="img" style="max-width: 100%; height: auto;">
+<img src="exec/Documents/ERD.png" alt="img" style="max-width: 100%; height: auto;">
 
 ## 4. 서비스 기능 소개
 #### 1. AI
     1. RAG(Retrieval-Augmented Generation)
-        - 대법원 판례를 ~~~했어요 
-        - 그걸 벡터 DB화 하여 ~~~~~~했어용가리어카센터미널
+        - 대법원 판례 88000개를 크롤링
+        - 교통사고 용어들을 기준으로 9000여개의 데이터 셋 구축
+        - SBert기반으로 임베딩 파일 구축
+        - Chroma DB 기반의 쿼리 탐색으로 유사 판례 제공
+        - LangChain 기반의 파이프라인으로 LLM 질문 프롬프트 구축
+        - 프롬프트 엔지니어링 기법으로 ReAcT 프레임워크 활용
     2. CasCade R-CNN
+        - 순차적인 end - to - end 기반의 Object-Detection 학습
+        - 프레임을 R-CNN 기반의 학습으로 라벨링 작업 수행
     3. SlowFast ResNet50
+        - Bounding Box가 표시된 이미지들을 이용하여, 124개 교통사고 유형으로 분류
+        - 각 유형별 사전에 정의된 사고장소, 사고장소 특징, 상대/블랙박스 차량 진행방향, 과실비율 제공
     4. DeepFace
+        - 두 이미지를 verify 하는 알고리즘
+        - threshold를 0.3으로 설정하여 두 이미지 간의 유사도 판별
+     
 
 #### 2. 투표게시판
-    1. 투표를 할 수 잇단단다
+    1. AI 판독 결과를 바탕으로 다른 사용자들의 투표를 받을 수 있는 게시판을 제공한다.
+    2. 투표 게시판에는 AI 판독에 쓰인 비디오를 비롯해 추가로 제목과 설명, 이미지를 입력할 수 있다.
+    3. 댓글에는 그 사용자가 댓글을 쓴 시점에 마지막으로 투표한 결과가 표시된다.
+    4. ai 얼굴인식을 통해 인증받은 변호사는 인증 마크가 표시되어 댓글에 표시된다.
 
 #### 3. 정보게시판
     1. 정보를 볼 수  잇단단다
 
 
 ## 5. 프로젝트 회고
-|    |             | |
-|--------|--------------------|-|
-| 신우호    | 느낀점        | ㅋ|
-|           | 아쉬운점      | ㅋ|
-| 정호성    | 느낀점        | ㅋ|
-|           | 아쉬운점      | ㅋ|
-| 민호      | 느낀점        | ㅋ|
-|           | 아쉬운점      | ㅋ|
-| 차재훈    | 느낀점        | ㅋ|
-|           | 아쉬운점      | ㅋ|
-| 송인범    | 느낀점        | ㅋ|
-|           | 아쉬운점      | ㅋ|
-| 김근욱    | 느낀점        | ㅋ|
-|           | 아쉬운점      | ㅋ|
-|
+- **신우호**
+  - 느낀 점: 처음으로 데이터의 전처리부터 모델 선정, 하이퍼파라미터 조정 등 AI 모델 학습을 해볼 수 있어서 정말 좋았음.
+  - 아쉬운 점: 데이터 증강 기법을 적용하여 모델의 정확도를 높였으면 더 좋았을 것 같음.
+
+- **정호성**
+  - 느낀 점: ㅋ
+  - 아쉬운 점: ㅋ
+
+- **민호**
+  - 느낀 점:
+    1. 기술 사용: React 프론트엔드 라이브러리로 프로젝트를 진행, FE 리더의 도움과 배운 프론트엔드 기술 및 개인 공부를 통해 모든 기능을 구현할 수 있었음.
+    2. 에러일지 작성: 7주간 30개의 에러일지를 작성하며 반복되는 에러를 줄일 수 있었음.
+    3. 소통의 중요성: 백엔드 팀원들과의 소통을 통해 빠르게 문제를 공유하고 해결할 수 있었음.
+  - 아쉬운 점: JavaScript에 대한 지식이 부족하여 부가 기능 구현에 많은 시간이 소요됨, 추가 공부 필요성을 느낌.
+
+- **차재훈**
+  - 느낀 점: 처음으로 Spring Boot를 이용한 백엔드 개발을 진행, 어려운 점도 많았지만 많은 것을 배울 수 있었음.
+  - 아쉬운 점: 클린 코드를 작성하지 못해, 본인이 작성한 코드도 이해하기 어려운 부분이 많았음. 다음 프로젝트에서는 컨벤션과 로직을 더 신경 써야 할 것 같음.
+
+- **송인범**
+  - 느낀 점: 백엔드 스프링 인가/인증을 구현해봐서 정말 행복하다. 최신 AI 기술에 대한 두려움이 있었는데 레퍼런스와 기존 지식을 잘 결합해 구현한 거 같다. 밤 늦게 고생한 시간이 많지만 문제 해결에 있어 논리적으로 접근해서 좋았다.
+  - 아쉬운 점: 직접 코드를 많이 짜봐야하는데 chatGPT를 많이 활용해서 아쉽다. 그리고 성능 테스트에 있어 많이 해보지 못한것이 아쉽다. 그래도 jmeter는 해냈다!
+
+- **김근욱**
+  - 느낀 점: ㅋ
+  - 아쉬운 점: ㅋ
