@@ -72,7 +72,7 @@ function AiDetail () {
                 <div className="flex-row md:grid grid-cols-2 gap-4">
                     <div className="col-span-1">
                         
-                        <AiDescriptionCard type='ratio' content={[data.aiOtherFault, data.aiUserFault]}/>
+                        <AiDescriptionCard type='ratio' content={[data.aiUserFault, data.aiOtherFault]}/>
                         <AiDescriptionCard type='precedent' content={data.aiExplanation}/>
                     </div>
                     <div className="col-span-1">

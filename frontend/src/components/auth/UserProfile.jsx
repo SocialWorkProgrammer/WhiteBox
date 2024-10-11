@@ -103,7 +103,7 @@ function UserProfile() {
                 </div>
             </div>
             {showModal && (
-                <LawyerAuthModal closeModal={closeModal}/>
+                <LawyerAuthModal closeModal={closeModal} user={user} setUser={setUser} />
             )}
         </div>
     );
