@@ -225,7 +225,7 @@ public class VoteService {
                 .collect(Collectors.toList());
         List<VoteComment> comments = voteCommentRepository.findByVote(vote);
         List<VoteCommentParam> commentParams = comments.stream()
-                .map(comment -> new VoteCommentParam(comment.getUser().userNickname(), comment.getComment(), comment.getPostedAt(), comment.getUser().userType().getValue()))
+                .map(comment -> new VoteCommentParam(comment.getUser().userNickname(), comment.getComment(), comment.getPostedAt(), comment.getUser().userType().getValue(), comment.getVoteType()))
                 .collect(Collectors.toList());
 //         총 투표수가 0일 때를 대비하여 예외 처리
         if (totalVotes == 0) {
