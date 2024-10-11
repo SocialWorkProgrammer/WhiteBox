@@ -28,16 +28,12 @@ const CommunityGeneralCommentPost = ({ id, onCommentUpdate }) => {
       const newComment = await postCommunityComment({ id, comment });
       // 댓글 상태 업데이트
       if (newComment.status === 200) {
-        console.log('댓글이 추가되었다!!!', newComment.status);
         const response = await getCommunityDetail({ id });
         onCommentUpdate(response.comments, Math.ceil(response.comments.length)); // 새로운 댓글을 부모 컴포넌트로 전달. 이후 마지막 페이지로 이동하도록
       }
-      else {
-        console.log('댓글 못 받음');
-      }
       setComment(''); // 댓글 작성 후 입력란 초기화
     } catch (error) {
-      console.error('댓글 작성 중 오류 발생:', error);
+      console.error( error);
     }
   };
 
@@ -51,12 +47,12 @@ const CommunityGeneralCommentPost = ({ id, onCommentUpdate }) => {
     <form onSubmit={handleSubmit} className="flex flex-col space-y-2 w-[100%] border-2 rounded">
       <div className="flex flex-row place-content-between w-[100%] border-b-2">
         <div className="flex flex-row items-center">
-          {isLawyer === true ?  <img src={lawyerBadge} alt="" className="h-8 w-8" /> : <></>}
+          {isLawyer === true ?  <img src={lawyerBadge} alt="" className="h-6 w-6 ms-2" /> : <></>}
           <p className="ml-3">{userId}</p>
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 hover:bg-blue-600"
+          className="bg-blue-300 text-black p-2 hover:bg-blue-400"
         >
           댓글 작성
         </button>

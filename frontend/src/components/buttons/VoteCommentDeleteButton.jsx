@@ -14,7 +14,6 @@ function DeleteButton ({id, className, commentId}) {
   const onSubmit = async () => {
     try {
       const response = await deleteVoteComment({id : id, commentId : commentId}) // 위에서 props로 받기 때문에, 데이터셋을 정할 필요 없이 바로 title: title 등으로 넣을 수 있음
-      console.log('삭제', response);
       alert('댓글이 삭제되었습니다')
       navigate(`/community/vote/${id}`);
     } catch(err) {

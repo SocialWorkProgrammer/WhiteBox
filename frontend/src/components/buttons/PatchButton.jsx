@@ -25,18 +25,16 @@ function PatchButton ({id, title, content, className}) {
     else {
       try { 
         const response = await patchCommunityDetail({id : id, comTitle : title, comDescription: cleanContent}) // 위에서 props로 받기 때문에, 데이터셋을 정할 필요 없이 바로 title: title 등으로 넣을 수 있음
-        console.log('수정된 게시글', response);
         alert('게시글이 수정되었습니다!')
         navigate(`/community/general/${id}`);
       } catch(err) {
-        console.log(err.response.config.data)
         alert('게시글 수정에 실패했습니다.')
       }
     }
   };
   return (
     <button
-      className={`${className}`}
+      className={`${className} border-2 w-[95px] h-[38px] hover:bg-gray-100`}
       onClick={onSubmit}>
         수정
       </button>

@@ -8,6 +8,8 @@ import MyAccidentList from "./MyAccidentList";
 import MyPostedCommunityList from "./MyPostedCommunityList";
 import MyVoteList from "./MyVoteList";
 import { Helmet } from 'react-helmet';
+import { formatDistanceToNow, parseISO, differenceInDays, differenceInHours, differenceInMinutes } from "date-fns";
+import { ko } from "date-fns/locale";
 
 function UserProfile() {
     const navigate = useNavigate();
@@ -23,15 +25,18 @@ function UserProfile() {
 
     const formatDate = (dateString) => {
         if (!dateString) return '';
-        const date = new Date(dateString);
-        return date.toLocaleDateString('ko-KR'); 
+        const date = parseISO(dateString);
+        const distance = formatDistanceToNow(date, {
+            locale: ko, 
+        });
+        return distance
     };
 
     const handleOpenModal = () => {
         setShowModal(true);
     };
 
-    const closeLawyerModal = () => {
+    const closeModal = () => {
         setShowModal(false);
     }
     const handleOutsideClick = (event) => {
@@ -68,10 +73,10 @@ function UserProfile() {
                             닉네임 : {user?.nickname || ''}
                         </div>
                         <div>
-                            가입일 : {formatDate(user?.registrationDate)}
+                            이메일 : {user?.id || ''}
                         </div>
                         <div>
-                            이메일 : {user?.id || ''}
+                            White - Box와 함께한지 {formatDate(user?.registrationDate)}
                         </div>
                     </div>
                     <div className="lawyer">
@@ -85,9 +90,9 @@ function UserProfile() {
                 <div className="community">
                     <div className="grid grid-cols-12">
                         <div className="col-span-2"></div>
-                        <div className="col-span-2 m-3 cursor-pointer p-2 text-center bg-orange-50 hover:bg-orange-200" onClick={() => setShowTab(1)}>내 사고</div>
-                        <div className="col-span-2 m-3 cursor-pointer p-2 text-center bg-orange-50 hover:bg-orange-200" onClick={() => setShowTab(2)}>내가 쓴 글</div>
-                        <div className="col-span-2 m-3 cursor-pointer p-2 text-center bg-orange-50 hover:bg-orange-200" onClick={() => setShowTab(3)}>내가 한 투표</div>
+                        <div className={`col-span-2 m-3 cursor-pointer p-2 text-center hover:bg-orange-200 ${showTab === 1 ? 'bg-orange-200' : 'bg-orange-50'}`} onClick={() => setShowTab(1)}>내 사고</div>
+                        <div className={`col-span-2 m-3 cursor-pointer p-2 text-center hover:bg-orange-200 ${showTab === 2 ? 'bg-orange-200' : 'bg-orange-50'}`} onClick={() => setShowTab(2)}>내가 쓴 글</div>
+                        <div className={`col-span-2 m-3 cursor-pointer p-2 text-center hover:bg-orange-200 ${showTab === 3 ? 'bg-orange-200' : 'bg-orange-50'}`} onClick={() => setShowTab(3)}>내가 한 투표</div>
                         <div className="col-span-4"></div>
                     </div>
                     <div className="grid grid-cols-12">
@@ -98,7 +103,7 @@ function UserProfile() {
                 </div>
             </div>
             {showModal && (
-                <LawyerAuthModal closeModal={closeLawyerModal}/>
+                <LawyerAuthModal closeModal={closeModal} user={user} setUser={setUser} />
             )}
         </div>
     );

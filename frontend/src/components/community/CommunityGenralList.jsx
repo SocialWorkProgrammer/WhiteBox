@@ -25,7 +25,6 @@ function CommunityGeneralList() {
           // 여기서 setData(가공된 responseData)를 통해서 데이터설정을 해주세용
           setData(responseData.content)
           setTotalElements(responseData.totalElements)
-          console.log('responseData.content==', responseData.content)
         } catch (err) {
           console.log(err);
         }
@@ -40,67 +39,66 @@ function CommunityGeneralList() {
   
   return (
     // 전체 컴포넌트
-    <div>
+    <div className='mt-6 flex-row'>
       <Helmet>
         <title>White Box | 일반게시판</title>
       </Helmet>
-      <CommunityGeneralTabs />
-    <div className="grid grid-cols-12 border-b-2">
-      {/* 그리드 좌측 여백 세 칸 차지 */}
-      <div className="col-span-2"></div>
-      {/* 여기부터 자유게시판 컴포넌트 */}
-        <div className="max-w-[1300px] col-span-8 border-x-2 p-3">
+      <div>
+        <CommunityGeneralTabs />
+      </div>
+      <div>
+        <div className="grid grid-cols-12 border-b-2">
+        {/* 그리드 좌측 여백 세 칸 차지 */}
+          <div className="col-span-2"></div>
+        {/* 여기부터 자유게시판 컴포넌트 */}
+          <div className="col-span-8 border-x-2 p-2">
           {/* 게시판 탭 */}
           {/* 게시판 */}
-          <div className="flex flex-row text-[13px] place-content-between">
-          <div className="flex flex-row">
-            <div className="block w-[50px] text-center">번호</div>
-            <div className="block ml-7">제목</div>
-          </div>
-          <div className="flex w-[300px] items-center place-content-between">
-            <div className="w-[100px] text-center" >댓글수</div>
-            <div className="w-[100px] text-center">조회수</div>
-            <div className="w-[100px] text-center">작성자</div>
-          </div>
-          </div>
-          <div className="mt-2 border-t-2">
-          {currentItems.length > 0 ? (
-            currentItems.map((item) => (
-            <a href={`/community/general/${item.comIndex}`} className="flex flex-row  border-b-[0.5px] border-black h-[50px] text-xl place-content-between items-center" key={item.comIndex}>
-              <div className="flex flex-row">
-                <div className="w-[50px] text-center">{item.comIndex}</div>
-                <div className="block font-light ml-7 max-w-[25vw] overflow-hidden text-ellipsis whitespace-nowrap" key={item.idx}>{item.comTitle}</div>
+            <div className="flex flex-row text-md">
+              <div className="flex w-full">
+                <div className="text-xs p-2 text-center whitespace-nowrap w-1/12 text-center">번호</div>
+                <div className="text-xs p-2 ps-5 text-left whitespace-nowrap w-5/12">제목</div>
+                <div className="text-xs p-2 text-center whitespace-nowrap w-2/12 hidden md:block">댓글수</div>
+                <div className="text-xs p-2 text-center whitespace-nowrap w-2/12 hidden md:block">조회수</div>
+                <div className='w-4/12 md:hidden'></div>
+                <div className="text-xs p-2 text-center whitespace-nowrap w-2/12 md:w-6/12">작성자</div>
               </div>
-              <div className="flex w-[300px] place-content-between">
-                {item.commentCount ?
-                  <div className="w-[100px] text-center font-light" key={item.idx}>[{item.commentCount}]</div>
-                  : <div className="w-[100px] text-center">[0]</div>
-                }
-                <div className="w-[100px] text-center" key={item.comIndex}>{item.comHit}</div>
-                <div className="w-[100px] font-bold text-center overflow-hidden text-ellipsis whitespace-nowrap" key={item.idx}>{item.userNickname}</div>
-              </div>
-            </a>
-          ))): (
-            <p>작성된 글이 없습니다.</p>
-          )}
+            </div>
+            <div className="mt-2 border-t-2">
+            {currentItems.length > 0 ? (
+              currentItems.map((item) => (
+              <a href={`/community/general/${item.comIndex}`} className="flex flex-row  border-b-[0.5px] border-black h-[50px] text-xl place-content-between items-center" key={item.comIndex}>
+                <div className="flex w-full">
+                  <div className="text-xs p-2 text-center whitespace-nowrap w-1/12 text-center">{item.comIndex}</div>
+                  <div className="text-sm p-2 ps-5 text-left whitespace-nowrap w-5/12 hover:underline">{item.comTitle}</div>
+                  <div className="text-xs p-2 text-center whitespace-nowrap w-2/12 hidden md:block" >[{item.commentCount}]</div>
+                  <div className="text-xs p-2 text-center whitespace-nowrap w-2/12 hidden md:block">{item.comHit}</div>
+                  <div className='w-4/12 md:hidden'></div>
+                  <div className="text-xs p-2 text-center whitespace-nowrap w-2/12 md:w-6/12">{item.userNickname}</div>
+                </div>
+              </a>
+            ))): (
+              <p>작성된 글이 없습니다.</p>
+            )}
+            </div>
           </div>
-          <div className="relative w-auto h-[38px] mt-5 mb-10">
-          <WriteButton 
-            route="/community/general/post"
-            className="absolute right-0"
-            name="작성하기" />
-          </div>
+        {/* 그리드 우측 여백 세 칸 */}
+        <div className="col-span-2 text-xs p-2">
+              <WriteButton 
+                route="/community/general/post"
+                name="글쓰기" 
+                />
+            </div>
+                </div>
+      </div>
+        <div className='flex justify-center'>
           <Pagination
             totalItems={totalElements}
             itemsPerPage={itemsPerPage}
             currentPage={currentPage}
             onPageChange={handlePageChange}
-            className="relative w-auto"
-            />
+          />
         </div>
-      {/* 그리드 우측 여백 세 칸 */}
-      <div className="col-span-3"></div>
-    </div>
     </div>
   );
 }

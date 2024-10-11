@@ -3,7 +3,7 @@ import { useCommunityStore } from "../../store/useCommunityStore";
 import { formatDistanceToNow, parseISO, differenceInDays, differenceInHours, differenceInMinutes } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
-import useStore from "../../store/useStore";
+import { Tooltip } from "react-tooltip";
 
 function CommunityList({ type }) {
     const navigate = useNavigate();
@@ -13,7 +13,6 @@ function CommunityList({ type }) {
         1:"bg-indigo-200",
         2:"bg-indigo-100",
     }
-
 
     // 시간 포매팅 - 일반 게시판
     const formatingTime = (dateString) => {
@@ -30,101 +29,120 @@ function CommunityList({ type }) {
         const minutesLeft = differenceInMinutes(dateString, now);
 
         if (daysLeft > 1) {
-            return `투표 만료까지 ${daysLeft}일 남음`;
+            return `투표 만료까지 ${daysLeft}일`;
         } else if (hoursLeft > 1) {
-            return `투표 만료까지 ${hoursLeft}시간 남음`;
+            return `투표 만료까지 ${hoursLeft}시간`;
         } else if (minutesLeft > 0) {
-            return `투표 만료까지 ${minutesLeft}분 남음`;
+            return `투표 만료까지 ${minutesLeft}분`;
         } else {
-            return "투표가 만료되었습니다";
+            return "투표 만료";
         }
     }
 
-
-    // 투표게시판인 경우
-    const getVoteCommunityList = useCommunityStore(state => state.getMainVoteCommunityList)
+    // 게시판 목록 로드
     const [ voteCommunityList, setVoteCommunityList ] = useState([]);
+    const [ generalCommunityList, setGeneralCommunityList ] = useState([]);
+    const getCommunityList = useCommunityStore((state) => state.getMainCommunityList)
+
     useEffect(() => {
-        if (type === "vote") {
-            const getData = async () => {
-                try {
-                    const response = await getVoteCommunityList({ pageIndex: 1 });
-                    setVoteCommunityList(response || []);
-                } catch (err) {
-                    console.log(err);
-                    setVoteCommunityList([]);
-                } 
+        const getData = async () => {
+            try {
+                const response = await getCommunityList();
+                setVoteCommunityList(response.votes || []);
+                setGeneralCommunityList(response.communities || []);
+            } catch (err) {
+                console.log(err);
             }
-            getData();
         }
-    }, [type, getVoteCommunityList])
+        getData();
+    }, [])
+
 
     // 투표게시판 렌더링
     const renderVoteCommunity = () => {
         return (
             <div className="flex-row">
-                <div>
-                    <span className="flex justify-center">투표 게시판</span>
+                <div className="flex justify-center">
+                    <span 
+                        id="vote-list-title-tooltip"
+                        className="cursor-pointer h-8" 
+                        onClick={() => handleCommunityListClick('vote')}
+                        data-tooltip-id="vote-list-title-tooltip"
+                        data-tooltip-content="투표게시판으로 이동"
+                    >
+                        투표 게시판
+                    </span>
                 </div>
                 {voteCommunityList?.map((item, index) => (
-                    <div key={index} className={`grid grid-cols-4 border shadow m-2 cursor-pointer p-1 ${index < 3 ? highlightPosting[index] : ''}`} onClick={() => handleCommunityDetailClick({type:'vote', item})}>
-                        <img src={item.thumbnail1} alt="" />
-                        <span className="col-span-2 text-base truncate">{item.title}</span>
-                        <div className="col-span-2">
-                            <span className="text-xs truncate">투표 수 : {item.totalVotes}</span>
-                            <br />
-                            <span className="text-xs truncate">{formatingExpirationTime(item.expirationDate)}</span>
+                        <div 
+                            key={index} 
+                            className={`grid grid-cols-6 border shadow cursor-pointer m-2 p-1 ${index < 3 ? highlightPosting[index] : ''}`} 
+                            onClick={() => handleCommunityDetailClick({type:'vote', item})}
+                        >
+                            <div className="col-span-3 relative">
+                                <img src={item.thumbnail1} alt="" className="w-24 h-12 object-cover rounded" />
+                                <div className="absolute bottom-0 left-0 w-full p-2">
+                                    <span 
+                                        className="rounded ps-1 pe-1 text-xs font-bold truncate text-gray"
+                                        style={{
+                                            display: "-webkit-box",
+                                            WebkitLineClamp: 1,
+                                            WebkitBoxOrient: "vertical",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap",
+                                            textShadow: "2px 2px 2px 2px rgba(255, 255, 255, 1.0)",
+                                        }}
+                                    >
+                                        {item.title}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="col-span-3">
+                                <span className="text-sm">투표 수 : {item.totalVotes}</span>
+                                <br />
+                                <span className="text-sm">{formatingExpirationTime(item.expirationDate)}</span>
+                            </div>
                         </div>
-                        
-                        
-                    </div>
-                ))}
-                <div className="flex justify-end me-1" onClick={() => handleCommunityListClick('vote')} >
-                    <span className="cursor-pointer text-xs">더보기</span>
-                </div>
+                    ))}
+                {(voteCommunityList.length === 0) && (
+                    <div className="m-2 p-1 text-sm">게시글이 없습니다.</div>
+                )}
+                <Tooltip id="vote-list-title-tooltip" place="right"/>
             </div>
         )
     }
-
-    // 일반게시판
-    const getGeneralCommunityList = useCommunityStore(state => state.getCommunityGeneralList)
-    const [ generalCommunityList, setGeneralCommunityList ] = useState([]);
-    useEffect(() => {
-        if (type === "general") {
-            const getData = async () => {
-                try {
-                    const response = await getGeneralCommunityList({ pageId:1 });
-                    setGeneralCommunityList(response.content || []);
-                } catch (err) {
-                    console.log(err);
-                    setGeneralCommunityList([]);
-                } 
-            }
-            getData();
-        }
-    }, [type, getGeneralCommunityList])
 
     // 일반게시판 렌더링
     const renderGeneralCommunity = () => {
         return (
             <div className="flex-row ms-2">
-                <div>
-                    <span className="flex justify-center">일반 게시판</span>
+                <div className="flex justify-center">
+                    <span 
+                        id="general-list-title-tooltip"
+                        className="cursor-pointer h-8" 
+                        onClick={() => handleCommunityListClick('general')}
+                        data-tooltip-id="general-list-title-tooltip"
+                        data-tooltip-content="일반게시판으로 이동"
+                    >
+                        일반 게시판
+                    </span>
                 </div>
                 {generalCommunityList?.map((item, index) => (
                     <div key={index} className={`grid grid-cols-4 border shadow m-2 cursor-pointer p-1 ${index < 3 ? highlightPosting[index] : ''}`} onClick={() => handleCommunityDetailClick({type:'general', item})}>
-                        <span className="col-span-2 text-base truncate">{item.comTitle}</span>
+                        <span className="col-span-2 text-base truncate">{item.title}</span>
                     <div className="col-span-1">
-                        <span className="text-xs truncate">조회수 : {item.comHit}</span>
+                        <span className="text-xs truncate">조회수 : {item.hit}</span>
                     </div>
                     <div className="col-span-1">
-                        <span className="text-xs truncate">{formatingTime(item.comCreatedAt)}</span>
+                        <span className="text-xs truncate">{formatingTime(item.createdAt)}</span>
                     </div>
                     </div>
                 ))}
-                <div className="flex justify-end me-1" onClick={() => handleCommunityListClick('general')} >
-                    <span className="cursor-pointer text-xs">더보기</span>
-                </div>
+                {(generalCommunityList.length === 0) && (
+                    <div className="m-2 p-1 text-sm">게시글이 없습니다.</div>
+                )}
+                <Tooltip id="general-list-title-tooltip" place="right"/>
             </div>
         )
     }

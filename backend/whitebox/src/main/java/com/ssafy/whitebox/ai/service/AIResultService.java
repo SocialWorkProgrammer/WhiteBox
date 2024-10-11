@@ -38,7 +38,7 @@ public class AIResultService {
     public AIResult createAIResult(String userEmail, MultipartFile videoFile) throws IOException, InterruptedException {
         User user = userRepository.findByUserEmail(userEmail);
         // 비디오 파일 저장
-        String videoUrl = fileStorageService.saveFile(videoFile, "video");
+        String compressedVideoUrl = fileStorageService.compressAndSaveFile(videoFile, "video");
 
         // 썸네일 추출 및 저장
         String thumbnails = ffmpegService.extractThumbnails(videoFile);
@@ -57,7 +57,7 @@ public class AIResultService {
                 .aiDescription(analysisResult.getAiDescription())
                 .aiExplanation(analysisResult.getAiExplanation())
                 .aiResult(analysisResult.getAiResult())
-                .videoUrl(videoUrl)
+                .videoUrl(compressedVideoUrl)
                 .thumbnail1(thumbnailPaths[0]) // 실제 저장된 썸네일 경로
                 .thumbnail2(thumbnailPaths[1])
                 .thumbnail3(thumbnailPaths[2])
@@ -78,7 +78,7 @@ public class AIResultService {
                 .filename(videoFile.getOriginalFilename());
 
         return client.post()
-                .uri("/api/v1/analyze-video/")
+                .uri("/api/v1/analyze-video")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(BodyInserters.fromMultipartData(builder.build()))
                 .retrieve()

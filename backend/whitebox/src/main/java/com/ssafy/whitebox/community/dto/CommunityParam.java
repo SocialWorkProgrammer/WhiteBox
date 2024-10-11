@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import java.util.List;
 import java.time.LocalDateTime;
-import com.ssafy.whitebox.user.entity.User;
 
 @Getter
 @Setter

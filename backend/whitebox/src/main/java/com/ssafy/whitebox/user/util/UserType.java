@@ -1,6 +1,6 @@
 package com.ssafy.whitebox.user.util;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /*

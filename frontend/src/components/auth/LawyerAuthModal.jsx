@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "../../styles/auth/lawyer-auth-modal.css";
 import useAuthStore from '../../store/useAuthStore';
 
-function LawyerAuthModal({ closeModal }) {
+function LawyerAuthModal({ closeModal, user, setUser }) {
     const authLawyer = useAuthStore((state) => state.authLawyer);
     const [ name, setName ] = useState('');
     const [ birth, setBirth ] = useState('');
@@ -33,8 +33,14 @@ function LawyerAuthModal({ closeModal }) {
             return;
         } else {
             const response = await authLawyer({ name, date: birth, image: file })
-            if (response.message === "변호사 인증 성공!") {
-                localStorage.setItem('isLawyer', 'true');
+            if (response && response.data && response.data.includes("변호사 인증 및 상태 업데이트 완료")) {
+                const storedUser = JSON.parse(localStorage.getItem('user'));
+                // 'isLawyer' 업데이트
+                const updatedUser = { ...storedUser, isLawyer: true };
+                // 업데이트된 'user' 객체를 localStorage에 저장
+                localStorage.setItem('user', JSON.stringify(updatedUser));
+                // 상태 업데이트
+                setUser(updatedUser);
                 window.alert('인증 성공하였습니다.');
                 setIsLoading(false);
                 closeModal();
@@ -101,7 +107,7 @@ function LawyerAuthModal({ closeModal }) {
                 {/* 제출 하기 */}
                 <div className='flex justify-between'>
                     <button
-                        onClick={closeModal}
+                        onClick={() => closeModal()}
                         className="px-4 py-2 rounded-lg hover:bg-gray-300"
                         disabled={isLoading}
                         >

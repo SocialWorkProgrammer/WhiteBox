@@ -20,35 +20,34 @@ function SubmitButton({ title, description, className, images }) {
     }
     return new Blob([new Uint8Array(byteNumbers)], { type: mimeType });
   };
-  
+
   // onSubmit 함수
   const onSubmit = async () => {
-    try {
-      console.log('제목:', title, '내용:', description, '이미지들:', images);
-      if (!title.trim()) {
-        alert('제목을 입력하세요');
-        return; // 입력 체크 후 함수 종료
+    if (window.confirm('정치, 혐오 발언, 욕설을 포함한 게시글에 대해서는 제재 및 심한 경우 법적 대응을 받을 수 있습니다. 게시하시겠습니까??')) {
+      try {
+        if (!title.trim()) {
+          alert('제목을 입력하세요');
+          return; // 입력 체크 후 함수 종료
+        }
+        else if (!description.trim()) {
+          alert('내용을 입력하세요');
+          return; // 입력 체크 후 함수 종료
+        }
+  
+        // Base64 이미지 배열을 Blob으로 변환
+        const imageBlobs = images.map(base64ToBlob);
+        // postCommunityGeneral 호출 시 Blob 배열 전달
+        const response = await postCommunityGeneral({ title, description, images: imageBlobs });
+        navigate(`../general/${response.data.comIndex}`);
+      } catch (err) {
+        console.log( err);
       }
-      else if (!description.trim()) {
-        alert('내용을 입력하세요');
-        return; // 입력 체크 후 함수 종료
-      }
-
-      // Base64 이미지 배열을 Blob으로 변환
-      const imageBlobs = images.map(base64ToBlob);
-      console.log(imageBlobs);
-      // postCommunityGeneral 호출 시 Blob 배열 전달
-      const response = await postCommunityGeneral({ title, description, images: imageBlobs });
-      console.log('등록된 게시글', response);
-      navigate(`../general/${response.data.comIndex}`);
-    } catch (err) {
-      console.log('submit버튼에 뜬 에러', err);
     }
   };
 
   return (
     <button
-      className={`border-2 w-[95px] h-[38px] ${className}`}
+      className={`border-2 w-[95px] h-[38px] hover:bg-gray-100 ${className}`}
       onClick={onSubmit}>
       제출
     </button>

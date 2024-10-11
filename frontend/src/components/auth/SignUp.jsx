@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import useAuthStore from "../../store/useAuthStore";
 import { Helmet } from 'react-helmet';
+import ClipLoader from "react-spinners/ClipLoader";
 
 function SignUp() {
     const navigate = useNavigate();
@@ -10,6 +11,7 @@ function SignUp() {
     const [ nicknameLengthError, setNicknameLengthError ] = useState('');
     const [ passwordConfirmError, setPasswordConfirmError ] = useState('');
     const [ isCanSubmit, setIsCanSubmit ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(false);
 
     const [user, setUser] = useState({
         id: "",
@@ -30,8 +32,7 @@ function SignUp() {
         } else {
             setNicknameLengthError('');
         }
-        console.log(user);
-        console.log(updatedUser);
+
         // 비밀번호 확인
         if (updatedUser.password && updatedUser.passwordConfirm && updatedUser.password !== updatedUser.passwordConfirm) {
             setPasswordConfirmError('비밀번호가 일치하지 않습니다.');
@@ -51,17 +52,22 @@ function SignUp() {
 
     const handleOnSubmit = async (event) => {
         event.preventDefault();
+        setIsLoading(true)
         if (!isCanSubmit) {
+            alert("입력한 정보를 확인해주세요.");
+            setIsLoading(false);
             return;
         }
-
+        
         if (!validatePassword(user.password)) {
             alert("비밀번호는 최소 8자 이상이며, 숫자와 문자를 포함해야 합니다.");
+            setIsLoading(false);
             return;
         }
 
         if (user.password !== user.passwordConfirm) {
             alert("비밀번호가 일치하지 않습니다.");
+            setIsLoading(false);
             return;
         }
 
@@ -69,12 +75,14 @@ function SignUp() {
             const emailCheck = await checkEmail({id: user.id});
             if (!emailCheck.isSuccess) {
                 alert("이미 가입한 이메일입니다.");
+                setIsLoading(false);
                 return;
             }
 
             const nicknameCheck = await checkNickname({nickname: user.nickname});
             if (!nicknameCheck.isSuccess) {
                 alert("이미 사용 중인 닉네임입니다.");
+                setIsLoading(false);
                 return;
             } 
 
@@ -82,18 +90,20 @@ function SignUp() {
             await login(user);
             // 메인 페이지로 이동
             navigate(`/auth/profile/${user.nickname}`);
+            setIsLoading(false);
         } catch (error) {
-            console.error("회원가입 과정 중 오류 발생:", error);
             alert("회원가입 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+            setIsLoading(false);
         }
+        setIsLoading(false);
     };
 
     return (
-        <div>
+        <div className={`signup-container ${isLoading ? 'blur' : ''}`}>
             <Helmet>
                 <title>White Box | 회원가입</title>
             </Helmet>
-            <div className="title-signup">회원가입</div>
+            <div className="title-signup">회원가입{isLoading? '참':"거짓"}</div>
             <div className="description-signup">White Box의 회원이 되시면 다양한 서비스를 이용하실 수 있습니다.</div>
             <div className="signup-modal">
                 <form className='signup-form-container' onSubmit={handleOnSubmit}>
@@ -118,6 +128,11 @@ function SignUp() {
                     <button className={`button-signup ${isCanSubmit ? '' : 'disabled'}`} type="submit">회원가입</button>
                 </form>
             </div>
+            {isLoading && (
+                <div className="signup-clip-loader">
+                    <ClipLoader />
+                </div>
+            )}
         </div>
     );
 };

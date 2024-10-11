@@ -2,12 +2,18 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    padding-top:72px;
 }
 
 .nav-bar {
-    background-color: #FFFFFF;
-    height: 90px;
+    background-color: rgba(255, 255, 255, 0.9);
+    height: 72px;
+    position:fixed;
+    z-index:99;
+    backdrop-filter: blur(16px);
+    width: 100%;
 }
+
 .menu-button {
     width : 137px;
     height : 50px;
@@ -27,4 +33,10 @@
 
 #logo {
     cursor: pointer;
+}
+
+.rotate-icon {
+    display: inline-block;
+    transform: rotate(90deg);
+    margin-left: 8px; 
 }

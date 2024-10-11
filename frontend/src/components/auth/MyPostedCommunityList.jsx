@@ -21,7 +21,6 @@ function MyPostedCommunityList () {
     useEffect(() => {
         const fetchMyPosts = async() => {
             const fetchedMyPosts = await loadMyPostings({ pageId })
-            console.log(fetchedMyPosts);
             if (fetchedMyPosts.totalCommunities === 0) {
                 setMyPostings(null)
             } else {
@@ -52,11 +51,12 @@ function MyPostedCommunityList () {
             {/* 영상 목록 */}
             {myPostings.map((post) => (
                 <div key={post.comIndex} className="p-2 grid grid-cols-12 border shadow m-2 cursor-pointer hover:bg-gray-300">
-                    <span className="col-span-8 cursor-pointer" onClick={() => handleClickDetail({pageId:post.comIndex})}>{post.comTitle}</span>
+                    <span className="col-span-8 cursor-pointer font-semibold" onClick={() => handleClickDetail({pageId:post.comIndex})}>{post.comTitle}</span>
                     <div className="col-span-4">
-                        <span className="text-sm">{formattingTime(post.comCreatedAt)}</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span className="text-sm">조회수 : {post.commentCount}</span>
+                        <div className="grid grid-cols-2">
+                            <span className="text-sm col-span-1">{formattingTime(post.comCreatedAt)}</span>
+                            <span className="text-sm col-span-1">조회수 : {post.commentCount}</span>
+                        </div>
                     </div>
                 </div>  
             ))}
@@ -68,12 +68,12 @@ function MyPostedCommunityList () {
                     <button
                         key={index}
                         onClick={() => handlePageChange(index + 1)}
-                        className={`cursor-pointer p-2 ${pageId === index + 1? "bg-gray-400 text-white" : "hover:bg-gray-300"}`}
+                        className={`cursor-pointer m-1 p-2 rounded-lg ${pageId === index + 1? "bg-gray-400 text-white" : "hover:bg-gray-300"}`}
                     >
                         {index + 1}
                     </button>
                 ))}
-                <span className="me-2 cursor-pointer" onClick={() => handlePageChange(pageId + 1)}>&gt;</span>
+                <span className="ms-1 me-2 cursor-pointer" onClick={() => handlePageChange(pageId + 1)}>&gt;</span>
                 <span className="me-2 cursor-pointer" onClick={() => handlePageChange(totalPages)}>&gt;&gt;</span>
             </div>
         </div>

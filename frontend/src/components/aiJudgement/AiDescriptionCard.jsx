@@ -27,7 +27,7 @@ function AiDescriptionCard ({ type, content }) {
             <div className="mt-5">
                 <span className="text-2xl font-semibold">{title}</span>
                 <br />
-                {type === 'ratio' ? <span className="ms-3">{content[0]} : {content[1]}</span>:<span className="ms-3">{content}</span>}
+                {type === 'ratio' ? <span className="ms-3">내 과실 {content[0]} : {content[1]} 상대 과실</span>:<span className="ms-3">{content}</span>}
                 <hr />
             </div>
         )

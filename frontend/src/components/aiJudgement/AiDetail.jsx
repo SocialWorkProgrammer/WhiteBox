@@ -39,12 +39,11 @@ function AiDetail () {
         const fetchData = async () => {
             const fetchedData = await getData({ id });
             setData(fetchedData);
-            setVideoSrc(fetchedData.videoUrl);
-            console.log(fetchedData);
+            setVideoSrc(fetchedData.aiVideoUrl);
         }
         fetchData();
     }, [getData, id])
-    
+
     const formatData = (date) => {
         const newDate = new Date(date);
         const year = newDate.getFullYear();
@@ -58,26 +57,31 @@ function AiDetail () {
     };
 
     return (
-        <div className="mt-5">
+        <div className="mt-10">
+            <div className="bg-none border-none text-white w-full">
+                {videoSrc ? (
+                    <video controls autoPlay className="w-full h-auto">
+                        <source src={videoSrc} type="video/mp4" />
+                    </video>
+                ) : (
+                    <p>비디오를 불러오는 중입니다...</p>
+                )}
+            </div>
             <div className={`&${showVoteModal ? 'blur-xl' : ''}`}>
-                <p>영상올린날짜 : {formatData(data.aiCreatedAt)}</p>
-                <div className="grid grid-cols-2 gap-4">
+                <p className="mt-3 flex justify-end text-xs">영상 업로드 : {formatData(data.aiCreatedAt)}</p>
+                <div className="flex-row md:grid grid-cols-2 gap-4">
                     <div className="col-span-1">
-                        <div className="border border-gray-300 rounded-lg bg-black text-white">
-                            <video controls="controls">
-                                <source src={videoSrc} type="video/mp4" />
-                            </video>
-                        </div>
-                        <AiDescriptionCard type='ratio' content={[data.aiOtherFault, data.aiUserFault]}/>
-                        <AiDescriptionCard type='description'content={data.aiDescription}/>
-                    </div>
-                    <div className="col-span-1">
-                        <AiDescriptionCard type='situation' content={data.aiResult}/> 
-                        <AiDescriptionCard type='law' content={data.aiRelatedLaw}/>
+                        
+                        <AiDescriptionCard type='ratio' content={[data.aiUserFault, data.aiOtherFault]}/>
                         <AiDescriptionCard type='precedent' content={data.aiExplanation}/>
                     </div>
+                    <div className="col-span-1">
+                        <AiDescriptionCard type='description'content={data.aiDescription}/>
+                        <AiDescriptionCard type='situation' content={data.aiResult}/> 
+                        <AiDescriptionCard type='law' content={data.aiRelatedLaw}/>
+                    </div>
                 </div>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="flex justify-end mt-3 md:grid grid-cols-4 gap-4">
                     <div className="col-span-3"></div>
                     {data.uploaded ? 
                         <div onClick={navigateVoteDetail} className="cursor-pointer border rounded-lg p-2 text-center">투표게시판 이동</div>
