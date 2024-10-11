@@ -47,12 +47,12 @@ const CommunityGeneralCommentPost = ({ id, onCommentUpdate }) => {
     <form onSubmit={handleSubmit} className="flex flex-col space-y-2 w-[100%] border-2 rounded">
       <div className="flex flex-row place-content-between w-[100%] border-b-2">
         <div className="flex flex-row items-center">
-          {isLawyer === true ?  <img src={lawyerBadge} alt="" className="h-8 w-8" /> : <></>}
+          {isLawyer === true ?  <img src={lawyerBadge} alt="" className="h-6 w-6 ms-2" /> : <></>}
           <p className="ml-3">{userId}</p>
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 hover:bg-blue-600"
+          className="bg-blue-300 text-black p-2 hover:bg-blue-400"
         >
           댓글 작성
         </button>

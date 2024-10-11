@@ -104,13 +104,15 @@ function CommunityGeneralDetail() {
         <div className="max-w-[1300px] col-span-8 place-content-center">
           <div className="h-auto border-x-2">
               {storedUserId === data.nickname ?
-            <div className="flex flex-row place-content-end mr-5">
-              <button onClick={handleMovePage} className="block hover:bg-gray-100">수정</button>
+            <div className="flex flex-row place-content-end mr-5 mb-2">
+              <button onClick={handleMovePage} className="block hover:underline">수정</button>
               <div className="mx-2">|</div>
-              <DeleteButton id={id} className="block hover:bg-gray-100" />
+              <DeleteButton id={id} className="block hover:underline" />
             </div> : <p></p>}
-            <div className="flex border-box min-h-[34px] bg-[#BBBBBB]"><p className="py-1 text-xl ml-5">{data.title}</p></div>
-            <div className="flex flex-row border-box place-content-between text-[15px] mt-2">
+            <div className="flex border-box min-h-[34px] bg-gray-200">
+              <p className="py-1 text-xl ml-5">{data.title}</p>
+            </div>
+            <div className="flex flex-row border-box place-content-between text-[15px] mt-2 border-b-2">
               <div className="inline-block ml-5">{data.nickname}</div>
               <div className="flex flex-row mr-5">
                 <span className="inline-block">조회수 {data.hit}</span>
@@ -118,7 +120,7 @@ function CommunityGeneralDetail() {
                 <span className="inline-block">작성일 {data.createdAt}</span>
               </div>
             </div>
-            <div className="min-h-[300px] p-3">
+            <div className="min-h-[200px] p-3">
               {data.images && data.images.length > 0 ? (
                 <div className="max-w-[300px] flex flex-col place-content-center m-4">
                   {data.images.map((image, idx) => (
@@ -130,8 +132,8 @@ function CommunityGeneralDetail() {
               ) : <div></div>}
               <div className="min-h-[30px] font-normal" dangerouslySetInnerHTML={{ __html: data.description }} />
             </div>
-            <div className="w-auto h-[73px] border-y-2 my-4 flex align-middle">
-              <img src={CommentImg} alt="" className="pl-7" />
+            <div className="w-auto h-12 border-y-2 my-4 flex align-middle">
+              <img src={CommentImg} alt="" className="pl-4" />
             </div>
             <div className="flow-root space-y-1 px-2 pb-3 pt-2">
               <CommunityGeneralCommentPost id={id} onCommentUpdate={handleCommentUpdate} />
@@ -139,16 +141,16 @@ function CommunityGeneralDetail() {
                 currentItems.map((comment, idx) => {
                   const commentDate = dayjs(comment.postedAt).format('YYYY-MM-DD HH:mm');
                   return (
-                    <div key={idx} className="flex flex-col h-auto border-b-2">
+                    <div key={idx} className="flex flex-col h-auto border-b-2 p-1 pb-3">
                       <div className="flex flex-row justify-between">
                         <div className="flex flex-row">
-                          {comment.userType === "LAWYER" ?  <img src={lawyerBadge} alt="" className="h-8 w-8" /> : <></>}
+                          {comment.userType === "LAWYER" ?  <img src={lawyerBadge} alt="" className="h-6 w-6" /> : <></>}
                           <div className="border-box ml-3 text-xl">{comment.userNickname}</div>
                         </div>
                         <div className="flex flex-row gap-5">
-                          <div className="justify-self-end col-span-3 text-xl">{commentDate}</div>
+                          <div className="flex items-center justify-self-end col-span-3 text-sm">{commentDate}</div>
                           {storedUserId === comment.userNickname ?
-                          <CommentDeleteButton id={id} onCommentUpdate={handleCommentUpdate} commentId={comment.id} userNickname={comment.userNickname} className="block hover:bg-gray-100 mr-5" />
+                          <CommentDeleteButton id={id} onCommentUpdate={handleCommentUpdate} commentId={comment.id} userNickname={comment.userNickname} className="block hover:underline mr-5" />
                           : <p className="block mr-[52px]"></p>
                           }
                         </div>

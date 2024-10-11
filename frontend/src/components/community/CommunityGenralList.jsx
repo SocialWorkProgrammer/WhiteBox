@@ -69,7 +69,7 @@ function CommunityGeneralList() {
               <a href={`/community/general/${item.comIndex}`} className="flex flex-row  border-b-[0.5px] border-black h-[50px] text-xl place-content-between items-center" key={item.comIndex}>
                 <div className="flex w-full">
                   <div className="text-xs p-2 text-center whitespace-nowrap w-1/12 text-center">{item.comIndex}</div>
-                  <div className="text-xs p-2 ps-5 text-left whitespace-nowrap w-5/12">{item.comTitle}</div>
+                  <div className="text-sm p-2 ps-5 text-left whitespace-nowrap w-5/12 hover:underline">{item.comTitle}</div>
                   <div className="text-xs p-2 text-center whitespace-nowrap w-2/12" >[{item.commentCount}]</div>
                   <div className="text-xs p-2 text-center whitespace-nowrap w-2/12">{item.comHit}</div>
                   <div className="text-xs p-2 text-center whitespace-nowrap w-2/12">{item.userNickname}</div>
