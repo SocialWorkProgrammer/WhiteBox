@@ -15,7 +15,7 @@ function CommunityGeneralTabs() {
           <div className="flex flex-row">
             <a 
               href="/community/vote" 
-              className="community-tab-deactive flex  hover:bg-gray-100 items-center text-xl font-bold"
+              className="community-tab-deactive flex hover:bg-gray-100 items-center text-xl font-bold"
               data-tooltip-id="vote-tab-tooltip"
               data-tooltip-content="투표게시판에서는 글 및 댓글 수정, 삭제가 불가하니 유의해주세요"
             >

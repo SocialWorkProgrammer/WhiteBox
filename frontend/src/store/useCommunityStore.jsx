@@ -6,7 +6,6 @@ import { get, patch, post, deleteRequest } from '../utils/api.jsx'
 import { useEffect } from 'react';
 
 const BASE_URL = useStore.getState().BASE_URL;
-// const accessToken = useAuthStore.getState().accessToken;
 const accessToken = localStorage.getItem('accessToken')
 
 const useCommunityStore = create((set) => ({
