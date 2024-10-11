@@ -42,7 +42,7 @@ function CommunityVoteTabs() {
             <Tooltip id="community-tab-tooltip" place="bottom"/>
             </div>
           {/* 게시판 안내 */}
-          <div className="pt-4 pb-3 community-notice border-y-[2px] border-black flex flex-col place-content-center p-2">
+          <div className="pt-4 pb-3 community-notice border-y-[2px] border-black flex flex-col place-content-center p-1">
             <h1 className="text-2xl mt-2 mb-4 font-semibold">투표 게시판</h1>
             <p className='text-md line-clamp-3 mb-1'>
             교통사고 영상을 분석하고 의견을 나누는 공간입니다. 회원 여러분의 소중한 의견을 투표를 통해 나눠주세요.
