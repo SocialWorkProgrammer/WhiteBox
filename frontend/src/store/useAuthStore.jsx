@@ -135,7 +135,7 @@ const useAuthStore = create((set) => ({
             formData.append('file', image)
 
             const response = await axios.post(url, formData, { headers });
-            
+            console.log(response);
             return response;
         } catch (err) {
             const errorMsg = err.response.data
