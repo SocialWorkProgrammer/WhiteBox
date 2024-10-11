@@ -48,7 +48,7 @@ const VoteGraph = ({voteId, approvalPercent, neutralPercent, oppositePercent, cl
   return (
     <div className={`vote-graph border ${className} inline-block`}>
       <div className="w-full h-10 flex place-content-between">
-          <div className="flex flex-nowrap min-w-[300px] max-w-[100%] h-10 rounded">
+          <div className="flex flex-wrap min-w-[300px] w-full h-10 rounded">
             <div
               className="h-full bg-[#DC1B3E] focus:bg-red-800 cursor-pointer"
               style={{ width: `calc(150px + (800px - 450px) * ${data.rateMy / 100})` }}
