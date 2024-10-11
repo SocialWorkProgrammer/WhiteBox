@@ -18,7 +18,7 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
     @Query("SELECT COUNT(cu) FROM Community cu WHERE cu.user = :user")
     int countByUser(@Param("user") User user);
 
-    @Query(value = "SELECT * FROM Community c ORDER BY c.com_hit DESC LIMIT 10", nativeQuery = true)
+    @Query(value = "SELECT * FROM community c ORDER BY c.com_hit DESC LIMIT 10", nativeQuery = true)
     List<Community> findTop10Communities();
 
 

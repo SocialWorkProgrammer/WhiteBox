@@ -74,7 +74,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/api/v1/users/login", "/api/v1/users",
-                                "/v3/api-docs/**", "/swagger-resources/**", "/swagger-ui/**").permitAll()
+                                "/v3/api-docs/**", "/swagger-resources/**", "/swagger-ui/**", "/api/v1//verify-lawyer").permitAll()
                         .anyRequest().authenticated());
 
         // JWT Filter

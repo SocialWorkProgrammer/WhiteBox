@@ -38,6 +38,7 @@ services:
       - "8080:8080"
     volumes:
       - /usr/bin/ffmpeg:/usr/bin/ffmpeg  
+      - /home/ubuntu/upload/temp:/home/ubuntu/upload/temp
     networks:
       - backend
       - ssl
