@@ -118,7 +118,7 @@ def load_classification_results():
 
 
 
-@router.post("/api/v1/analyze-video/")
+@router.post("/api/v1/analyze-video")
 async def analyze_video(file: UploadFile = File(...)):
     detection_config_path = "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace/cascade_rcnn_cfg.py"
     detection_checkpoint_path = "C:/Users/SSAFY/Desktop/final/S11P21A104/backend-AI/whitebox_ai/workspace/best_coco_bbox_mAP_epoch_10.pth"
@@ -147,49 +147,57 @@ async def analyze_video(file: UploadFile = File(...)):
         class_names = model.dataset_meta['classes']
         print("Model initialized successfully")
 
-        # 비디오 파일 열기
-        cap = cv2.VideoCapture(temp_video_path)
-        if not cap.isOpened():
-            raise Exception("Error opening video file")
 
-        # 비디오 속성 가져오기
-        fps = int(cap.get(cv2.CAP_PROP_FPS))
-        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        print(f"Video FPS: {fps}, Total frames: {total_frames}")
 
-        frame_count = 0
-        while True:
-            ret, frame = cap.read()
-            if not ret:
-                break
+        #################################################################
 
-            # 프레임 리사이즈
-            height, width = frame.shape[:2]
-            new_width = 640
-            new_height = int(height * (new_width / width))
-            resized_frame = cv2.resize(frame, (new_width, new_height))
+        # # 비디오 파일 열기
+        # cap = cv2.VideoCapture(temp_video_path)
+        # if not cap.isOpened():
+        #     raise Exception("Error opening video file")
 
-            # Bounding box 그리기
-            frame_with_boxes = process_frame(model, resized_frame, class_names)
+        # # 비디오 속성 가져오기
+        # fps = int(cap.get(cv2.CAP_PROP_FPS))
+        # total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        # print(f"Video FPS: {fps}, Total frames: {total_frames}")
 
-            # 결과 저장
-            output_path = os.path.join(output_dir, f"img_{frame_count + 1:05d}.jpg")
-            success = cv2.imwrite(output_path, frame_with_boxes)
-            if not success:
-                print(f"Failed to save image: {output_path}")
-            else:
-                print(f"Saved image: {output_path}")
+        # frame_count = 0
+        # while True:
+        #     ret, frame = cap.read()
+        #     if not ret:
+        #         break
 
-            frame_count += 1
+        #     # 프레임 리사이즈
+        #     height, width = frame.shape[:2]
+        #     new_width = 640
+        #     new_height = int(height * (new_width / width))
+        #     resized_frame = cv2.resize(frame, (new_width, new_height))
 
-        cap.release()
+        #     # Bounding box 그리기
+        #     frame_with_boxes = process_frame(model, resized_frame, class_names)
 
-        print(f"Total frames processed: {frame_count}")
-        print(f"Output directory: {output_dir}")
+        #     # 결과 저장
+        #     output_path = os.path.join(output_dir, f"img_{frame_count + 1:05d}.jpg")
+        #     success = cv2.imwrite(output_path, frame_with_boxes)
+        #     if not success:
+        #         print(f"Failed to save image: {output_path}")
+        #     else:
+        #         print(f"Saved image: {output_path}")
 
-        annotation_path = "C:/Users/SSAFY/Desktop/ai test/workspace/annotation.txt"
-        with open(annotation_path, 'w') as f:
-            f.write(f"images {frame_count}")
+        #     frame_count += 1
+
+        # cap.release()
+
+        # print(f"Total frames processed: {frame_count}")
+        # print(f"Output directory: {output_dir}")
+
+        # annotation_path = "C:/Users/SSAFY/Desktop/ai test/workspace/annotation.txt"
+        # with open(annotation_path, 'w') as f:
+        #     f.write(f"images {frame_count}")
+
+        #################################################################
+
+
         run_mmaction2_inference()
 
         classification_results = load_classification_results()
@@ -207,7 +215,7 @@ async def analyze_video(file: UploadFile = File(...)):
         print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
         
         # LLM
-        query_text = f'{ai_result[0]}에서 f{ai_result[1]}'
+        query_text = f'{ai_result[0]} {ai_result[1]} {ai_result[2]} {ai_result[3]}'
         accident_location = ai_result[0]
         accident_location_description = ai_result[1]
         a_direction = ai_result[2]
@@ -303,6 +311,14 @@ async def analyze_video(file: UploadFile = File(...)):
             "aiUserFault": ai_result[5],
             "aiOtherFault": ai_result[4]
         }
+
+        print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
+        print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
+        print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
+        print(result)
+        print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
+        print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
+        print('ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ')
 
   
         return JSONResponse(content=result)
