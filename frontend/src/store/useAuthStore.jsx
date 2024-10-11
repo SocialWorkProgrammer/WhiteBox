@@ -32,15 +32,7 @@ const useAuthStore = create((set) => ({
             "message": "이메일 체크 성공",
         }
         return res;
-
-        // try {
-        //     const url = `${BASE_URL}/users/check-email/${id}/`;
-        //     const response = await get(url);
-        //     return response;
-        // } catch (err) {
-        //     console.log('이메일 확인 중 오류 발생:', err);
-        //     throw err;
-        // }
+ 
     },
 
     checkNickname: async({ nickname }) => {
@@ -50,15 +42,7 @@ const useAuthStore = create((set) => ({
             "message": "닉네임 체크 성공",
         }
         return res;
-
-        // try {
-        //     const url = `${BASE_URL}/users/check-nickname/${nickname}/`;
-        //     const response = await get(url);
-        //     return response;
-        // } catch (err) {
-        //     console.log('닉네임 확인 중 오류 발생:', err);
-        //     throw err;
-        // }
+ 
     },
 
     signUp: async({ id, password, nickname }) => {
@@ -70,11 +54,11 @@ const useAuthStore = create((set) => ({
                 user_nickname: nickname,
                 user_type: "MEMBER",
             }
-            console.log(data);
+            
             const response = await post(url, data);
             return response;
         } catch (err) {
-            console.log('회원가입 중 오류 발생:', err);
+            console.log( err);
             throw err;
         }
     },
@@ -111,13 +95,12 @@ const useAuthStore = create((set) => ({
                     isLawyer: userData.userType === 'LAWYER',
                 },
             })
-
             return {
                 isSuccess: true,
                 nickname:userData.userNickname
             }
         } catch (err) {
-            console.log('로그인 중 오류 발생:', err);
+            console.log( err);
             return { isSuccess:false }
         }
     },
@@ -138,29 +121,26 @@ const useAuthStore = create((set) => ({
 
     // 변호사 인증하기
     authLawyer: async({ name, date, image }) => {
-        const userEmail = localStorage.getItem('user').id;
+        const user = JSON.parse(localStorage.getItem('user'));
+        const userEmail = user ? user.id : null;
         try {
             const url = `${BASE_URL}/verify-lawyer`;
             const headers = {
                 Authorization: localStorage.getItem('accessToken'),
-                'Content-Type': 'multipart/form-data',
             };
-            const description = {
-                lawyerName: name,
-                lawyerDate: date,
-                email: userEmail
-            }
             const formData = new FormData();
-            formData.append('description', JSON.stringify(description));
+            formData.append('lawyerName', name);
+            formData.append('lawyerDate', date);
+            formData.append('email', userEmail);
             formData.append('file', image)
 
-            console.log({ url, formData, headers });
-
             const response = await axios.post(url, formData, { headers });
-            return response.data;
+            
+            return response;
         } catch (err) {
+            const errorMsg = err.response.data
+            window.alert(errorMsg.split(':')[0])
             console.log(err);
-            throw err;
         }
     },
 

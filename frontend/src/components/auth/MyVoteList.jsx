@@ -13,7 +13,6 @@ function MyVoteList () {
     useEffect(() => {
         const fetchVoteList = async () => {
             const fetchedVoteList = await loadVoteList({ pageId });
-            console.log(fetchedVoteList);
             if (fetchedVoteList.totalVotes === 0) {
                 setVoteList(null)
             } else {
@@ -27,7 +26,7 @@ function MyVoteList () {
     const totalPages = Math.ceil(totalVoteCount / itemsPerPage);
 
     const handlePageChange = (newPageId) => {
-        if (pageId >= 1 && newPageId <= totalPages) {
+        if (pageId > 1 && newPageId <= totalPages) {
             setPageId(newPageId);
         }
     }
@@ -43,28 +42,28 @@ function MyVoteList () {
             {voteList.map((vote) => (
                 <div key={vote.voteId} onClick={() => handleClickDetail({voteId:vote.voteId})} className="cursor-pointer hover:bg-gray-300 border shadow m-2 p-1">
                     <div className="flex justify-between items-center">
-                        <span className="">{vote.title}</span>
+                        <span className="font-semibold">{vote.title}</span>
                         <span className="text-xs">[ {vote.commentCount} ]</span>
                     </div>
                     <div>
                         <div className="flex items-center mt-2 truncate">
                             <div className="w-11/12 flex h-6">
                                 <div 
-                                    className="bg-blue-300"
+                                    className="bg-blue-600"
                                     style={{
                                         width: `${Math.max(vote.approvalPercent, 2)}%`,
                                         minWidth: "10px",
                                     }}
                                 >{vote.approvalPercent}%</div>
                                 <div 
-                                    className="bg-gray-300"
+                                    className="bg-stone-400"
                                     style={{
                                         width: `${Math.max(vote.neutralPercent, 2)}%`,
                                         minWidth: "10px",
                                     }}
                                 ></div>
                                 <div 
-                                    className="bg-red-300"
+                                    className="bg-red-600"
                                     style={{
                                         width: `${Math.max(vote.oppositePercent, 2)}%`,
                                         minWidth: "10px",

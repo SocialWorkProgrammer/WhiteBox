@@ -6,7 +6,6 @@ import lombok.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter

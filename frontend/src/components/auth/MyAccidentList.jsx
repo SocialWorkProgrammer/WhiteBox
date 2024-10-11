@@ -16,8 +16,8 @@ function TumbnailRotator({ thumbnails }) {
     })
 
     return (
-        <div>
-            <img src={thumbnails[activeId]} alt="" />
+        <div className="flex items-center justify-center overflow-hidden" style={{ width: '100%', height: '100%' }}>
+            <img src={thumbnails[activeId]} alt="" style={{ maxWidth: '100%', maxHeight: '100%' }}/>
         </div>
     )
 }
@@ -34,7 +34,6 @@ function MyAccidentList () {
     useEffect(() => {
         const fetchVideoList = async () => {
             const fetchedVideoList = await loadVideoList({ pageId });
-            console.log(fetchedVideoList);
             if (fetchedVideoList.totalVideos === 0) {
                 setVideoList(null)
             } else {

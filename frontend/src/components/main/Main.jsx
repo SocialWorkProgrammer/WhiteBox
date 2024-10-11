@@ -6,6 +6,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import useAIStore from '../../store/useAIStore.jsx'
 import { Helmet } from 'react-helmet';
 import "../../styles/main/main.css";
+import mainGIF from '../../public/img/sample.gif'
 
 function Main() {
     const navigate = useNavigate();
@@ -54,7 +55,6 @@ function Main() {
             setIsLoading(true);
             // ai 판단 api 보내기, 판단 끝나면 ai-detail페이지로 이동하기
             const response = await uploadVideo({video:videoFile});
-            console.log(response);
             navigate(`/ai-judgement/${response.data.id}`)
             setIsLoading(false)
             return;
@@ -106,7 +106,7 @@ function Main() {
                     </div>
                     {/* gif 파일 */}
                     <div className="col-span-4 hidden md:flex items-center justify-center">
-                        <img src="" alt="GIF" className="max-w-full max-h-full bg-red-300" />
+                        <img src={mainGIF} alt="GIF" className="shadow-xl max-w-full max-h-full bg-red-300" />
                     </div>
                     
                     {/* 비디오 드래그 앤 드롭 */}
@@ -154,7 +154,7 @@ function Main() {
                     <div className="col-span-2"></div>
                 </div>
             )}
-            <div className="mt-3">
+            <div className="mt-3 border-t-2 pt-3">
                 {isLogin ? (
                     <div className='grid grid-cols-12'>
                         <div className='col-span-2'></div>

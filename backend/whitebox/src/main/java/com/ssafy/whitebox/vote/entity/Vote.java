@@ -6,7 +6,6 @@ import com.ssafy.whitebox.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import com.ssafy.whitebox.ai.entity.AIResult;
-import com.ssafy.whitebox.vote.entity.VoteComment;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
