@@ -62,7 +62,6 @@ function CommunityGeneralDetail() {
           createdAt: date,
           userType: response.userType,
         });
-        console.log(response);
       } catch (error) {
         console.log('오류 발생', error);
         setError(error);

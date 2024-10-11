@@ -53,7 +53,6 @@ function CommunityGeneralDetail() {
         try {
           const response = await getCommunityVoteDetail({voteId});
           const date = dayjs(response.createdAt).format('YYYY-MM-DD HH:mm');
-          console.log('요청받은 데이터 = ', response);
           setData({
             aiOtherFault : response.aiOtherFault,
             aiDescription : response.aiDescription,

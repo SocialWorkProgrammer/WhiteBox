@@ -28,16 +28,12 @@ const CommunityGeneralCommentPost = ({ id, onCommentUpdate }) => {
       const newComment = await postCommunityComment({ id, comment });
       // 댓글 상태 업데이트
       if (newComment.status === 200) {
-        console.log('댓글이 추가되었다!!!', newComment.status);
         const response = await getCommunityDetail({ id });
         onCommentUpdate(response.comments, Math.ceil(response.comments.length)); // 새로운 댓글을 부모 컴포넌트로 전달. 이후 마지막 페이지로 이동하도록
       }
-      else {
-        console.log('댓글 못 받음');
-      }
       setComment(''); // 댓글 작성 후 입력란 초기화
     } catch (error) {
-      console.error('댓글 작성 중 오류 발생:', error);
+      console.error( error);
     }
   };
 

@@ -28,7 +28,7 @@ function MyComponent() {
         setTitle(response.comTitle);
         setValue(response.comDescription);
       } catch (error) {
-        console.log('오류 발생', error);
+        console.log(error);
         setError(error);
       }
     };

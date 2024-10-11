@@ -24,15 +24,13 @@ const CommunityGeneralCommentPost = ({ id, onCommentUpdate }) => {
     try {
       // 댓글을 포스트하고 새로운 댓글 데이터 가져오기
       const newComment = await postCommunityComment({ id, comment });
-      if (newComment.status === 200) {
-        console.log('댓글이 추가되었다!!!', newComment.status);
+      if (newComment.status === 200) {;
         const response = await getCommunityVoteDetail({ voteId : id });
-        console.log('asdfasdf', response.comments)
         onCommentUpdate(response.comments, Math.ceil(response.comments.length));
       }
       setComment(''); // 댓글 작성 후 입력란 초기화
     } catch (error) {
-      console.error('댓글 작성 중 오류 발생:', error);
+      console.error( error);
     }
   };
   const handleKeyDown = (event) => {

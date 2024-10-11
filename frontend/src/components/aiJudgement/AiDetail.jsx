@@ -40,7 +40,6 @@ function AiDetail () {
             const fetchedData = await getData({ id });
             setData(fetchedData);
             setVideoSrc(fetchedData.aiVideoUrl);
-            console.log(fetchedData);
         }
         fetchData();
     }, [getData, id])

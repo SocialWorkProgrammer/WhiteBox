@@ -21,7 +21,6 @@ function MyPostedCommunityList () {
     useEffect(() => {
         const fetchMyPosts = async() => {
             const fetchedMyPosts = await loadMyPostings({ pageId })
-            console.log(fetchedMyPosts);
             if (fetchedMyPosts.totalCommunities === 0) {
                 setMyPostings(null)
             } else {

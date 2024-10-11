@@ -34,7 +34,6 @@ function MyAccidentList () {
     useEffect(() => {
         const fetchVideoList = async () => {
             const fetchedVideoList = await loadVideoList({ pageId });
-            console.log(fetchedVideoList);
             if (fetchedVideoList.totalVideos === 0) {
                 setVideoList(null)
             } else {

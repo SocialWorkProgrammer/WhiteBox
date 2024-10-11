@@ -55,7 +55,6 @@ function Main() {
             setIsLoading(true);
             // ai 판단 api 보내기, 판단 끝나면 ai-detail페이지로 이동하기
             const response = await uploadVideo({video:videoFile});
-            console.log(response);
             navigate(`/ai-judgement/${response.data.id}`)
             setIsLoading(false)
             return;

@@ -17,11 +17,7 @@ const VoteGraph = ({voteId, approvalPercent, neutralPercent, oppositePercent, cl
           rateMy: approvalPercent,
           rateYour: oppositePercent,
           rateNeutral: neutralPercent,
-          // rateMy: 68,
-          // rateYour: 27,
-          // rateNeutral: 5,
         });
-        console.log(data.rateMy, data.rateYour, data.rateNeutral);
       }, [approvalPercent, oppositePercent, neutralPercent]);   
   // 재투표 못하게 막기
   const postVoteFunction = useCommunityStore((state) => state.postVoteFunction); // 게시판 목록 불러오기

@@ -20,7 +20,7 @@ const ImageSlider = ({ thumbnail1, thumbnail2, thumbnail3, thumbnail4, className
         };
 
         loadImages();
-        
+
         // setInterval을 통해 인덱스를 변경
         const intervalId = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % 4); // 4는 이미지 수
