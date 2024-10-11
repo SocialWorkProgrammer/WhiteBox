@@ -33,7 +33,7 @@ function LawyerAuthModal({ closeModal }) {
             return;
         } else {
             const response = await authLawyer({ name, date: birth, image: file })
-            if (response.message === "변호사 인증 성공!") {
+            if (response && response.data && response.data === "변호사 인증 및 상태 업데이트 완료") {
                 localStorage.setItem('isLawyer', 'true');
                 window.alert('인증 성공하였습니다.');
                 setIsLoading(false);
