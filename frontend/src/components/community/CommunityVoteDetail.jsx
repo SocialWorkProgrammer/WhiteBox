@@ -155,7 +155,7 @@ function CommunityGeneralDetail() {
               <div className="flex flex-col place-content-between">
                 {data.videoUrl ?
                 <video autoplay width="700" controls>
-                  <source src={data.videoUrl} type="video/mp4" />
+                <source src={data.videoUrl} type="video/mp4" />
                 </video>
                 :<p>{data.videoUrl}</p>}
               {/* 현장사진 */}
