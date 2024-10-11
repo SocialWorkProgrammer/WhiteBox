@@ -140,7 +140,7 @@ const useAuthStore = create((set) => ({
         } catch (err) {
             const errorMsg = err.response.data
             window.alert(errorMsg.split(':')[0])
-            console.log(err);
+            return err.response
         }
     },
 
