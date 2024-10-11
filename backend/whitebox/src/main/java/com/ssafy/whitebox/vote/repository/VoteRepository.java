@@ -15,7 +15,7 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 
     boolean existsByAiResult(AIResult aiResult);
 
-    @Query(value = "SELECT * FROM Vote v WHERE v.vo_expiration_date > :currentDate " +
+    @Query(value = "SELECT * FROM vote v WHERE v.vo_expiration_date > :currentDate " +
             "ORDER BY (v.vo_approval_cnt + v.vo_opposite_cnt + v.vo_neutral_cnt) DESC " +
             "LIMIT 6", nativeQuery = true)
     List<Vote> findTop6Votes(@Param("currentDate") LocalDateTime currentDate);
