@@ -13,7 +13,6 @@ function MyVoteList () {
     useEffect(() => {
         const fetchVoteList = async () => {
             const fetchedVoteList = await loadVoteList({ pageId });
-            console.log(fetchedVoteList);
             if (fetchedVoteList.totalVotes === 0) {
                 setVoteList(null)
             } else {

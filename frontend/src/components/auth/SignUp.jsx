@@ -92,7 +92,6 @@ function SignUp() {
             navigate(`/auth/profile/${user.nickname}`);
             setIsLoading(false);
         } catch (error) {
-            console.error("회원가입 과정 중 오류 발생:", error);
             alert("회원가입 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
             setIsLoading(false);
         }

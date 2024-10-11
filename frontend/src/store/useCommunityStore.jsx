@@ -6,7 +6,6 @@ import { get, patch, post, deleteRequest } from '../utils/api.jsx'
 import { useEffect } from 'react';
 
 const BASE_URL = useStore.getState().BASE_URL;
-// const accessToken = useAuthStore.getState().accessToken;
 const accessToken = localStorage.getItem('accessToken')
 
 const useCommunityStore = create((set) => ({
@@ -38,7 +37,7 @@ const useCommunityStore = create((set) => ({
             const response = await get(url, {}, headers);
             return response
         } catch (err) {
-            console.log(`일반 게시물  불러오기 실패 : `, err);
+            console.log( err);
         }
     },
     //일반게시물 작성하기
@@ -60,8 +59,7 @@ const useCommunityStore = create((set) => ({
                 'Content-Type': 'multipart/form-data', // 멀티파트 요청을 위해 Content-Type 설정
             } : {};
 
-            for (let [key, value] of formData.entries()) {
-                // console.log(`${key}:`, value);
+            for (let [key, value] of formData.entries()) { 
             }
 
             // POST 요청
@@ -78,11 +76,10 @@ const useCommunityStore = create((set) => ({
             const headers =  accessToken ? {
                 Authorization: `${accessToken}`,
             } : {};
-            const response = await patch(url, {comTitle, comDescription}, headers);
-            console.log(accessToken)
+            const response = await patch(url, {comTitle, comDescription}, headers); 
             return response
         } catch (err) {
-            console.log(`일반 게시물  수정 실패 : `, err);
+            console.log( err);
             throw err;
         }
     },
@@ -95,11 +92,10 @@ const useCommunityStore = create((set) => ({
             const headers =  accessToken ? {
                 Authorization: `${accessToken}`,
             } : {};
-            const response = await deleteRequest(url, {}, headers);
-            console.log('삭제 성공 : ', response)
+            const response = await deleteRequest(url, {}, headers); 
             return response
         } catch (err) {
-            console.log(`게시글 삭제 실패 : `, err);
+            console.log( err);
             throw err;
         }
     },
@@ -128,11 +124,10 @@ const useCommunityStore = create((set) => ({
             const headers =  accessToken ? {
                 Authorization: `${accessToken}`,
             } : {};
-            const response = await deleteRequest(url, {}, headers);
-            console.log('삭제 성공 : ', response)
+            const response = await deleteRequest(url, {}, headers); 
             return response
         } catch (err) {
-            console.log(`게시글 삭제 실패 : `, err);
+            console.log( err);
             throw err;
         }
     },
@@ -144,11 +139,10 @@ const useCommunityStore = create((set) => ({
             const headers = {
                 Authorization: `${accessToken}`,
             };
-            const response = await get(url, {}, headers);
-            console.log('useCommunityVoteStore의 응답', response)
+            const response = await get(url, {}, headers); 
             return response
         } catch (err) {
-            console.log(`투표 게시물  불러오기 실패 : `, err);
+            console.log( err);
             throw err;
         }
     },
@@ -203,8 +197,7 @@ const useCommunityStore = create((set) => ({
             const headers =  accessToken ? {
                 Authorization: `${accessToken}`,
             } : {};
-            const response = await deleteRequest(url, {}, headers);
-            console.log('삭제 성공 : ', response)
+            const response = await deleteRequest(url, {}, headers); 
             return response
         } catch (err) {
             throw err;

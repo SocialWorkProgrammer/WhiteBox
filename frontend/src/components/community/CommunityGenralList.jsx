@@ -58,9 +58,10 @@ function CommunityGeneralList() {
               <div className="flex w-full">
                 <div className="text-xs p-2 text-center whitespace-nowrap w-1/12 text-center">번호</div>
                 <div className="text-xs p-2 ps-5 text-left whitespace-nowrap w-5/12">제목</div>
-                <div className="text-xs p-2 text-center whitespace-nowrap w-2/12" >댓글수</div>
-                <div className="text-xs p-2 text-center whitespace-nowrap w-2/12">조회수</div>
-                <div className="text-xs p-2 text-center whitespace-nowrap w-2/12">작성자</div>
+                <div className="text-xs p-2 text-center whitespace-nowrap w-2/12 hidden md:block">댓글수</div>
+                <div className="text-xs p-2 text-center whitespace-nowrap w-2/12 hidden md:block">조회수</div>
+                <div className='w-4/12 md:hidden'></div>
+                <div className="text-xs p-2 text-center whitespace-nowrap w-2/12 md:w-6/12">작성자</div>
               </div>
             </div>
             <div className="mt-2 border-t-2">
@@ -69,10 +70,11 @@ function CommunityGeneralList() {
               <a href={`/community/general/${item.comIndex}`} className="flex flex-row  border-b-[0.5px] border-black h-[50px] text-xl place-content-between items-center" key={item.comIndex}>
                 <div className="flex w-full">
                   <div className="text-xs p-2 text-center whitespace-nowrap w-1/12 text-center">{item.comIndex}</div>
-                  <div className="text-xs p-2 ps-5 text-left whitespace-nowrap w-5/12">{item.comTitle}</div>
-                  <div className="text-xs p-2 text-center whitespace-nowrap w-2/12" >[{item.commentCount}]</div>
-                  <div className="text-xs p-2 text-center whitespace-nowrap w-2/12">{item.comHit}</div>
-                  <div className="text-xs p-2 text-center whitespace-nowrap w-2/12">{item.userNickname}</div>
+                  <div className="text-sm p-2 ps-5 text-left whitespace-nowrap w-5/12 hover:underline">{item.comTitle}</div>
+                  <div className="text-xs p-2 text-center whitespace-nowrap w-2/12 hidden md:block" >[{item.commentCount}]</div>
+                  <div className="text-xs p-2 text-center whitespace-nowrap w-2/12 hidden md:block">{item.comHit}</div>
+                  <div className='w-4/12 md:hidden'></div>
+                  <div className="text-xs p-2 text-center whitespace-nowrap w-2/12 md:w-6/12">{item.userNickname}</div>
                 </div>
               </a>
             ))): (

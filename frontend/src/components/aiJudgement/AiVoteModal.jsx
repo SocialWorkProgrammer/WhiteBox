@@ -15,7 +15,6 @@ function AiVoteModal ({ id, closeModal }) {
     const handleSubmit = async () => {
         if (window.confirm("게시글을 제출하면 수정 및 삭제할 수 없습니다. 제출하시겠습니까?")) {
             setIsLoading(true);
-            console.log({ id, title, content, files, voteDuration});
             if (title === '') {
                 window.alert('제목을 입력하세요')
             } else if (content === '') {

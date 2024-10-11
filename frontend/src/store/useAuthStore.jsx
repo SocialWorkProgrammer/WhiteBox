@@ -32,15 +32,7 @@ const useAuthStore = create((set) => ({
             "message": "이메일 체크 성공",
         }
         return res;
-
-        // try {
-        //     const url = `${BASE_URL}/users/check-email/${id}/`;
-        //     const response = await get(url);
-        //     return response;
-        // } catch (err) {
-        //     console.log('이메일 확인 중 오류 발생:', err);
-        //     throw err;
-        // }
+ 
     },
 
     checkNickname: async({ nickname }) => {
@@ -50,15 +42,7 @@ const useAuthStore = create((set) => ({
             "message": "닉네임 체크 성공",
         }
         return res;
-
-        // try {
-        //     const url = `${BASE_URL}/users/check-nickname/${nickname}/`;
-        //     const response = await get(url);
-        //     return response;
-        // } catch (err) {
-        //     console.log('닉네임 확인 중 오류 발생:', err);
-        //     throw err;
-        // }
+ 
     },
 
     signUp: async({ id, password, nickname }) => {
@@ -70,11 +54,11 @@ const useAuthStore = create((set) => ({
                 user_nickname: nickname,
                 user_type: "MEMBER",
             }
-            console.log(data);
+            
             const response = await post(url, data);
             return response;
         } catch (err) {
-            console.log('회원가입 중 오류 발생:', err);
+            console.log( err);
             throw err;
         }
     },
@@ -116,7 +100,7 @@ const useAuthStore = create((set) => ({
                 nickname:userData.userNickname
             }
         } catch (err) {
-            console.log('로그인 중 오류 발생:', err);
+            console.log( err);
             return { isSuccess:false }
         }
     },

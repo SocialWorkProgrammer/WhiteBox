@@ -8,7 +8,7 @@ const accessToken = localStorage.getItem('accessToken');
 const useAIStore = create((set) => ({
     // 영상 올리기
     uploadVideo: async({ video }) => {
-        console.log(video);
+        
         try {
             const url = `${BASE_URL}/upload-video`;
             const headers = {
